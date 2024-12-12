@@ -5,9 +5,8 @@ int main(){
 	char cmp;
 	
 	cout<<"Are you gay?"<<endl;
-	cout<<"a: Yes"<<endl;
-	cout<<"b: No I'm gay'"<<endl;
-	cout<<"c: Maybe i'm gay'"<<endl;
+	cout<<"Dome: Yes"<<endl;
+	cout<<"U: Maybe i'm gay'"<<endl;
 	
 	cout<<"\nans: ";
 	cin>>cmp;
