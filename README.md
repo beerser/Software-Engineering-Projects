@@ -11,4 +11,4 @@ This project is a part of Software Engineering course presented by Asst.Prof.Sat
 
 ## User interface
 
-<img hight="700" width="700" src="https://github.com/beerser/Software-Engineering-Projects/blob/main/user-interface-design/user-interface-design-website-book-an-apartment-room.jpg">
+<img hight="700" width="700" src="https://github.com/beerser/Software-Engineering-Projects/blob/main/user-interface-design/user-interface-design-website-book-an-apartment-room.png">
