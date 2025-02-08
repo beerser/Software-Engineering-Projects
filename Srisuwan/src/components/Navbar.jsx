@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import roomImg from "../assets/logo-srisuwan-apartment-black.png"; 
+import roomImg from "../assets/logo-srisuwan-apartment-black.png";
 
 
 const Navbar = ({ setdata }) => {
@@ -12,6 +12,9 @@ const Navbar = ({ setdata }) => {
                 <div className="container-fluid">
                     <a className="navbar-brand" href="#">
                         <img src={roomImg} alt="Logo" style={{ height: "40px" }} /> SRISUWAN APARTMENT
+                    </a>
+                    <a className="linkk" style={{ color: "black", textDecoration: "none", fontWeight: "300" }}>
+                        <h4>Login</h4>
                     </a>
                 </div>
             </nav>
