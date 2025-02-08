@@ -1,9 +1,9 @@
 import React from 'react'
 
-const TableContent = ({data}) => {
+const TableContent = () => {
   return (
     <div>
-      {data}
+     
     </div>
   )
 }

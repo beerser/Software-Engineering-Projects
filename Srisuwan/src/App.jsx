@@ -8,15 +8,15 @@ function App() {
 
   const [data, setdata] = useState("Dome")
   const [obj,setobj] = useState([
-    {title:"ห้อง101",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"ห้องพักที่สะดวกสบายต่อการเดินทางและราคาถูก"},
-    {title:"ห้อง102",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"ห้องพักที่สะดวกสบายต่อการเดินทางและราคาถูก"},
-    {title:"ห้อง103",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"ห้องพักที่สะดวกสบายต่อการเดินทางและราคาถูก"},
-    {title:"ห้อง104",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"ห้องพักที่สะดวกสบายต่อการเดินทางและราคาถูก"},
-    {title:"ห้อง105",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"ห้องพักที่สะดวกสบายต่อการเดินทางและราคาถูก"},
-    {title:"ห้อง106",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"ห้องพักที่สะดวกสบายต่อการเดินทางและราคาถูก"},
-    {title:"ห้อง107",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"ห้องพักที่สะดวกสบายต่อการเดินทางและราคาถูก"},
-    {title:"ห้อง108",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"ห้องพักที่สะดวกสบายต่อการเดินทางและราคาถูก"},
-    {title:"ห้อง109",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"ห้องพักที่สะดวกสบายต่อการเดินทางและราคาถูก"},
+    {title:"Room 101",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
+    {title:"Room 102",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
+    {title:"Room 103",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
+    {title:"Room 104",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
+    {title:"Room 105",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
+    {title:"Room 106",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
+    {title:"Room 107",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
+    {title:"Room 108",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
+    {title:"Room 109",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
   ])
 
   const handdleShow = () => {
@@ -24,8 +24,9 @@ function App() {
   }
 
   return <><h1><Navbar /></h1>
-    <Bannerbg/>
-    <Cards obj={obj}/>
+    <h1><Bannerbg/></h1>
+    <h1  style={{ height: "30px",fontSize:"35px",marginTop:"25px",marginLeft:"25px",marginBottom:"-10px"}}>Avaliable room</h1>
+    <h7 style={{marginLeft:"25px"}}><Cards obj={obj}/></h7>
 
   </>
 }

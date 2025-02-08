@@ -16,9 +16,13 @@ const Cards = ({ obj }) => {
             key={index} 
             className="card" 
             style={{ 
-              width: "18rem", 
+              width: "13rem",
+              padding: "10px",
               scrollSnapAlign: "start",
-              flex: "0 0 auto"
+              flex: "0 0 auto",
+              borderRadius: "15px",
+              margin: "7px",
+              boxShadow: "5px 5px 15px rgba(0, 0, 0, 0.1)"
             }}
           >
             <img src={item.url} className="card-img-top" alt={item.title} />
