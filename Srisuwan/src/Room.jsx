@@ -3,6 +3,7 @@ import "./Room.css";
 import bedlogo from "./assets/bed.svg";
 import fanlogo from "./assets/fan.svg";
 import bathroomlogo from "./assets/bathroom.svg";
+
 const Payment = ({ item, onBackClick }) => {
   if (!item) {
     return (
@@ -16,39 +17,53 @@ const Payment = ({ item, onBackClick }) => {
   }
 
   return (
-    <div className="Room-container">
+    <div className="payment-container">
       <div className="header">
-        <h2>Room Details</h2>
+
         <button onClick={onBackClick} className="back-button">
           Back
         </button>
       </div>
 
       <div className="details-container">
-        <img
-          src={item.imageUrl}
-          alt={item.roomNumber}
-          className="room-image"
-        />
+
+        <div className="image-container">
+          <img src={item.imageUrl} alt={`Room ${item.roomNumber}`} className="room-image" />
+          <div className="thumbnail-container">
+            {[1, 2, 3, 4, 5].map((index) => (
+              <img
+                key={index}
+                src={item.imageUrl}
+                alt={`Thumbnail ${index}`}
+                className="thumbnail-image"
+              />
+            ))}
+          </div>
+        </div>
+
+
         <div className="room-details">
-          <p>Room: {item.roomNumber}</p>
-          <p>Price: {item.price}</p>
-          <p>Booking ID: {item.bookingId}</p>
-          <p className="date-text">Date: {item.timestamp}</p>
+          <h2>{`${item.roomNumber}`}</h2>
+          <p>{`${item.price}`}</p>
           <hr />
-          <p>Details: Ghost,Krasue,It,Krahung,Predt</p>
-          <img src={bedlogo} alt="Furniture Logo" /><p></p>
-          <img src={fanlogo} alt="Furniture Logo" /><p></p>
-          <img src={bathroomlogo} alt="Furniture Logo" /><p></p>
-
-
+          <div className="icon-container">
+            <div className="icon-item">
+              <img src={bedlogo} alt="Furniture" />
+              <p>Furniture - Wardrobe, Bed</p>
+            </div>
+            <div className="icon-item">
+              <img src={fanlogo} alt="Fan" />
+              <p>Fan</p>
+            </div>
+            <div className="icon-item">
+              <img src={bathroomlogo} alt="Bathroom" />
+              <p>Bathroom</p>
+            </div>
+          </div>
         </div>
       </div>
 
-
-      <button className="confirm-button">
-        Book a room
-      </button>
+      <button className="confirm-button">Book a room</button>
     </div>
   );
 };
