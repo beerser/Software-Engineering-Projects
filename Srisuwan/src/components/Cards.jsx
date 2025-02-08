@@ -1,18 +1,37 @@
-import bedImg from '../assets/bed.svg';
-
-const Cards = () => {
-  return (
-    <div>
-      <div className="card" style={{ width: "18rem" }}>
-        <img src={bedImg} className="card-img-top" alt="Bed" />
-        <div className="card-body">
-          <h5 className="card-title">Room 101</h5>
-          <p className="card-text">ห้องพักที่สะดวกสะบาย</p>
-          <a href="#" className="btn btn-primary">เช่า</a>
-        </div>
+const Cards = ({ obj }) => {
+    return (
+      <div style={{ 
+        display: "flex", 
+        gap: "1rem", 
+        overflowX: "scroll", 
+        scrollSnapType: "x mandatory", 
+        padding: "1rem",
+        scrollbarWidth: "none", 
+        msOverflowStyle: "none" 
+      }}
+      className="scroll-container"
+      >
+        {obj.map((item, index) => (
+          <div 
+            key={index} 
+            className="card" 
+            style={{ 
+              width: "18rem", 
+              scrollSnapAlign: "start",
+              flex: "0 0 auto"
+            }}
+          >
+            <img src={item.url} className="card-img-top" alt={item.title} />
+            <div className="card-body">
+              <h5 className="card-title">{item.title}</h5>
+              <p className="card-text">{item.content}</p>
+              <a href="#" className="btn btn-primary">เช่า</a>
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
-  );
-};
-
-export default Cards;
+    );
+  };
+  
+  export default Cards;
+  
