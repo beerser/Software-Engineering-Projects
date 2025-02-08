@@ -4,18 +4,7 @@ import roomImg from "../assets/logo-srisuwan-apartment-black.png";
 
 const Navbar = ({ setdata }) => {
     const [show, setShow] = useState(false);
-    const [n, setN] = useState([
-        { name: "Ai", detail: "ASUS" },
-        { name: "Au", detail: "BKO" },
-    ]);
 
-    const handleClick = () => {
-        setN([...n, { name: "New Name", detail: "New Detail" }]); 
-        setShow(true);
-        if (show) {
-            alert("28259");
-        }
-    };
 
     return (
         <>

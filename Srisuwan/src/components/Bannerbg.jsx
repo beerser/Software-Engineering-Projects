@@ -1,5 +1,5 @@
 import React from 'react'
-import bannerImg from "../assets/bannerbg.jpg"; 
+import bannerImg from "../assets/srisuwan-apartment-homepage.png"; 
 const Bannerbg = () => {
   return (
     <div style={{ position: "relative", display: "inline-block" }}>
@@ -20,8 +20,6 @@ const Bannerbg = () => {
         borderRadius: "10px",
       }}
     >
-      <h2 style={{ margin: "5px 0", fontSize: "35px" }}>Affordable Dormitory</h2>
-      <h4 style={{ margin: "5px 0", fontSize: "25px" }}>only here</h4>
     </div>
   </div>
   

@@ -1,14 +1,14 @@
-import Bannerbg from "./components/Bannerbg"
-import Cards from "./components/Cards"
-import Navbar from "./components/Navbar"
-import TableContent from "./components/TableContent"
-import { useState } from "react"
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Payment from "./Payment"
+import React, { useState } from "react";
+import Bannerbg from "./components/Bannerbg";
+import Cards from "./components/Cards";
+import Navbar from "./components/Navbar";
+import Room from "./Room";
 
 function App() {
-
-  const [obj,setobj] = useState([
+  const [currentPage, setCurrentPage] = useState('home');
+  const [selectedItem, setSelectedItem] = useState(null);
+  
+  const [obj, setobj] = useState([
     {title:"Room 101",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
     {title:"Room 102",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
     {title:"Room 103",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
@@ -18,20 +18,49 @@ function App() {
     {title:"Room 107",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
     {title:"Room 108",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
     {title:"Room 109",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
-  ])
+  ]);
 
+  const handlePaymentClick = (item) => {
+    setSelectedItem(item);
+    setCurrentPage('Room');
+  };
 
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return (
+          <>
+            <h1><Bannerbg/></h1>
+            <h1 style={{ 
+              height: "30px",
+              fontSize: "35px",
+              marginTop: "25px",
+              marginLeft: "25px",
+              marginBottom: "5px"
+            }}>
+              Available room
+            </h1>
+            <Cards obj={obj} onPaymentClick={handlePaymentClick} />
+          </>
+        );
+      case 'Room':
+        return (
+          <Room
+  item={selectedItem} 
+  onBackClick={() => setCurrentPage('home')} 
+/>
+        );
+      default:
+        return null;
+    }
+  };
 
-  return <><Router><h1><Navbar /></h1>
-    <h1><Bannerbg/></h1>
-    <h1  style={{ height: "30px",fontSize:"35px",marginTop:"25px",marginLeft:"25px",marginBottom:"-10px"}}>Avaliable room</h1>
-    <Routes>
-        <Route path="/" element={<Cards obj={obj} />} />
-
-        <Route path="/payment" element={<Payment />} />
-      </Routes>
-      </Router>
-  </>
+  return (
+    <>
+      <h1><Navbar onHomeClick={() => setCurrentPage('home')} /></h1>
+      {renderPage()}
+    </>
+  );
 }
 
-export default App
+export default App;
