@@ -1,3 +1,4 @@
+import Cards from "./components/Cards"
 import Navbar from "./components/Navbar"
 import TableContent from "./components/TableContent"
 import { useState } from "react"
@@ -14,8 +15,7 @@ const handdleShow =()=>{
   return <h1><Navbar handdleShow={handdleShow}
   setdata = {setdata}
   />
-  <hr />
-  <TableContent data = {data}/>
+  <Cards/>
   </h1>
 }
 
