@@ -38,7 +38,7 @@ const Payment = () => {
           </div>
         </div>
 
-        <div className="details-container">
+        <div className="detailss-containerrr">
           <div className='text-container' >
             <img src={item.imageUrl} alt="" className='image-container' />
             <div className='text-container'>
@@ -48,14 +48,14 @@ const Payment = () => {
           </div>
         </div>
 
-        <div className="details-container">
+        <div className="detailss-containerr">
           <div className='text-container' >
             <p className='priceC '>{item.price}</p>
           </div>
         </div>
 
         <div className="details-container">
-        <QR/>
+        <QR item={item} />
         </div>
 
       </div>
