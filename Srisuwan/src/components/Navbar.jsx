@@ -13,8 +13,8 @@ const Navbar = ({ setdata }) => {
                     <a className="navbar-brand" href="#">
                         <img src={roomImg} alt="Logo" style={{ height: "40px" }} /> SRISUWAN APARTMENT
                     </a>
-                    <a className="linkk" style={{ color: "black", textDecoration: "none", fontWeight: "300" }}>
-                        <h4>Login</h4>
+                    <a className="linkk" style={{ color: "black", textDecoration: "none", fontWeight: "300" ,fontSize:"20px",height: "40px"}}>
+                        <h7>Login</h7>
                     </a>
                 </div>
             </nav>
