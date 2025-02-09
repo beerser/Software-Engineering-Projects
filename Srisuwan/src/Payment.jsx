@@ -28,7 +28,7 @@ const Payment = () => {
         </div>
 
         <div className="details-container">
-          <h2>Payment Page</h2>
+          <h2>Payment Methods</h2>
           <p>Room Number: {item.roomNumber}</p>
           <p>Total: {item.price}</p>
         </div>
