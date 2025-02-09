@@ -5,28 +5,7 @@ import fanlogo from "./assets/fan.svg";
 import bathroomlogo from "./assets/bathroom.svg";
 
 const Room = ({ item, onBackClick }) => {
-  const [amount, setAmount] = useState("");
-  const [qrSrc, setQrSrc] = useState("");
   const [isBooked, setIsBooked] = useState(false); 
-
-  const genQr = async () => {
-    try {
-      const response = await fetch("http://localhost:5173/generateQR", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: parseFloat(amount) }),
-      });
-
-      const data = await response.json();
-      if (data.Result) {
-        setQrSrc(data.Result);
-      } else {
-        console.error("QR Generation Failed", data);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
 
   const handleBookRoom = () => {
     setIsBooked(true); 
@@ -53,28 +32,9 @@ const Room = ({ item, onBackClick }) => {
         </div>
 
         <div className="details-container">
-          <h2>Payment Method</h2>
-          <p> {item.roomNumber} </p>
+          <h2>Payment Page</h2>
+          <p> {item.roomNumber}</p>
           <p>Total: {item.price}</p>
-          <div>
-            <input
-              type="text"
-              id="amount"
-              placeholder="amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-            <button onClick={genQr}>Generate QR</button>
-          </div>
-
-          {qrSrc && (
-            <img
-              src={qrSrc}
-              id="imgQR"
-              style={{ width: "100px", objectFit: "contain" }}
-              alt="QR Code"
-            />
-          )}
         </div>
       </div>
     );

@@ -8,16 +8,16 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedItem, setSelectedItem] = useState(null);
   
-  const [obj, setobj] = useState([
-    {title:"Room 101",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
-    {title:"Room 102",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
-    {title:"Room 103",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
-    {title:"Room 104",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
-    {title:"Room 105",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
-    {title:"Room 106",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
-    {title:"Room 107",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
-    {title:"Room 108",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
-    {title:"Room 109",url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",content:"1200 Bath"},
+  const [obj, setObj] = useState([
+    {title:"Room 101", url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content:"1200 Bath"},
+    {title:"Room 102", url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content:"1200 Bath"},
+    {title:"Room 103", url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content:"1200 Bath"},
+    {title:"Room 104", url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content:"1200 Bath"},
+    {title:"Room 105", url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content:"1200 Bath"},
+    {title:"Room 106", url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content:"1200 Bath"},
+    {title:"Room 107", url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content:"1200 Bath"},
+    {title:"Room 108", url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content:"1200 Bath"},
+    {title:"Room 109", url:"https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content:"1200 Bath"},
   ]);
 
   const handlePaymentClick = (item) => {
@@ -38,7 +38,7 @@ function App() {
               marginLeft: "25px",
               marginBottom: "5px"
             }}>
-              Available room
+              Available rooms
             </h1>
             <Cards obj={obj} onPaymentClick={handlePaymentClick} />
           </>
@@ -46,9 +46,9 @@ function App() {
       case 'Room':
         return (
           <Room
-  item={selectedItem} 
-  onBackClick={() => setCurrentPage('home')} 
-/>
+            item={selectedItem} 
+            onBackClick={() => setCurrentPage('home')} 
+          />
         );
       default:
         return null;
