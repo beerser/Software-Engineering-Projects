@@ -3,47 +3,37 @@ import "./Room.css";
 import bedlogo from "./assets/bed.svg";
 import fanlogo from "./assets/fan.svg";
 import bathroomlogo from "./assets/bathroom.svg";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const Room = ({ item, onBackClick }) => {
-  const [isBooked, setIsBooked] = useState(false); 
+const Room = () => {
+  const [isBooked, setIsBooked] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation(); 
+
+  const { item } = location.state || {}; 
 
   const handleBookRoom = () => {
-    setIsBooked(true); 
+    setIsBooked(true);
+    navigate("/payment", { state: { item } });
   };
 
   if (!item) {
     return (
       <div className="error-container">
         <p>No room selected</p>
-        <button onClick={onBackClick} className="back-button">
+        <button onClick={() => navigate("/")} className="back-button">
           Return to rooms
         </button>
       </div>
     );
   }
 
-  if (isBooked) {
-    return (
-      <div className="payment-container">
-        <div className="header">
-          <button onClick={onBackClick} className="back-button">
-            Back
-          </button>
-        </div>
 
-        <div className="details-container">
-          <h2>Payment Page</h2>
-          <p> {item.roomNumber}</p>
-          <p>Total: {item.price}</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="room-container">
       <div className="header">
-        <button onClick={onBackClick} className="back-button">
+        <button onClick={() => navigate("/")} className="back-button">
           Back
         </button>
       </div>
@@ -68,8 +58,8 @@ const Room = ({ item, onBackClick }) => {
         </div>
 
         <div className="room-details">
-          <h2>{`${item.roomNumber}`}</h2>
-          <p>{`${item.price}`}</p>
+          <h2>{item.roomNumber}</h2>
+          <p>{item.price}</p>
           <hr />
           <div className="icon-container">
             <div className="icon-item">

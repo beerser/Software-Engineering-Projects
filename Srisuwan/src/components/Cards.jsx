@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Cards = ({ obj, onPaymentClick }) => {
+  const navigate = useNavigate();
+
   const handleRentClick = (item) => {
     const paymentDetails = {
       roomNumber: item.title,
@@ -9,7 +12,9 @@ const Cards = ({ obj, onPaymentClick }) => {
       timestamp: new Date().toLocaleString(),
       bookingId: `BK${Math.random().toString(36).substr(2, 9)}`.toUpperCase()
     };
+
     onPaymentClick(paymentDetails);
+    navigate("/room", { state: { item: paymentDetails } }); 
   };
 
   return (
