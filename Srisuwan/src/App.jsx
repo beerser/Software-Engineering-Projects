@@ -34,7 +34,7 @@ function App() {
           element={
             <>
               <h1><Bannerbg /></h1>
-              <h1 style={{ height: "30px", fontSize: "35px", marginTop: "25px", marginLeft: "25px", marginBottom: "5px" }}>
+              <h1 style={{ height: "30px", fontSize: "35px",fontFamily:"Segoe UI", marginTop: "25px", marginLeft: "25px", marginBottom: "5px" }}>
                 Available rooms
               </h1>
               <Cards obj={obj} onPaymentClick={handlePaymentClick} />
