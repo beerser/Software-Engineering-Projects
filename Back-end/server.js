@@ -1,11 +1,8 @@
 const express = require('express');
-// const Quote = require('inspirational-quotes')
 const cors = require('cors');
 const generatePayload = require('promptpay-qr');
 const qrcode = require('qrcode');
-const fs = require('fs');
 const bodyParser = require('body-parser');
-const compression = require('compression');
 
 const app = express();
 
@@ -14,43 +11,48 @@ app.use(cors({
     credentials: true,
 }));
 
-
-// app.use(compression());
 app.use(bodyParser.json());
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     return res.send("hello");
-})
+});
 
-app.post('/generateQR',(req,res)=>{
+app.post('/generateQR', async (req, res) => {
     try {
-        let mobileNumber = req.body.phone || '000-000-0000';
-        let amount = req.body.amount || 0;
+        const mobileNumber = req.body.phone || '000-000-0000';
+        const amount = req.body.amount || 0;
 
-
-        const generQRCode = (payload) => {
-            const options = { type: 'svg', color: { dark: '#000', light: '#fff' } };
-            qrcode.toString(payload, options, (err, svg) => {
-                if (err) return console.log(err)
-                fs.writeFileSync(`QRCODE/QRCODE-${Date.now()}.svg`, svg)
-            })
+        if (mobileNumber === "000-000-0000") {
+            return res.status(404).json({
+                RespCode: 404,
+                RespMessage: 'Invalid phone number'
+            });
         }
 
-        if (mobileNumber == "000-000-0000"){
-            return res.statusCode(404);
-        }
+        const payload = generatePayload(mobileNumber, { amount });
+        
+        // Generate QR code as data URL instead of saving to file
+        const qrCodeDataURL = await qrcode.toDataURL(payload, {
+            type: 'image/png',
+            width: 500,
+            margin: 1
+        });
 
-        const payload = generatePayload(mobileNumber, {amount})
-        generQRCode(payload);
-        return res.send(payload)
+        return res.json({
+            RespCode: 200,
+            Result: qrCodeDataURL,
+            RespMessage: 'Success'
+        });
 
-    }catch (error) {
+    } catch (error) {
         console.log(error);
-        return res.sendStatus(400);
+        return res.status(400).json({
+            RespCode: 400,
+            RespMessage: error.message
+        });
     }
+});
 
-})
-
-app.listen(5000,()=>{
-    console.log("server runnig")
-})
+app.listen(5000, () => {
+    console.log("server running");
+});

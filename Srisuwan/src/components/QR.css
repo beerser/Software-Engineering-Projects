@@ -6,7 +6,11 @@
     font-weight: bold;
   }
   
-  
+  .seting{
+    width: 90px;
+    height: 150px;
+    object-fit: cover;
+  }
   
   .nav-item1 {
     margin-left: 541px;
@@ -23,6 +27,9 @@
 
   .lo{
     display: flex;
+  
+    justify-content: center;
+    align-items: center;
   }
 
   .terms-container {

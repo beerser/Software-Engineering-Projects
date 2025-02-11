@@ -11,7 +11,7 @@ function App() {
 
   const obj = [
     { title: "Room 101", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "1200 Bath" },
-    { title: "Room 102", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "1200 Bath" },
+    { title: "Room 102", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "500 Bath" },
     { title: "Room 103", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "1200 Bath" },
     { title: "Room 104", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "1200 Bath" },
     { title: "Room 105", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "1200 Bath" },
