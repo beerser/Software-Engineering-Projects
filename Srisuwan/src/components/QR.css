@@ -18,7 +18,13 @@
   .nav-item2 {
     margin-left: 10px;
   }
-  
+  .pricee{
+    color: #0084ff;
+    font-size: 20px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
 
   .pp{
     margin-right: 10px;
@@ -58,7 +64,10 @@
     justify-content: center; 
     align-items: center; 
   }
-  .Bu{
-    color:#0084ff;
-  }
-  
+
+  .buu {
+    text-align: right;
+}
+.Bu{
+  color:  #0084ff;
+}

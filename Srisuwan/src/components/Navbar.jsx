@@ -14,7 +14,7 @@ const Navbar = ({ setdata }) => {
                        <h4 style={{ fontFamily:"Segoe UI",marginLeft:"10px"}}>SRISUWAN APARTMENT</h4>
                     </a>
                     <a className="linkk" style={{ color: "black",fontFamily:"Segoe UI", textDecoration: "none", fontWeight: "350" ,fontSize:"20px",height: "40px",marginRight:"10px"}}>
-                        <h7 >Login</h7>
+                        <h6 >Login</h6>
                     </a>
                 </div>
             </nav>

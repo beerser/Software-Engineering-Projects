@@ -40,7 +40,7 @@ const QR = ({ item }) => {
           <div className='bt'>
             <ul className="nav justify-content-end">
               <li className="nav-item1">
-                <a className="nav-link active" style={{ color: "black" }} aria-current="page">Cash</a>
+                <a className="nav-link active" style={{ color: "black" }} aria-current="page">Promptpay</a>
               </li>
               <li className="nav-item2">
                 <a className="nav-link">Change</a>
@@ -51,7 +51,17 @@ const QR = ({ item }) => {
         <hr />
         <div className='lo'>
         <div className='seting'>{error && <div className="error-message" style={{ color: 'red', margin: '10px 0' }}>{error}</div>}
-        {qrCodeUrl && <img src={qrCodeUrl} id="imgqr"  style={{ width: "150px", height: "150px", objectFit: "contain" }} alt="QR Code" />}</div>
+        {qrCodeUrl && <img src={qrCodeUrl} id="imgqr"  style={{ width: "150px", height: "150px", objectFit: "contain" }} alt="QR Code" />}
+        </div>
+        </div>
+
+        <hr />
+        <div > 
+        <p className='buu'> 
+  <span style={{color:"gray"}}>price</span> 
+  <span className='pricee'>{item.price}</span> 
+</p>
+
         </div>
         <hr />
         <div className="terms-container">
