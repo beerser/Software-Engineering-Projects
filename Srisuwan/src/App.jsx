@@ -4,6 +4,8 @@ import Cards from "./components/Cards";
 import Navbar from "./components/Navbar";
 import Room from "./Room";
 import Payment from "./Payment";
+import Login from "./Login";
+import Editadmin from "./editadmin";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -12,7 +14,7 @@ function App() {
   const obj = [
     { title: "Room 101", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "1200 Bath" },
     { title: "Room 102", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "500 Bath" },
-    { title: "Room 103", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "1200 Bath" },
+    { title: "Room 103", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "2500 Bath" },
     { title: "Room 104", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "1200 Bath" },
     { title: "Room 105", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "1200 Bath" },
     { title: "Room 106", url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg", content: "1200 Bath" },
@@ -49,7 +51,16 @@ function App() {
           path="/payment"
           element={<Payment />}
         />
+          <Route
+          path="/login"
+          element={<Login />}
+        />
+        <Route
+          path="/editroom"
+          element={<Editadmin />}
+        />
       </Routes>
+      
     </Router>
   );
 }

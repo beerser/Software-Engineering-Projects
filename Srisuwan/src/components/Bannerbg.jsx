@@ -18,6 +18,7 @@ const Bannerbg = () => {
         textAlign: "left",
         padding: "10px 20px", 
         borderRadius: "10px",
+        
       }}
     >
     </div>
