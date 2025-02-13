@@ -1,6 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 import "./editadmin.css";
-const Dashboard = () => {
+
+const Dashboard = ({ obj }) => { // Receive obj via props
+  const handleManageBooking = () => {
+    // Handle manage booking functionality
+    console.log("Managing booking...");
+  };
+
   return (
     <div className="dashboard-container">
       <aside className="sidebar">
@@ -14,7 +21,7 @@ const Dashboard = () => {
       </aside>
       <main className="main-content">
         <header className="top-bar">
-          <a href="#" className="logout">Logout</a>
+          <a href="/login" className="logout">Logout</a>
         </header>
         <section className="content">
           <div className="booking-card">
@@ -37,16 +44,33 @@ const Dashboard = () => {
                 </tr>
               </tbody>
             </table>
-            <button className="manage-booking">+ Manage booking</button>
+            <button className="manage-booking" onClick={handleManageBooking}>+ Manage booking</button>
           </div>
           <div className="available-room-card">
-            <h3>Available room</h3>
-            <p className="room-count">10 room</p>
+            <h3>Available rooms</h3>
+            <div className="room-list">
+              {obj.map((room) => (
+                <div key={room.id} className="room-item"> {/* Use room.id as key */}
+                  <h4>{room.title}</h4>
+                  <p>{room.content}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       </main>
     </div>
   );
+};
+
+Dashboard.propTypes = {
+  obj: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired, // Ensure id exists for each room
+      title: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default Dashboard;

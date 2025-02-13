@@ -7,6 +7,7 @@ import Room from "./Room";
 import Payment from "./Payment";
 import Login from "./login";
 import Editadmin from "./editadmin";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -58,7 +59,7 @@ function App() {
         />
         <Route
           path="/editroom"
-          element={<Editadmin />}
+          element={<Editadmin obj={obj}/>}
         />
       </Routes>
       
