@@ -13,6 +13,7 @@ const Login = () => {
       alert(`Signed in as: ${email}`);
       setLoading(false);
     }, 1500);
+    navigate("/",);
   };
 
   return (
