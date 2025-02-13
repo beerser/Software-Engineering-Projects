@@ -4,7 +4,7 @@ import Cards from "./components/Cards";
 import Navbar from "./components/Navbar";
 import Room from "./Room";
 import Payment from "./Payment";
-import Login from "./Login";
+import Login from "./login";
 import Editadmin from "./editadmin";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
