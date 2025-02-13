@@ -1,19 +1,45 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ เพิ่ม Import ที่หายไป
 import "./login.css";
+import { supabase } from "./supabaseClient";
 import google from "./assets/google.svg";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      alert(`Signed in as: ${email}`);
-      setLoading(false);
-    }, 1500);
-    navigate("/",);
+
+    try {
+      // ✅ ตรวจสอบว่ามีอีเมลและรหัสผ่านในฐานข้อมูล
+      const { data: userData, error } = await supabase
+        .from("users")
+        .select("role")
+        .eq("email", email)
+        .eq("password", password)
+        .single();
+
+      if (error || !userData) {
+        alert("Invalid email or password!");
+        setLoading(false);
+      } else {
+        console.log("User Role:", userData.role);
+        if (userData.role === "admin") {
+          navigate("/editroom"); // ✅ ถ้าเป็นแอดมินให้ไปหน้าแก้ไขห้องพัก
+        } else {
+          navigate("/"); // ✅ ถ้าเป็น user ปกติให้ไปหน้าแรก
+        }
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Something went wrong!");
+    }
+
+    setLoading(false);
   };
 
   return (
