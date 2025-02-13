@@ -2,14 +2,42 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import google from "./assets/google.svg";
+import { supabase } from "../../Back-end/supabaseClient";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); 
-    navigate("/"); 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      const { data: userData, error } = await supabase
+        .from("users")
+        .select("role")
+        .eq("email", email)
+        .eq("password", password)
+        .maybeSingle(); 
+
+      if (error || !userData) {
+        alert("Invalid email or password!");
+      } else {
+        console.log("User Role:", userData.role);
+        if (userData.role === "admin") {
+          navigate("/editroom");
+        } else {
+          navigate("/");
+        }
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Something went wrong!");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -29,7 +57,9 @@ const Login = () => {
               type="email"
               placeholder="E-mail"
               className="form-control"
-            //   required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
@@ -38,7 +68,9 @@ const Login = () => {
               type="password"
               placeholder="Password"
               className="form-control"
-            //   required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
@@ -58,10 +90,7 @@ const Login = () => {
           </div>
 
           <button className="btn-google">
-            <img
-              src={google}
-              alt="Google"
-            />
+            <img src={google} alt="Google" />
             Continue with Google
           </button>
 

@@ -3,6 +3,7 @@ const cors = require('cors');
 const generatePayload = require('promptpay-qr');
 const qrcode = require('qrcode');
 const bodyParser = require('body-parser');
+const supabase = require("./supabaseClient.js"); // เปลี่ยนเป็น require()
 
 const app = express();
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { supabase } from "../../Back-end/supabaseClient";
 import Bannerbg from "./components/Bannerbg";
 import Cards from "./components/Cards";
 import Navbar from "./components/Navbar";
