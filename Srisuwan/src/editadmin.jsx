@@ -1,10 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types"; // Import PropTypes
+import PropTypes from "prop-types"; 
 import "./editadmin.css";
 
-const Dashboard = ({ obj }) => { // Receive obj via props
+const Dashboard = ({ obj }) => { 
   const handleManageBooking = () => {
-    // Handle manage booking functionality
+   
     console.log("Managing booking...");
   };
 
@@ -50,7 +50,18 @@ const Dashboard = ({ obj }) => { // Receive obj via props
             <h3>Available rooms</h3>
             <div className="room-list">
               {obj.map((room) => (
-                <div key={room.id} className="room-item"> {/* Use room.id as key */}
+                <div key={room.id} className="room-item"> 
+                  <h4>{room.title}</h4>
+                  <p>{room.content}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="available-room-card">
+            <h3>Available rooms</h3>
+            <div className="room-list">
+              {obj.map((room) => (
+                <div key={room.id} className="room-item"> 
                   <h4>{room.title}</h4>
                   <p>{room.content}</p>
                 </div>
@@ -66,7 +77,7 @@ const Dashboard = ({ obj }) => { // Receive obj via props
 Dashboard.propTypes = {
   obj: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired, // Ensure id exists for each room
+      id: PropTypes.number.isRequired, 
       title: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
     })
