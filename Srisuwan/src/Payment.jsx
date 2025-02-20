@@ -24,7 +24,7 @@ const Payment = () => {
     <div>
       <div className="payment-container">
         <div className="header">
-          <button onClick={() => navigate("/")} className="back-button">
+          <button onClick={() => navigate("/room")} className="back-button">
             Back
           </button>
         </div>

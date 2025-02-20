@@ -15,7 +15,7 @@ const Navbar = () => {
             {!isLoginPage && !isAdminPage && (
                 <nav className="navbar bg-body-tertiary">
                     <div className="container-fluid">
-                        <a className="navbar-brand" href="#">
+                        <a className="navbar-brand" href="/">
                             <h4 style={{ fontFamily: "Segoe UI", marginLeft: "10px" }}>
                                 SRISUWAN APARTMENT
                             </h4>
