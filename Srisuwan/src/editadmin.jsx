@@ -2,11 +2,37 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./editadmin.css";
 
-const Dashboard = ({ obj }) => {
+const Dashboard = ({ rooms, setRooms }) => {
+  const [localRooms, setLocalRooms] = useState([...rooms]);
   const [activePage, setActivePage] = useState("dashboard");
 
-  const handleManageBooking = () => {
-    console.log("Managing booking...");
+  const handleConfirm = () => {
+    setRooms(localRooms); // ส่งข้อมูลกลับไปยัง App.js
+    alert("Data confirmed and updated!");
+  };
+
+  const addRoom = () => {
+    const newId = localRooms.reduce((maxId, room) => Math.max(maxId, room.id), 0) + 1;
+    const newRoom = {
+      id: newId,
+      title: `Room ${newId}`,
+      url: "https://via.placeholder.com/150",
+      content: "New Room"
+    };
+    setLocalRooms([...localRooms, newRoom]);
+    console.log("Added Room: ", newRoom);
+  };
+
+  const updateRoom = (id, newTitle, newUrl, newContent) => {
+    const updatedRooms = localRooms.map((room) =>
+      room.id === id ? { ...room, title: newTitle, url: newUrl, content: newContent } : room
+    );
+    setLocalRooms(updatedRooms);
+  };
+
+  const deleteRoom = (id) => {
+    const updatedRooms = localRooms.filter((room) => room.id !== id);
+    setLocalRooms(updatedRooms);
   };
 
   const renderContent = () => {
@@ -15,45 +41,60 @@ const Dashboard = ({ obj }) => {
         return <h2>Dashboard Overview</h2>;
       case "availableRoom":
         return (
-          <div className="available-room-card">
-            <h3>Available rooms</h3>
-            <div className="room-list">
-              {obj.map((room) => (
-                <div key={room.id} className="room-item">
-                  <h4>{room.title}</h4>
-                  <p>{room.content}</p>
-                </div>
-              ))}
+          <div>
+            <h2 className="texter">Manage room</h2>
+            <button onClick={addRoom} className="btn btn-success" style={{ margin: "10px" }}>Add Room</button>
+            <div className="available-room-card">
+              <div className="room-list">
+                {localRooms.map((room) => (
+                  <div key={room.id} className="room-item">
+                    <img src={room.url} alt={room.title} style={{ width: "100%", height: "150px", objectFit: "cover" }} />
+                    <input
+                      type="text"
+                      value={room.title}
+                      onChange={(e) =>
+                        updateRoom(room.id, e.target.value, room.url, room.content)
+                      }
+                      className="form-control"
+                    />
+                    <input
+                      type="text"
+                      value={room.url}
+                      onChange={(e) =>
+                        updateRoom(room.id, room.title, e.target.value, room.content)
+                      }
+                      className="form-control"
+                    />
+                    <input
+                      type="text"
+                      value={room.content}
+                      onChange={(e) =>
+                        updateRoom(room.id, room.title, room.url, e.target.value)
+                      }
+                      className="form-control"
+                    />
+                    <button onClick={() => deleteRoom(room.id)} className="btn btn-danger">
+                      Delete
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
+            <button onClick={handleConfirm} className="btn btn-primary" style={{ marginTop: "10px" }}>
+              Confirm
+            </button>
           </div>
         );
       case "managePayment":
-        return <h2>Manage Payment</h2>;
+        return (
+          <div className="payment-card">
+            <h2>Manage payment</h2>
+          </div>
+        );
       case "manageBooking":
         return (
-          <div className="booking-card">
-            <h3>Booking</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Lastname</th>
-                  <th>Date</th>
-                  <th>Phone number</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Teerapat</td>
-                  <td>Kotanart</td>
-                  <td className="highlight">Thu 13 Feb</td>
-                  <td>095-xxx-xxxx</td>
-                </tr>
-              </tbody>
-            </table>
-            <button className="manage-booking" onClick={handleManageBooking}>
-              + Manage booking
-            </button>
+          <div>
+            <h3 className="texter">Manage Booking</h3>
           </div>
         );
       default:
@@ -85,13 +126,14 @@ const Dashboard = ({ obj }) => {
 };
 
 Dashboard.propTypes = {
-  obj: PropTypes.arrayOf(
+  rooms: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
     })
   ).isRequired,
+  setRooms: PropTypes.func.isRequired
 };
 
 export default Dashboard;

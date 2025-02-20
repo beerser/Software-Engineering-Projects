@@ -44,7 +44,7 @@ const Cards = ({ obj, onPaymentClick }) => {
             boxShadow: "5px 5px 15px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <img src={item.url} className="card-img-top" alt={item.title} />
+          <img src={item.url} className="card-img-top" alt={item.title} style={{ width: "100%", height: "150px", objectFit: "cover" }} />
           <div className="card-body">
             <h5 className="card-title">{item.title}</h5>
             <p className="card-text">{item.content}</p>
