@@ -3,40 +3,53 @@ import { useNavigate } from "react-router-dom";
 import "./login.css";
 import google from "./assets/google.svg";
 import { supabase } from "../../Back-end/supabaseClient";
+import { useAuth } from "./components/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { setUser } = useAuth(); // ใช้ useAuth เพื่อจัดการสถานะผู้ใช้
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
-    try {
-      const { data: userData, error } = await supabase
-        .from("users")
-        .select("role")
-        .eq("email", email)
-        .eq("password", password)
-        .maybeSingle(); 
 
-      if (error || !userData) {
-        alert("Invalid email or password!");
+    // ใช้ signInWithPassword() จาก Supabase
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      alert("Invalid email or password!");
+    } else {
+      console.log("Login Success:", data.user);
+
+      // ดึง Role จาก Table profiles โดยเชื่อมกับ id ของผู้ใช้
+      const { data: userProfile, error: profileError } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", data.user.id)
+        .single();
+
+      if (profileError || !userProfile) {
+        alert("User profile not found!");
       } else {
-        console.log("User Role:", userData.role);
-        if (userData.role === "admin") {
+        console.log("User Role:", userProfile.role);
+
+        // ใช้ useAuth เพื่อเก็บ User State
+        setUser(data.user);
+
+        // Navigate ไปตาม Role
+        if (userProfile.role === "admin") {
           navigate("/editroom");
         } else {
           navigate("/");
         }
       }
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("Something went wrong!");
     }
-
     setLoading(false);
   };
 

@@ -6,7 +6,10 @@ import Navbar from "./components/Navbar";
 import Room from "./Room";
 import Payment from "./Payment";
 import Login from "./login";
+import { AuthProvider } from "./components/AuthContext";
 import Editadmin from "./editadmin";
+
+
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -30,6 +33,7 @@ function App() {
   };
 
   return (
+    <AuthProvider>
     <Router>
       <Navbar />
       <Routes>
@@ -64,6 +68,7 @@ function App() {
       </Routes>
       
     </Router>
+     </AuthProvider>
   );
 }
 
