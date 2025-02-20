@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { supabase } from "./supabaseClient";
+import { supabase } from "../../Back-end/supabaseClient";
 import Bannerbg from "./components/Bannerbg";
 import Cards from "./components/Cards";
 import Navbar from "./components/Navbar";
 import Room from "./Room";
 import Payment from "./Payment";
 import Login from "./login";
+import { AuthProvider } from "./components/AuthContext";
 import Editadmin from "./editadmin";
+
+
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -29,6 +33,7 @@ function App() {
   };
 
   return (
+    <AuthProvider>
     <Router>
       <Navbar />
       <Routes>
@@ -58,11 +63,12 @@ function App() {
         />
         <Route
           path="/editroom"
-          element={<Editadmin />}
+          element={<Editadmin obj={obj}/>}
         />
       </Routes>
       
     </Router>
+     </AuthProvider>
   );
 }
 

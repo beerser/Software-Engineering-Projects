@@ -5,6 +5,7 @@ import "./QR.css";
 const QR = ({ item }) => {
   const [qrCodeUrl, setQrCodeUrl] = useState('');
   const [error, setError] = useState('');
+  const [isConfirmed, setIsConfirmed] = useState(false); // กำหนดสถานะการยืนยัน
 
   const genQR = async () => {
     const amount = parseFloat(item.price);
@@ -23,6 +24,7 @@ const QR = ({ item }) => {
       if (response.data.RespCode === 200) {
         setQrCodeUrl(response.data.Result);
         setError('');
+        setIsConfirmed(true); // ตั้งค่าเป็นยืนยันแล้ว
       } else {
         setError(response.data.RespMessage || 'Failed to generate QR code');
       }
@@ -50,18 +52,20 @@ const QR = ({ item }) => {
         </div>
         <hr />
         <div className='lo'>
-        <div className='seting'>{error && <div className="error-message" style={{ color: 'red', margin: '10px 0' }}>{error}</div>}
-        {qrCodeUrl && <img src={qrCodeUrl} id="imgqr"  style={{ width: "150px", height: "150px", objectFit: "contain" }} alt="QR Code" />}
-        </div>
+          <div className='seting'>
+            {error && <div className="error-message" style={{ color: 'red', margin: '10px 0' }}>{error}</div>}
+            {qrCodeUrl && (
+              <img src={qrCodeUrl} id="imgqr" style={{ width: "150px", height: "150px", objectFit: "contain" }} alt="QR Code" />
+            )}
+          </div>
         </div>
 
         <hr />
-        <div > 
-        <p className='buu'> 
-  <span style={{color:"gray"}}>price</span> 
-  <span className='pricee'>{item.price}</span> 
-</p>
-
+        <div>
+          <p className='buu'>
+            <span style={{ color: "gray" }}>price</span>
+            <span className='pricee'>{item.price}</span>
+          </p>
         </div>
         <hr />
         <div className="terms-container">
@@ -71,11 +75,11 @@ const QR = ({ item }) => {
             <span className='Bu'>terms of service,</span>
             <span className='Bu'>terms</span> of use, and <span className='Bu'> privacy policy</span>
           </p>
-          <button className='confirm-buttonn' onClick={genQR}>Confirm</button>
+          <button className='confirm-buttonn' onClick={genQR}>
+            {isConfirmed ? 'Confirmed' : 'Confirm'}
+          </button>
         </div>
       </div>
-
-     
     </div>
   );
 };
