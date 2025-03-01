@@ -16,7 +16,7 @@ const Dashboard = ({ rooms, setRooms }) => {
     const newRoom = {
       id: newId,
       title: `Room ${newId}`,
-      url: "https://via.placeholder.com/150",
+      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
       content: "New Room"
     };
     setLocalRooms([...localRooms, newRoom]);

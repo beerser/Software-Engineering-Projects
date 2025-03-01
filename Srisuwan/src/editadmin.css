@@ -231,3 +231,50 @@ ul li:hover {
 .payment-table tr:hover {
   background-color: #f0f8ff;
 }
+
+
+
+/* magnament */
+
+.room-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: space-between;
+  width: 220px; 
+  height: auto;
+  background-color: #2CDB5D;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.room-item img {
+  width: 100%;
+  height: 120px; 
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.room-item input {
+  width: 90%; 
+  margin-top: 5px;
+}
+
+.room-item button {
+  width: 90%; 
+  margin-top: 5px;
+}
+.room-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+  gap: 20px;
+  justify-content: center;
+  width: 100%; 
+  max-width: 1200px; 
+  margin: 0 auto; 
+}
