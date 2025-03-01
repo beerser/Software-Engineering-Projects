@@ -17,7 +17,7 @@ const Dashboard = ({ rooms, setRooms }) => {
       id: newId,
       title: `Room ${newId}`,
       url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
-      content: "New Room"
+      content: "Price Room"
     };
     setLocalRooms([...localRooms, newRoom]);
     console.log("Added Room: ", newRoom);
