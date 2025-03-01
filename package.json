@@ -7,7 +7,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "file-saver": "^2.0.5",
     "lodash": "^4.17.21",
+    "papaparse": "^5.5.2",
     "promptpay-qr": "^0.5.0",
     "qrcode": "^1.5.4",
     "react-router-dom": "^7.1.5"

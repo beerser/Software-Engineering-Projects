@@ -28,6 +28,7 @@ const Login = () => {
         alert("Invalid email or password!");
       } else {
         console.log("User Role:", userData.role);
+        setUser({ email, role: userData.role });
         if (userData.role === "admin") {
           navigate("/editroom");
         } else {

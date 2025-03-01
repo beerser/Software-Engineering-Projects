@@ -1,14 +1,31 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useAuth } from "./components/AuthContext";
+import { saveAs } from "file-saver";
+import Papa from "papaparse";
 import "./editadmin.css";
 
 const Dashboard = ({ rooms, setRooms }) => {
   const [localRooms, setLocalRooms] = useState([...rooms]);
   const [activePage, setActivePage] = useState("dashboard");
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  if (!user || user.role !== "admin") {
+    return <h1>Access Denied</h1>;
+  }
 
   const handleConfirm = () => {
-    setRooms(localRooms); // ส่งข้อมูลกลับไปยัง App.js
+    setRooms(localRooms);
+    localStorage.setItem("rooms", JSON.stringify(localRooms));
     alert("Data confirmed and updated!");
+  };
+
+  const exportCSV = () => {
+    const csv = Papa.unparse(localRooms);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    saveAs(blob, "rooms.csv");
   };
 
   const addRoom = () => {
@@ -20,7 +37,6 @@ const Dashboard = ({ rooms, setRooms }) => {
       content: "Price Room"
     };
     setLocalRooms([...localRooms, newRoom]);
-    console.log("Added Room: ", newRoom);
   };
 
   const updateRoom = (id, newTitle, newUrl, newContent) => {
@@ -52,25 +68,19 @@ const Dashboard = ({ rooms, setRooms }) => {
                     <input
                       type="text"
                       value={room.title}
-                      onChange={(e) =>
-                        updateRoom(room.id, e.target.value, room.url, room.content)
-                      }
+                      onChange={(e) => updateRoom(room.id, e.target.value, room.url, room.content)}
                       className="form-control"
                     />
                     <input
                       type="text"
                       value={room.url}
-                      onChange={(e) =>
-                        updateRoom(room.id, room.title, e.target.value, room.content)
-                      }
+                      onChange={(e) => updateRoom(room.id, room.title, e.target.value, room.content)}
                       className="form-control"
                     />
                     <input
                       type="text"
                       value={room.content}
-                      onChange={(e) =>
-                        updateRoom(room.id, room.title, room.url, e.target.value)
-                      }
+                      onChange={(e) => updateRoom(room.id, room.title, room.url, e.target.value)}
                       className="form-control"
                     />
                     <button onClick={() => deleteRoom(room.id)} className="btn btn-danger">
@@ -89,6 +99,7 @@ const Dashboard = ({ rooms, setRooms }) => {
         return (
           <div className="payment-card">
             <h2>Manage payment</h2>
+            <button onClick={exportCSV} className="btn btn-secondary">Export CSV</button>
           </div>
         );
       case "manageBooking":
@@ -115,6 +126,9 @@ const Dashboard = ({ rooms, setRooms }) => {
       </aside>
       <main className="main-content">
         <header className="top-bar">
+          <button onClick={() => navigate("/")} className="btn btn-warning" style={{ marginRight: "10px" }}>
+            Back to Home
+          </button>
           <a href="/login" className="logout">Logout</a>
         </header>
         <section className="content">
