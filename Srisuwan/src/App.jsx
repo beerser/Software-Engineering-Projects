@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom"; // Import useLocation
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from "react-router-dom"; 
 import { AuthProvider, useAuth } from "./components/AuthContext"; // Import useAuth from AuthContext
 import Navbar from "./components/Navbar";
 import Bannerbg from "./components/Bannerbg";
@@ -50,19 +50,11 @@ function App() {
     <AuthProvider>
       <Router>
         <Navbar />
-        <DashboardButton /> {/* Include the DashboardButton here */}
         <Routes>
+          {/* Protected Route for Home */}
           <Route
             path="/"
-            element={
-              <>
-                <h1><Bannerbg /></h1>
-                <h1 style={{ height: "30px", fontSize: "35px", fontFamily: "Segoe UI", marginTop: "25px", marginLeft: "25px", marginBottom: "5px" }}>
-                  Available rooms
-                </h1>
-                <Cards obj={rooms} onPaymentClick={handlePaymentClick} />
-              </>
-            }
+            element={<ProtectedRoute><Home rooms={rooms} handlePaymentClick={handlePaymentClick} /></ProtectedRoute>}
           />
           <Route
             path="/room"
@@ -78,7 +70,7 @@ function App() {
           />
           <Route
             path="/editroom"
-            element={<Editadmin rooms={rooms} setRooms={setRooms} />}
+            element={<ProtectedRoute><Editadmin rooms={rooms} setRooms={setRooms} /></ProtectedRoute>}
           />
         </Routes>
       </Router>
@@ -86,20 +78,31 @@ function App() {
   );
 }
 
-// DashboardButton Component
-const DashboardButton = () => {
-  const { user } = useAuth();
-  const location = useLocation();
-
-  // Only show the button if the user is an admin and not currently on the dashboard page
-  if (!user || user.role !== "admin" || location.pathname === "/editroom") {
-    return null;
+// ProtectedRoute component
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  if (loading) {
+    return <div>Loading...</div>; // สามารถแสดง loading ระหว่างการโหลดข้อมูลผู้ใช้
   }
 
+  // ถ้าผู้ใช้ไม่ได้ล็อกอินให้ไปหน้า login
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
+};
+
+// Home component
+const Home = ({ rooms, handlePaymentClick }) => {
   return (
-    <Link to="/editroom" className="dashboard-button">
-      Go to Dashboard
-    </Link>
+    <>
+      <h1><Bannerbg /></h1>
+      <h1 style={{ height: "30px", fontSize: "35px", fontFamily: "Segoe UI", marginTop: "25px", marginLeft: "25px", marginBottom: "5px" }}>
+        Available rooms
+      </h1>
+      <Cards obj={rooms} onPaymentClick={handlePaymentClick} />
+    </>
   );
 };
 

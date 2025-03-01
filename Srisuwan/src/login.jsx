@@ -29,6 +29,7 @@ const Login = () => {
       } else {
         console.log("User Role:", userData.role);
         setUser({ email, role: userData.role });
+        localStorage.setItem("user", JSON.stringify({ email, role: userData.role }));
         if (userData.role === "admin") {
           navigate("/editroom");
         } else {

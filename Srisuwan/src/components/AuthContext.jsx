@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "../../../Back-end/supabaseClient";
+import { createContext, useContext, useState, useEffect } from "react";
+import { supabase } from "../../../Back-end/supabaseClient";  
 
 const AuthContext = createContext();
 
@@ -8,20 +8,34 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setUser(storedUser);  
+    }
+
+
     const getSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         setUser(session.user);
+        localStorage.setItem("user", JSON.stringify(session.user)); 
       } else {
-        setUser(null);
+        setUser(null); 
       }
-      setLoading(false);
+      setLoading(false);  
     };
 
-    getSession();
+    getSession(); 
 
+ 
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user || null);
+      if (session?.user) {
+        localStorage.setItem("user", JSON.stringify(session.user)); 
+      } else {
+        localStorage.removeItem("user"); 
+      }
     });
 
     return () => {
