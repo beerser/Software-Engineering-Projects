@@ -11,39 +11,29 @@ import Editadmin from "./editadmin";
 
 function App() {
   const [selectedItem, setSelectedItem] = useState(null);
-  const [rooms, setRooms] = useState([]);
+  
 
-  // UseEffect to initialize rooms from localStorage
-  useEffect(() => {
-    const storedRooms = localStorage.getItem("rooms");
-    if (storedRooms) {
-      setRooms(JSON.parse(storedRooms));
-    } else {
-      setRooms([
-        {
-          id: 1,
-          title: "Room 101",
-          url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
-          content: "1200 Bath",
-        },
-        {
-          id: 2,
-          title: "Room 102",
-          url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
-          content: "500 Bath",
-        },
-      ]);
-    }
-  }, []);
+  const [rooms, setRooms] = useState([
+    {
+      id: 1,
+      title: "Room 101",
+      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
+      content: "1200 Bath",
+    },
+    {
+      id: 2,
+      title: "Room 102",
+      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
+      content: "500 Bath",
+    },
+  ]);
 
-  // Update rooms in localStorage when rooms state changes
   useEffect(() => {
     localStorage.setItem("rooms", JSON.stringify(rooms));
   }, [rooms]);
 
-  // Handle payment click to select room
-  const handlePaymentClick = (item) => {
-    setSelectedItem(item);
+  const handlePaymentClick = (paymentDetails) => {
+    setSelectedItem(paymentDetails);
   };
 
   return (
@@ -51,7 +41,7 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          {/* Protected Route for Home */}
+        
           <Route
             path="/"
             element={<ProtectedRoute><Home rooms={rooms} handlePaymentClick={handlePaymentClick} /></ProtectedRoute>}
@@ -78,14 +68,13 @@ function App() {
   );
 }
 
-// ProtectedRoute component
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
+
   if (loading) {
-    return <div>Loading...</div>; // สามารถแสดง loading ระหว่างการโหลดข้อมูลผู้ใช้
+    return <div>Loading...</div>;
   }
 
-  // ถ้าผู้ใช้ไม่ได้ล็อกอินให้ไปหน้า login
   if (!user) {
     return <Navigate to="/login" />;
   }
@@ -93,7 +82,6 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-// Home component
 const Home = ({ rooms, handlePaymentClick }) => {
   return (
     <>

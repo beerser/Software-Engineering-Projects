@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext"; 
 import roomImg from "../assets/logo-srisuwan-apartment-black.png";
@@ -6,17 +6,20 @@ import roomImg from "../assets/logo-srisuwan-apartment-black.png";
 const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { user, setUser } = useAuth(); 
+    const { user, setUser } = useAuth();
 
-   
     const isLoginPage = location.pathname === "/login";
     const isAdminPage = location.pathname === "/editroom";
 
-   
     const handleLogout = () => {
         setUser(null);  
         localStorage.removeItem("user");  
         navigate("/login"); 
+    };
+
+    const handleEditRoom = () => {
+        // เปลี่ยนเส้นทางไปยังหน้า /editroom
+        navigate("/editroom");
     };
 
     return (
@@ -31,7 +34,6 @@ const Navbar = () => {
                         </a>
 
                         {!user ? (
-                           
                             <Link
                                 to="/login"
                                 style={{
@@ -49,11 +51,29 @@ const Navbar = () => {
                                 <h6>Sign in</h6>
                             </Link>
                         ) : (
-                           
                             <div style={{ display: "flex", alignItems: "center" }}>
                                 <span style={{ marginRight: "10px", fontSize: "18px" }}>
                                     Hello, {user.email}
                                 </span>
+                                
+                                {/* ถ้าเป็น admin ให้แสดงปุ่ม Edit Room */}
+                                {user.role === "admin" && (
+                                    <button
+                                        onClick={handleEditRoom}
+                                        style={{
+                                            backgroundColor: "#f8f9fa",
+                                            border: "1px solid #ccc",
+                                            padding: "5px 10px",
+                                            cursor: "pointer",
+                                            fontSize: "16px",
+                                            marginRight: "10px",
+                                        }}
+                                    >
+                                        Edit Room
+                                    </button>
+                                )}
+
+                                {/* ปุ่ม Sign Out จะอยู่สำหรับทั้งผู้ใช้ทุกคนที่ล็อกอิน */}
                                 <button
                                     onClick={handleLogout}
                                     style={{
