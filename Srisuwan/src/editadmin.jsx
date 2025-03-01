@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useAuth } from "./components/AuthContext";
 import { saveAs } from "file-saver";
+import RoomChart from "./components/RoomChart";
+import RoomCalendar from "./components/RoomCalendar";
 import Papa from "papaparse";
 import "./editadmin.css";
 
@@ -54,7 +56,27 @@ const Dashboard = ({ rooms, setRooms }) => {
   const renderContent = () => {
     switch (activePage) {
       case "dashboard":
-        return <h2>Dashboard Overview</h2>;
+        return  (
+          <div>
+            <h2>Dashboard Overview</h2>
+            <div className="dashboard-summary">
+              <h3>Total Rooms: {localRooms.length}</h3>
+              <h3>Available Rooms: {localRooms.filter(room => !room.booked).length}</h3>
+              <h3>Booked Rooms: {localRooms.filter(room => room.booked).length}</h3>
+            </div>
+            <button onClick={addRoom} className="btn btn-success" style={{ margin: "10px" }}>Add Room</button>
+      
+         
+            <RoomChart rooms={localRooms} />
+      
+         
+            <RoomCalendar rooms={localRooms} />
+      
+            <button onClick={handleConfirm} className="btn btn-primary" style={{ marginTop: "10px" }}>
+              Confirm Changes
+            </button>
+          </div>
+        );
       case "availableRoom":
         return (
           <div>
@@ -145,6 +167,7 @@ Dashboard.propTypes = {
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
+      booked: PropTypes.bool,
     })
   ).isRequired,
   setRooms: PropTypes.func.isRequired
