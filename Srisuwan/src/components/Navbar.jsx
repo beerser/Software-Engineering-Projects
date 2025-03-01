@@ -1,17 +1,26 @@
-import React, { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext"; 
 import roomImg from "../assets/logo-srisuwan-apartment-black.png";
 
 const Navbar = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+    const { user, setUser } = useAuth(); 
 
-    // เช็คว่าอยู่หน้า login หรือ editroom หรือไม่
+   
     const isLoginPage = location.pathname === "/login";
     const isAdminPage = location.pathname === "/editroom";
 
+   
+    const handleLogout = () => {
+        setUser(null);  
+        localStorage.removeItem("user");  
+        navigate("/login"); 
+    };
+
     return (
         <>
-         
             {!isLoginPage && !isAdminPage && (
                 <nav className="navbar bg-body-tertiary">
                     <div className="container-fluid">
@@ -21,8 +30,8 @@ const Navbar = () => {
                             </h4>
                         </a>
 
-                       
-                        {!isLoginPage && (
+                        {!user ? (
+                           
                             <Link
                                 to="/login"
                                 style={{
@@ -39,6 +48,25 @@ const Navbar = () => {
                             >
                                 <h6>Sign in</h6>
                             </Link>
+                        ) : (
+                           
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <span style={{ marginRight: "10px", fontSize: "18px" }}>
+                                    Hello, {user.email}
+                                </span>
+                                <button
+                                    onClick={handleLogout}
+                                    style={{
+                                        backgroundColor: "#f8f9fa",
+                                        border: "1px solid #ccc",
+                                        padding: "5px 10px",
+                                        cursor: "pointer",
+                                        fontSize: "16px",
+                                    }}
+                                >
+                                    Sign out
+                                </button>
+                            </div>
                         )}
                     </div>
                 </nav>
