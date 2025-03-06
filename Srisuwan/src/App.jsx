@@ -9,6 +9,7 @@ import Payment from "./Payment";
 import Login from "./login";
 import Editadmin from "./editadmin";
 
+
 function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   
@@ -75,9 +76,9 @@ const ProtectedRoute = ({ children }) => {
     return <div>Loading...</div>;
   }
 
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
+  // if (!user) {
+  //   return <Navigate to="/login" />;
+  // }
 
   return children;
 };

@@ -25,7 +25,7 @@ const RoomChart = ({ rooms }) => {
       {
         label: "Rooms",
         data: [roomStats.available, roomStats.booked],
-        backgroundColor: ["#4caf50", "#f44336"], // สีสำหรับห้องว่างและห้องที่ถูกจอง
+        backgroundColor: ["#4caf50", "#f44336"], 
       },
     ],
   };

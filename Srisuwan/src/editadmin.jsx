@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useAuth } from "./components/AuthContext";
@@ -7,71 +7,90 @@ import RoomChart from "./components/RoomChart";
 import RoomCalendar from "./components/RoomCalendar";
 import Papa from "papaparse";
 import "./editadmin.css";
+import { supabase } from "../../Back-end/supabaseClient";
 
-const Dashboard = ({ rooms, setRooms }) => {
-  const [localRooms, setLocalRooms] = useState([...rooms]);
+const Dashboard = ({ setRooms }) => {
+  const [localRooms, setLocalRooms] = useState([]);
+  const [pendingChanges, setPendingChanges] = useState([]); // ✅ แยกเก็บค่าที่แก้ไข
   const [activePage, setActivePage] = useState("dashboard");
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  if (!user || user.role !== "admin") {
-    return <h1>Access Denied</h1>;
-  }
+  useEffect(() => {
+    const fetchRooms = async () => {
+      const { data, error } = await supabase.from("rooms").select("*");
+      if (error) {
+        console.error("Error fetching rooms:", error);
+      } else {
+        setLocalRooms(data);
+        setPendingChanges(data); // ✅ ใช้ค่าต้นฉบับเก็บไว้ใน pendingChanges
+        setRooms(data);
+      }
+    };
+    fetchRooms();
+  }, [setRooms]);
 
-  const handleConfirm = () => {
-    setRooms(localRooms);
-    localStorage.setItem("rooms", JSON.stringify(localRooms));
-    alert("Data confirmed and updated!");
+  const handleConfirm = async () => {
+    for (const room of pendingChanges) {
+      if (room.id) {
+        await supabase.from("rooms").update(room).eq("id", room.id);
+      } else {
+        await supabase.from("rooms").insert([room]);
+      }
+    }
+    alert("ข้อมูลถูกบันทึกลง Supabase แล้ว!");
+    setLocalRooms([...pendingChanges]); // ✅ อัปเดต state ให้ตรงกับข้อมูลล่าสุด
   };
 
   const exportCSV = () => {
-    const csv = Papa.unparse(localRooms);
+    const csv = Papa.unparse(pendingChanges);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     saveAs(blob, "rooms.csv");
   };
 
+  // ✅ เพิ่มห้อง (ยังไม่ส่งไป Supabase จนกว่าจะกด Confirm)
   const addRoom = () => {
-    const newId = localRooms.reduce((maxId, room) => Math.max(maxId, room.id), 0) + 1;
+    const newId = pendingChanges.length ? Math.max(...pendingChanges.map(room => room.id || 0)) + 1 : 1;
     const newRoom = {
-      id: newId,
-      title: `Room ${newId}`,
-      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
-      content: "Price Room"
+      id: newId, 
+      room_number: `Room ${newId}`,
+      price: 3000,  
+      status: "available",
+      description: "New Room",
+      image_url: "https://via.placeholder.com/150"
     };
-    setLocalRooms([...localRooms, newRoom]);
+
+    setPendingChanges([...pendingChanges, newRoom]);
   };
 
-  const updateRoom = (id, newTitle, newUrl, newContent) => {
-    const updatedRooms = localRooms.map((room) =>
-      room.id === id ? { ...room, title: newTitle, url: newUrl, content: newContent } : room
+  // ✅ แก้ไขข้อมูลห้องใน `pendingChanges` เท่านั้น
+  const updateRoom = (id, field, value) => {
+    setPendingChanges(
+      pendingChanges.map(room => 
+        room.id === id ? { ...room, [field]: value } : room
+      )
     );
-    setLocalRooms(updatedRooms);
   };
 
+  // ✅ ลบห้องออกจาก `pendingChanges` (ยังไม่ลบจริงใน Supabase จนกว่าจะกด Confirm)
   const deleteRoom = (id) => {
-    const updatedRooms = localRooms.filter((room) => room.id !== id);
-    setLocalRooms(updatedRooms);
+    setPendingChanges(pendingChanges.filter(room => room.id !== id));
   };
 
   const renderContent = () => {
     switch (activePage) {
       case "dashboard":
-        return  (
+        return (
           <div>
             <h2>Dashboard Overview</h2>
             <div className="dashboard-summary">
-              <h3>Total Rooms: {localRooms.length}</h3>
-              <h3>Available Rooms: {localRooms.filter(room => !room.booked).length}</h3>
-              <h3>Booked Rooms: {localRooms.filter(room => room.booked).length}</h3>
+              <h3>Total Rooms: {pendingChanges.length}</h3>
+              <h3>Available Rooms: {pendingChanges.filter(room => room.status === "available").length}</h3>
+              <h3>Booked Rooms: {pendingChanges.filter(room => room.status === "booked").length}</h3>
             </div>
             <button onClick={addRoom} className="btn btn-success" style={{ margin: "10px" }}>Add Room</button>
-      
-         
-            <RoomChart rooms={localRooms} />
-      
-         
-            <RoomCalendar rooms={localRooms} />
-      
+            <RoomChart rooms={pendingChanges} />
+            <RoomCalendar rooms={pendingChanges} />
             <button onClick={handleConfirm} className="btn btn-primary" style={{ marginTop: "10px" }}>
               Confirm Changes
             </button>
@@ -84,25 +103,19 @@ const Dashboard = ({ rooms, setRooms }) => {
             <button onClick={addRoom} className="btn btn-success" style={{ margin: "10px" }}>Add Room</button>
             <div className="available-room-card">
               <div className="room-list">
-                {localRooms.map((room) => (
+                {pendingChanges.map((room) => (
                   <div key={room.id} className="room-item">
-                    <img src={room.url} alt={room.title} style={{ width: "100%", height: "150px", objectFit: "cover" }} />
                     <input
                       type="text"
-                      value={room.title}
-                      onChange={(e) => updateRoom(room.id, e.target.value, room.url, room.content)}
+                      value={room.room_number}
+                      onChange={(e) => updateRoom(room.id, "room_number", e.target.value)}
                       className="form-control"
                     />
+                    <img src={room.image_url} alt={room.room_number} style={{ width: "100%", height: "150px", objectFit: "cover" }} />
                     <input
                       type="text"
-                      value={room.url}
-                      onChange={(e) => updateRoom(room.id, room.title, e.target.value, room.content)}
-                      className="form-control"
-                    />
-                    <input
-                      type="text"
-                      value={room.content}
-                      onChange={(e) => updateRoom(room.id, room.title, room.url, e.target.value)}
+                      value={room.description}
+                      onChange={(e) => updateRoom(room.id, "description", e.target.value)}
                       className="form-control"
                     />
                     <button onClick={() => deleteRoom(room.id)} className="btn btn-danger">
@@ -162,14 +175,6 @@ const Dashboard = ({ rooms, setRooms }) => {
 };
 
 Dashboard.propTypes = {
-  rooms: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired,
-      booked: PropTypes.bool,
-    })
-  ).isRequired,
   setRooms: PropTypes.func.isRequired
 };
 

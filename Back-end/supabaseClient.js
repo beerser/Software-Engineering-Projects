@@ -17,4 +17,4 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   },
 });
 
-console.log("✅ Supabase initialized successfully:", SUPABASE_URL);
+
