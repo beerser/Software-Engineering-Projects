@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useAuth } from "./components/AuthContext";
+import { useAuth } from "../components/AuthContext";
 import { saveAs } from "file-saver";
-import RoomChart from "./components/RoomChart";
-import RoomCalendar from "./components/RoomCalendar";
+import RoomChart from "../components/RoomChart";
+import RoomCalendar from "../components/RoomCalendar";
 import Papa from "papaparse";
-import "./editadmin.css";
-import { supabase } from "../../Back-end/supabaseClient";
+import { supabase } from "../../../Back-end/supabaseClient";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);

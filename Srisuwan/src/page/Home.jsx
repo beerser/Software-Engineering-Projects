@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from "react-router-dom"; 
-import { AuthProvider, useAuth } from "./components/AuthContext"; // Import useAuth from AuthContext
-import Navbar from "./components/Navbar";
-import Bannerbg from "./components/Bannerbg";
-import Cards from "./components/Cards";
+import { AuthProvider, useAuth } from "../components/AuthContext";
+import Navbar from "../components/Navbar";
+import Bannerbg from "../components/Bannerbg";
+import Cards from "../components/Cards";
 import Room from "./Room";
 import Payment from "./Payment";
-import Login from "./login";
-import Editadmin from "./editadmin";
+import Admin from "./Admin";
 
 
-function App() {
+function Home() {
   const [selectedItem, setSelectedItem] = useState(null);
-  
-
   const [rooms, setRooms] = useState([
     {
       id: 1,
@@ -45,7 +42,7 @@ function App() {
         
           <Route
             path="/"
-            element={<ProtectedRoute><Home rooms={rooms} handlePaymentClick={handlePaymentClick} /></ProtectedRoute>}
+            element={<ProtectedRoute><HomePage rooms={rooms} handlePaymentClick={handlePaymentClick} /></ProtectedRoute>}
           />
           <Route
             path="/room"
@@ -55,13 +52,10 @@ function App() {
             path="/payment"
             element={<Payment />}
           />
+        
           <Route
-            path="/login"
-            element={<Login />}
-          />
-          <Route
-            path="/editroom"
-            element={<ProtectedRoute><Editadmin rooms={rooms} setRooms={setRooms} /></ProtectedRoute>}
+            path="/admin"
+            element={<ProtectedRoute><Admin rooms={rooms} setRooms={setRooms} /></ProtectedRoute>}
           />
         </Routes>
       </Router>
@@ -83,7 +77,8 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-const Home = ({ rooms, handlePaymentClick }) => {
+
+const HomePage = ({ rooms, handlePaymentClick }) => {
   return (
     <>
       <h1><Bannerbg /></h1>
@@ -95,4 +90,5 @@ const Home = ({ rooms, handlePaymentClick }) => {
   );
 };
 
-export default App;
+
+export default Home;

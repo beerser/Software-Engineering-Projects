@@ -1,7 +1,7 @@
 import React from 'react';
-import "./Payment.css";
+
 import { useLocation, useNavigate } from 'react-router-dom';
-import QR from './components/QR';
+import QR from '../components/QR';
 
 const Payment = () => {
   const { state } = useLocation();

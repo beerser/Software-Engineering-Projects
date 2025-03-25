@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./login.css";
-import google from "./assets/google.svg";
+
+import google from "../assets/google.svg";
 import { supabase } from "../../Back-end/supabaseClient";
 import { useAuth } from "./components/AuthContext";
 
