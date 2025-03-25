@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-
 import bedlogo from "../assets/bed.svg";
 import fanlogo from "../assets/fan.svg";
 import bathroomlogo from "../assets/bathroom.svg";
 import { useNavigate, useLocation } from "react-router-dom";
+import "../css/Room.css";
+
 
 const Room = () => {
   const [isBooked, setIsBooked] = useState(false);

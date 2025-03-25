@@ -1,5 +1,5 @@
 import React from 'react';
-
+import "../css/Payment.css";
 import { useLocation, useNavigate } from 'react-router-dom';
 import QR from '../components/QR';
 
