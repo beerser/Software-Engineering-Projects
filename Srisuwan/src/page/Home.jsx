@@ -9,6 +9,7 @@ import Payment from "./Payment";
 import Admin from "./Admin";
 import "../css/Home.css";
 import Cardtext from "../components/Cardtext";
+import Cardsexample from "../components/Cardsexample";
 
 
 function Home() {
@@ -92,6 +93,9 @@ const HomePage = ({ rooms, handlePaymentClick }) => {
         Hightlights of this apartment
       </h1>
       <Cardtext></Cardtext>
+      <h1 className="texthomecenter">Key Features of the Room</h1>
+      <h2 className="texthomecenter-small">Things avaiilable in the room</h2>
+      <Cardsexample></Cardsexample>
     </>
   );
 };
