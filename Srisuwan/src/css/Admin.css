@@ -65,7 +65,8 @@
   display: flex;
   gap: 20px;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .card {
@@ -73,7 +74,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: left;
+  text-align: right;
   width: 220px;
   display: flex;
   flex-direction: column;

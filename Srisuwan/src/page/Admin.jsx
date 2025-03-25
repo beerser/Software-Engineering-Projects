@@ -89,17 +89,14 @@ const Dashboard = ({ setRooms }) => {
               <div className="card">
                 <h4><strong>Income</strong></h4>
                 <p>2000 Bath</p>
-                <span className="icon">💵</span>
               </div>
               <div className="card">
                 <h4><strong>Current tenants</strong></h4>
                 <p>{pendingChanges.filter(room => room.status === "booked").length} Rooms</p>
-                <span className="icon">🚪</span>
               </div>
               <div className="card">
                 <h4><strong>Remaining number of rooms</strong></h4>
                 <p>{pendingChanges.filter(room => room.status === "available").length} Rooms</p>
-                <span className="icon">🚪</span>
               </div>
             </div>
 
