@@ -7,6 +7,8 @@ import Cards from "../components/Cards";
 import Room from "./Room";
 import Payment from "./Payment";
 import Admin from "./Admin";
+import "../css/Home.css";
+import Cardtext from "../components/Cardtext";
 
 
 function Home() {
@@ -82,10 +84,14 @@ const HomePage = ({ rooms, handlePaymentClick }) => {
   return (
     <>
       <h1><Bannerbg /></h1>
-      <h1 style={{ height: "30px", fontSize: "35px", fontFamily: "Segoe UI", marginTop: "25px", marginLeft: "25px", marginBottom: "5px" }}>
+      <h1 className="texthome">
         Available rooms
       </h1>
       <Cards obj={rooms} onPaymentClick={handlePaymentClick} />
+      <h1 className="texthome">
+        Hightlights of this apartment
+      </h1>
+      <Cardtext></Cardtext>
     </>
   );
 };
