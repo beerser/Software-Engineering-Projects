@@ -31,3 +31,27 @@
   align-items: center; 
   text-align: center; 
 }
+
+@media screen and (max-width: 1200px) {
+  .texthome, .texthomecenter, .texthomecenter-small {
+    font-size: 30px;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .texthome, .texthomecenter, .texthomecenter-small {
+    font-size: 24px;
+    margin-left: 15px;
+    margin-top: 15px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .texthome, .texthomecenter, .texthomecenter-small {
+    font-size: 18px;
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+}
