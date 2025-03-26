@@ -1,0 +1,33 @@
+.texthome{
+  height: 30px;
+  font-size: 35px;
+  font-family:'Segoe UI' ;
+  margin-top:25px ;
+  margin-left: 25px;
+  margin-bottom: 5px;
+}
+.texthomecenter{
+  height: 30px;
+  font-size: 35px;
+  font-family:'Segoe UI' ;
+  margin-top:25px ;
+  margin-left: 25px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  text-align: center; 
+}
+.texthomecenter-small{
+  height: 30px;
+  font-size: 35px;
+  font-family:'Segoe UI' ;
+  margin-top:10px;
+  margin-left: 25px;
+  margin-bottom: 5px;
+  font-weight: 400;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  text-align: center; 
+}

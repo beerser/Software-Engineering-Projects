@@ -1,0 +1,102 @@
+
+  .container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .k {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .input-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .input-group-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+  }
+  
+  input[readonly] {
+    background: #e5e7eb;
+    cursor: not-allowed;
+  }
+  
+  button {
+    width: 100%;
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+
+  .Roomtext {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .Roomtext label {
+    flex-shrink: 0;
+    font-weight: bold;
+  }
+  
+  .Roomtext input {
+    margin-top: 10px;
+    width: 150px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .water label{
+    flex-shrink: 0;
+    font-weight: bold;
+  }
+  .water {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .water input{
+    width: 150px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-right: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
