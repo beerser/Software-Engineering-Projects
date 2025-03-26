@@ -11,6 +11,9 @@ import "./editadmin.css";
 import { supabase } from "../../Back-end/supabaseClient";
 =======
 import { supabase } from "../../../Back-end/supabaseClient";
+<<<<<<< HEAD:Srisuwan/src/editadmin.jsx
+>>>>>>> parent of d541c0c (Merge branch 'fixable' of https://github.com/beerser/Software-Engineering-Projects into fixable):Srisuwan/src/page/Admin.jsx
+=======
 >>>>>>> parent of d541c0c (Merge branch 'fixable' of https://github.com/beerser/Software-Engineering-Projects into fixable):Srisuwan/src/page/Admin.jsx
 
 const Dashboard = ({ setRooms }) => {
