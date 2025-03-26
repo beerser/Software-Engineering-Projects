@@ -75,7 +75,7 @@ const Register = () => {
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>
-
+        <div className="pasform"> 
         <div>
           <label htmlFor="password">Password</label>
           <input
@@ -99,7 +99,9 @@ const Register = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
-
+        </div>
+        <div className="checkin"><input type="checkbox" name="" id="" /><span>Accept <span className="bluelike">Terms and Condition</span> and <span className="bluelike">Privacy</span></span></div>
+        
         <button className="register-form__submit" type="submit">
           Sign Up
         </button>

@@ -5,65 +5,96 @@
     margin: 50px auto;
     background-color: white;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
   
   .register-form__title {
     font-size: 24px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 20px; /* เพิ่มระยะห่างด้านล่าง */
+    margin-bottom: 20px; 
   }
   
   .register-form__flex {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* เพิ่มช่องว่างระหว่าง input */
+    flex-wrap: nowrap;  
+    gap: 20px;
     margin-bottom: 20px;
   }
+  
   
   .register-form__input {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 10px;
     font-size: 16px;
   }
   
   .register-form__input:focus {
     outline: none;
-    border-color: #4CAF50;
+    border-color:  #008DFF;
   }
   
   .register-form__input::placeholder {
     color: #aaa;
   }
   
+  .pasform{
+    display: flex;
+    flex-wrap: nowrap;  
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
   /* Label ข้างบน input */
   label {
     font-size: 14px;
     font-weight: bold;
     margin-bottom: 5px;
     display: block;
+    color: #BCBCBC;
   }
+  
   
   .register-form__submit {
     width: 100%;
     padding: 12px;
-    background-color: #4CAF50;
+    background-color: #008DFF;
     border: none;
     color: white;
     font-size: 16px;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
   
-  .register-form__submit:hover {
-    background-color: #45a049;
+  .bluelike{
+    color: #008DFF;
   }
+  
+  .register-form__submit:hover {
+    background-color:  #008cffb7;
+  }
+
+  .checkin p{
+    margin-top: 5px; 
+  }
+  .checkin{
+    margin-top: 20px;
+    align-self: center;
+    display: flex;
+    flex-wrap: nowrap;  
+  }
+  input[type="checkbox"] {
+    width: 15px;
+    align-self: center;
+    height: 15px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  
   
   .register-form__signin {
     text-align: center;
@@ -71,7 +102,7 @@
   }
   
   .register-form__signin a {
-    color: #4CAF50;
+    color: #008DFF;
     text-decoration: none;
   }
   

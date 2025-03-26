@@ -13,12 +13,12 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    // ใส่การตรวจสอบเบื้องต้นที่นี่ เช่น ตรวจสอบอีเมลและรหัสผ่าน
+   
     if (email === "admin@example.com" && password === "admin123") {
-      // ตัวอย่างเมื่อเข้าใช้งานเป็น Admin
+      
       navigate("/admin");
     } else if (email === "user@example.com" && password === "user123") {
-      // ตัวอย่างเมื่อเข้าใช้งานเป็น User
+      
       navigate("/");
     } else {
       alert("Invalid email or password!");
