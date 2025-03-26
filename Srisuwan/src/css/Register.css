@@ -110,4 +110,104 @@
   .register-form__signin a:hover {
     text-decoration: underline;
   }
+  @media screen and (max-width: 1200px) {
+    .register-form {
+      padding: 25px;
+    }
   
+    .register-form__title {
+      font-size: 22px; /* Reduce font size for title */
+    }
+  
+    .register-form__flex {
+      flex-direction: column; /* Stack form elements vertically */
+      gap: 15px;
+    }
+  
+    .register-form__input {
+      font-size: 14px; /* Reduce input font size */
+    }
+  
+    .register-form__submit {
+      font-size: 14px; /* Reduce button font size */
+      padding: 10px; /* Reduce button padding */
+    }
+  
+    .checkin {
+      flex-direction: column;
+    }
+  }
+  
+  /* For screens smaller than 768px (Mobile or small tablets) */
+  @media screen and (max-width: 768px) {
+    .register-form {
+      padding: 20px;
+    }
+  
+    .register-form__title {
+      font-size: 20px; /* Further reduce font size for title */
+    }
+  
+    .register-form__flex {
+      flex-direction: column; /* Stack form elements vertically */
+      gap: 10px;
+    }
+  
+    .register-form__input {
+      font-size: 14px; /* Adjust font size for mobile screens */
+      padding: 8px; /* Reduce padding on inputs */
+    }
+  
+    .register-form__submit {
+      font-size: 14px; /* Adjust button font size */
+      padding: 10px; /* Adjust button padding */
+    }
+  
+    .checkin {
+      flex-direction: column; /* Stack the checkbox vertically */
+      align-items: flex-start;
+    }
+  
+    .checkin p {
+      margin-left: 5px; /* Adjust the margin */
+    }
+  }
+  
+  /* For screens smaller than 480px (Mobile screens) */
+  @media screen and (max-width: 480px) {
+    .register-form {
+      padding: 15px; /* Reduce padding */
+    }
+  
+    .register-form__title {
+      font-size: 18px; /* Further reduce title font size */
+    }
+  
+    .register-form__flex {
+      flex-direction: column; /* Stack form elements vertically */
+      gap: 10px;
+    }
+  
+    .register-form__input {
+      font-size: 14px; /* Adjust font size for mobile screens */
+      padding: 8px; /* Adjust padding for inputs */
+    }
+  
+    .register-form__submit {
+      font-size: 14px; /* Adjust button font size */
+      padding: 10px; /* Adjust button padding */
+    }
+  
+    .checkin {
+      flex-direction: column; /* Stack the checkbox vertically */
+      align-items: flex-start;
+    }
+  
+    .checkin p {
+      margin-left: 5px; /* Adjust the margin */
+    }
+  
+    .register-form__signin a {
+      font-size: 14px; /* Reduce font size for the signin link */
+    }
+  }

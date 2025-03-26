@@ -100,3 +100,96 @@
     border: 1px solid #ccc;
     border-radius: 4px;
   }
+
+  @media screen and (max-width: 1200px) {
+    .container {
+      padding: 15px;
+    }
+  
+    .input-group {
+      grid-template-columns: 1fr;
+    }
+  
+    .input-group-3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .Roomtext input, .water input {
+      width: 120px;
+    }
+  
+    button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .k {
+      font-size: 16px;
+    }
+  }
+  
+  /* For screens smaller than 768px (Mobile or small tablet screens) */
+  @media screen and (max-width: 768px) {
+    .container {
+      padding: 10px;
+    }
+  
+    .input-group {
+      grid-template-columns: 1fr;
+    }
+  
+    .input-group-3 {
+      grid-template-columns: 1fr;
+    }
+  
+    .Roomtext input, .water input {
+      width: 100%;
+      padding: 6px;
+    }
+  
+    button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .k {
+      font-size: 14px;
+    }
+  
+    .Roomtext label, .water label {
+      font-size: 14px;
+    }
+  }
+  
+  /* For screens smaller than 480px (Mobile screens) */
+  @media screen and (max-width: 480px) {
+    .container {
+      padding: 10px;
+    }
+  
+    .input-group {
+      grid-template-columns: 1fr;
+    }
+  
+    .input-group-3 {
+      grid-template-columns: 1fr;
+    }
+  
+    .Roomtext input, .water input {
+      width: 100%;
+      padding: 6px;
+    }
+  
+    button {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .k {
+      font-size: 14px;
+    }
+  
+    .Roomtext label, .water label {
+      font-size: 13px;
+    }
+  }

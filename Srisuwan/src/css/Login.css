@@ -135,3 +135,125 @@
   color: #007bff;
   text-decoration: none;
 }
+
+@media screen and (max-width: 1200px) {
+  .login-container {
+    flex-direction: column; /* Stack the sections on top of each other */
+    height: auto; /* Allow height to adjust based on content */
+  }
+
+  .welcome-section {
+    padding: 30px; /* Reduce padding */
+    flex: 30;
+  }
+
+  .form-section {
+    margin-right: 0; /* Remove right margin */
+    padding: 30px; /* Reduce padding */
+    margin-top: 20px; /* Add top margin */
+    flex: 40;
+  }
+
+  .welcome-section h2 {
+    font-size: 28px; /* Reduce font size */
+  }
+
+  .welcome-section p {
+    font-size: 18px; /* Reduce font size */
+  }
+
+  .form-section h3 {
+    font-size: 28px; /* Reduce font size */
+  }
+
+  .form-section h6 {
+    font-size: 14px; /* Reduce font size */
+  }
+
+  .btn-signin {
+    font-size: 16px; /* Reduce button font size */
+  }
+
+  .btn-google {
+    font-size: 14px; /* Reduce button font size */
+  }
+}
+
+/* For screens smaller than 768px (Mobile or small tablets) */
+@media screen and (max-width: 768px) {
+  .login-container {
+    flex-direction: column; /* Stack the sections vertically */
+    height: auto; /* Adjust height */
+  }
+
+  .welcome-section {
+    padding: 20px; /* Reduce padding */
+    flex: 40;
+  }
+
+  .form-section {
+    margin-right: 0; /* Remove right margin */
+    padding: 25px; /* Reduce padding */
+    margin-top: 10px; /* Add top margin */
+    flex: 50;
+  }
+
+  .form-section h3 {
+    font-size: 24px; /* Reduce font size */
+  }
+
+  .welcome-section h2 {
+    font-size: 24px; /* Reduce font size */
+  }
+
+  .form-section h6 {
+    font-size: 14px; /* Adjust font size */
+  }
+
+  .btn-signin {
+    font-size: 14px; /* Adjust button font size */
+  }
+
+  .btn-google {
+    font-size: 14px; /* Adjust button font size */
+  }
+}
+
+/* For screens smaller than 480px (Mobile screens) */
+@media screen and (max-width: 480px) {
+  .login-container {
+    flex-direction: column; /* Stack sections vertically */
+    height: auto; /* Adjust height */
+  }
+
+  .welcome-section {
+    padding: 15px; /* Reduce padding */
+    flex: 50;
+  }
+
+  .form-section {
+    padding: 20px; /* Reduce padding */
+    margin-top: 10px;
+    flex: 60;
+  }
+
+  .form-section h3 {
+    font-size: 20px; /* Reduce font size */
+  }
+
+  .welcome-section h2 {
+    font-size: 20px; /* Reduce font size */
+  }
+
+  .form-section h6 {
+    font-size: 12px; /* Further reduce font size */
+  }
+
+  .btn-signin {
+    font-size: 14px; /* Adjust button font size */
+  }
+
+  .btn-google {
+    font-size: 14px; /* Adjust button font size */
+  }
+}
