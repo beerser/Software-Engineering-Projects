@@ -7,7 +7,6 @@ import RoomChart from "./components/RoomChart";
 import RoomCalendar from "./components/RoomCalendar";
 import Papa from "papaparse";
 import "./editadmin.css";
-import { supabase } from "../../Back-end/supabaseClient";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
@@ -18,28 +17,38 @@ const Dashboard = ({ setRooms }) => {
 
   useEffect(() => {
     const fetchRooms = async () => {
-      const { data, error } = await supabase.from("rooms").select("*");
-      if (error) {
-        console.error("Error fetching rooms:", error);
-      } else {
-        setLocalRooms(data);
-        setPendingChanges(data); // ✅ ใช้ค่าต้นฉบับเก็บไว้ใน pendingChanges
-        setRooms(data);
-      }
+      const token = localStorage.getItem("token");
+  
+      const response = await fetch("http://localhost:5001/api/admin/rooms", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const data = await response.json();
+      setLocalRooms(data);
+      setPendingChanges(data);
+      setRooms(data);
     };
+  
     fetchRooms();
   }, [setRooms]);
 
   const handleConfirm = async () => {
-    for (const room of pendingChanges) {
-      if (room.id) {
-        await supabase.from("rooms").update(room).eq("id", room.id);
-      } else {
-        await supabase.from("rooms").insert([room]);
-      }
-    }
-    alert("ข้อมูลถูกบันทึกลง Supabase แล้ว!");
-    setLocalRooms([...pendingChanges]); // ✅ อัปเดต state ให้ตรงกับข้อมูลล่าสุด
+    const token = localStorage.getItem("token");
+  
+    const response = await fetch("http://localhost:5001/api/admin/update-rooms", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(pendingChanges),
+    });
+  
+    const data = await response.json();
+    alert(data.message || "Saved!");
+    setLocalRooms([...pendingChanges]);
   };
 
   const exportCSV = () => {

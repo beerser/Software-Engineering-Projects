@@ -2,41 +2,51 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import google from "./assets/google.svg";
-import { supabase } from "../../Back-end/supabaseClient";
 import { useAuth } from "./components/AuthContext";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setUser } = useAuth(); 
+  const { setUser } = useAuth(); // ✅ ย้ายมาไว้ใน component
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+  
     try {
-      const { data: userData, error } = await supabase
-        .from("users")
-        .select("role")
-        .eq("email", email)
-        .eq("password", password)
-        .maybeSingle(); 
+      const response = await fetch("http://localhost:5001/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      if (error || !userData) {
-        alert("Invalid email or password!");
-      } else {
-        console.log("User Role:", userData.role);
-        setUser({ email, role: userData.role });
-        localStorage.setItem("user", JSON.stringify({ email, role: userData.role }));
-        console.log("Stored User:", JSON.parse(localStorage.getItem("user")));
-        if (userData.role === "admin") {
-          navigate("/editroom");
-        } else {
-          navigate("/");
-        }
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error || "Invalid email or password!");
+        setLoading(false);
+        return;
       }
+
+      // ✅ decode token
+      const decoded = jwtDecode(data.token);
+      const role = decoded.role;
+
+      localStorage.setItem("token", data.token);
+      setUser({ email, role });
+      localStorage.setItem("user", JSON.stringify({ email, role }));
+
+      if (role === "admin") {
+        navigate("/editroom");
+      } else {
+        navigate("/");
+      }
+
     } catch (err) {
       console.error("Login error:", err);
       alert("Something went wrong!");

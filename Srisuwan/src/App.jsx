@@ -9,7 +9,6 @@ import Payment from "./Payment";
 import Login from "./login";
 import Editadmin from "./editadmin";
 
-
 function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   
