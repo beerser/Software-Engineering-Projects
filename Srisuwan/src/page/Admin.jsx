@@ -8,6 +8,7 @@ import RoomCalendar from "../components/RoomCalendar";
 import Papa from "papaparse";
 import { supabase } from "../../../Back-end/supabaseClient";
 import "../css/Admin.css";
+import CalculatorFee from "../components/Calcutaorfee";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
@@ -158,6 +159,7 @@ const Dashboard = ({ setRooms }) => {
           <div className="payment-card">
             <h2>Manage payment</h2>
             <button onClick={exportCSV} className="btn btn-secondary">Export CSV</button>
+                  <CalculatorFee></CalculatorFee>
           </div>
         );
       case "manageBooking":
