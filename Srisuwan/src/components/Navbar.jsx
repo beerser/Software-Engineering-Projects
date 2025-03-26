@@ -9,7 +9,8 @@ const Navbar = () => {
     const { user, setUser } = useAuth();
 
     const isLoginPage = location.pathname === "/login";
-    const isAdminPage = location.pathname === "/editroom";
+    const isRegisterPage = location.pathname === "/register";  // เพิ่มเงื่อนไขตรวจสอบหน้า register
+    const isAdminPage = location.pathname === "/admin";
 
     const handleLogout = () => {
         setUser(null);
@@ -18,8 +19,12 @@ const Navbar = () => {
     };
 
     const handleEditRoom = () => {
-        navigate("/editroom");
+        navigate("/admin");
     };
+
+    if (isRegisterPage) {
+        return null;  
+    }
 
     return (
         <>

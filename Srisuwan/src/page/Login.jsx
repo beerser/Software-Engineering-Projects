@@ -1,50 +1,32 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import google from "../assets/google.svg";
-import { supabase } from "../../Back-end/supabaseClient";
-import { useAuth } from "./components/AuthContext";
-
+import "../css/Login.css";
+import { Link } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setUser } = useAuth(); 
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    
-    try {
-      const { data: userData, error } = await supabase
-        .from("users")
-        .select("role")
-        .eq("email", email)
-        .eq("password", password)
-        .maybeSingle(); 
 
-      if (error || !userData) {
-        alert("Invalid email or password!");
-      } else {
-        console.log("User Role:", userData.role);
-        setUser({ email, role: userData.role });
-        localStorage.setItem("user", JSON.stringify({ email, role: userData.role }));
-        console.log("Stored User:", JSON.parse(localStorage.getItem("user")));
-        if (userData.role === "admin") {
-          navigate("/editroom");
-        } else {
-          navigate("/");
-        }
-      }
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("Something went wrong!");
+    // ใส่การตรวจสอบเบื้องต้นที่นี่ เช่น ตรวจสอบอีเมลและรหัสผ่าน
+    if (email === "admin@example.com" && password === "admin123") {
+      // ตัวอย่างเมื่อเข้าใช้งานเป็น Admin
+      navigate("/admin");
+    } else if (email === "user@example.com" && password === "user123") {
+      // ตัวอย่างเมื่อเข้าใช้งานเป็น User
+      navigate("/");
+    } else {
+      alert("Invalid email or password!");
     }
 
     setLoading(false);
   };
-  
+
   return (
     <div className="login-container">
       <section className="welcome-section">
@@ -70,7 +52,7 @@ const Login = () => {
 
           <div className="form-group">
             <input
-              type=""
+              type="password"
               placeholder="Password"
               className="form-control"
               value={password}
@@ -100,7 +82,7 @@ const Login = () => {
           </button>
 
           <p className="signup-link">
-            Don’t have an account? <a href="#!">Sign Up</a>
+            Don’t have an account? <Link to="/register">Sign Up</Link>
           </p>
         </form>
       </section>

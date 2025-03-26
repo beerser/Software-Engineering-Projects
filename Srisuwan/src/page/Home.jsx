@@ -10,6 +10,8 @@ import Admin from "./Admin";
 import "../css/Home.css";
 import Cardtext from "../components/Cardtext";
 import Cardsexample from "../components/Cardsexample";
+import Login from "./Login";
+import Register from "./Register";
 
 
 function Home() {
@@ -80,7 +82,8 @@ function Home() {
             path="/payment"
             element={<Payment />}
           />
-        
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register/>} />
           <Route
             path="/admin"
             element={<ProtectedRoute><Admin rooms={rooms} setRooms={setRooms} /></ProtectedRoute>}
