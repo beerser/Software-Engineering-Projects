@@ -6,8 +6,12 @@ import { saveAs } from "file-saver";
 import RoomChart from "./components/RoomChart";
 import RoomCalendar from "./components/RoomCalendar";
 import Papa from "papaparse";
+<<<<<<< HEAD:Srisuwan/src/editadmin.jsx
 import "./editadmin.css";
 import { supabase } from "../../Back-end/supabaseClient";
+=======
+import { supabase } from "../../../Back-end/supabaseClient";
+>>>>>>> parent of d541c0c (Merge branch 'fixable' of https://github.com/beerser/Software-Engineering-Projects into fixable):Srisuwan/src/page/Admin.jsx
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
