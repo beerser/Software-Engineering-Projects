@@ -43,11 +43,5 @@ app.post('/generateQR', (req, res) => {
     });
   });
 });
-app.get('/hellow-world',(req,res)=>{
-  res.send('hello world')
-})
-app.listen(port ,()=>{
-  console.log('Server running at http://localhost:${port}/')
-})
 
 module.exports = app;
