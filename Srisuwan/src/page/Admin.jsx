@@ -10,7 +10,7 @@ import { supabase } from "../../../Back-end/supabaseClient";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
-  const [pendingChanges, setPendingChanges] = useState([]); // ✅ แยกเก็บค่าที่แก้ไข
+  const [pendingChanges, setPendingChanges] = useState([]); 
   const [activePage, setActivePage] = useState("dashboard");
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -22,7 +22,7 @@ const Dashboard = ({ setRooms }) => {
         console.error("Error fetching rooms:", error);
       } else {
         setLocalRooms(data);
-        setPendingChanges(data); // ✅ ใช้ค่าต้นฉบับเก็บไว้ใน pendingChanges
+        setPendingChanges(data);
         setRooms(data);
       }
     };
@@ -38,7 +38,7 @@ const Dashboard = ({ setRooms }) => {
       }
     }
     alert("ข้อมูลถูกบันทึกลง Supabase แล้ว!");
-    setLocalRooms([...pendingChanges]); // ✅ อัปเดต state ให้ตรงกับข้อมูลล่าสุด
+    setLocalRooms([...pendingChanges]); 
   };
 
   const exportCSV = () => {
@@ -47,7 +47,7 @@ const Dashboard = ({ setRooms }) => {
     saveAs(blob, "rooms.csv");
   };
 
-  // ✅ เพิ่มห้อง (ยังไม่ส่งไป Supabase จนกว่าจะกด Confirm)
+
   const addRoom = () => {
     const newId = pendingChanges.length ? Math.max(...pendingChanges.map(room => room.id || 0)) + 1 : 1;
     const newRoom = {
@@ -62,7 +62,7 @@ const Dashboard = ({ setRooms }) => {
     setPendingChanges([...pendingChanges, newRoom]);
   };
 
-  // ✅ แก้ไขข้อมูลห้องใน `pendingChanges` เท่านั้น
+ 
   const updateRoom = (id, field, value) => {
     setPendingChanges(
       pendingChanges.map(room => 
@@ -71,7 +71,7 @@ const Dashboard = ({ setRooms }) => {
     );
   };
 
-  // ✅ ลบห้องออกจาก `pendingChanges` (ยังไม่ลบจริงใน Supabase จนกว่าจะกด Confirm)
+  
   const deleteRoom = (id) => {
     setPendingChanges(pendingChanges.filter(room => room.id !== id));
   };

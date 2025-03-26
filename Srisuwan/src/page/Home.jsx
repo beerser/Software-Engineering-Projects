@@ -25,8 +25,33 @@ function Home() {
       id: 2,
       title: "Room 102",
       url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
+      content: "1000 Bath",
+    },{
+      id: 3,
+      title: "Room 103",
+      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
+      content: "700 Bath",
+    },{
+      id: 4,
+      title: "Room 104",
+      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
       content: "500 Bath",
-    },
+    },{
+      id: 5,
+      title: "Room 105",
+      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
+      content: "400 Bath",
+    },{
+      id: 6,
+      title: "Room 106",
+      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
+      content: "400 Bath",
+    },{
+      id: 7,
+      title: "Room 107",
+      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
+      content: "400 Bath",
+    }
   ]);
 
   useEffect(() => {
