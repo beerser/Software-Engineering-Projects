@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext"; 
-import "../css/Navbar.css"; // Import CSS
+import roomImg from "../assets/logo-srisuwan-apartment-black.png";
 
 const Navbar = () => {
     const location = useLocation();
@@ -9,47 +9,81 @@ const Navbar = () => {
     const { user, setUser } = useAuth();
 
     const isLoginPage = location.pathname === "/login";
-    const isRegisterPage = location.pathname === "/register";  // เพิ่มเงื่อนไขตรวจสอบหน้า register
-    const isAdminPage = location.pathname === "/admin";
+    const isAdminPage = location.pathname === "/editroom";
 
     const handleLogout = () => {
-        setUser(null);
-        localStorage.removeItem("user");
-        navigate("/login");
+        setUser(null);  
+        localStorage.removeItem("user");  
+        navigate("/login"); 
     };
 
     const handleEditRoom = () => {
-        navigate("/admin");
+        // เปลี่ยนเส้นทางไปยังหน้า /editroom
+        navigate("/editroom");
     };
-
-    if (isRegisterPage) {
-        return null;  
-    }
 
     return (
         <>
             {!isLoginPage && !isAdminPage && (
-                <nav className="navbar">
-                    <div className="navbar-container">
+                <nav className="navbar bg-body-tertiary">
+                    <div className="container-fluid">
                         <a className="navbar-brand" href="/">
-                            <h4>SRISUWAN APARTMENT</h4>
+                            <h4 style={{ fontFamily: "Segoe UI", marginLeft: "10px" }}>
+                                SRISUWAN APARTMENT
+                            </h4>
                         </a>
 
                         {!user ? (
-                            <Link to="/login" className="signin-link">
+                            <Link
+                                to="/login"
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    color: "black",
+                                    fontFamily: "Segoe UI",
+                                    textDecoration: "none",
+                                    fontWeight: "350",
+                                    fontSize: "20px",
+                                    height: "40px",
+                                    marginRight: "10px",
+                                }}
+                            >
                                 <h6>Sign in</h6>
                             </Link>
                         ) : (
-                            <div className="user-info">
-                                <span className="user-greeting">Hello, {user.email}</span>
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <span style={{ marginRight: "10px", fontSize: "18px" }}>
+                                    Hello, {user.email}
+                                </span>
                                 
+                                {/* ถ้าเป็น admin ให้แสดงปุ่ม Edit Room */}
                                 {user.role === "admin" && (
-                                    <button className="btn-edit" onClick={handleEditRoom}>
+                                    <button
+                                        onClick={handleEditRoom}
+                                        style={{
+                                            backgroundColor: "#f8f9fa",
+                                            border: "1px solid #ccc",
+                                            padding: "5px 10px",
+                                            cursor: "pointer",
+                                            fontSize: "16px",
+                                            marginRight: "10px",
+                                        }}
+                                    >
                                         Edit Room
                                     </button>
                                 )}
 
-                                <button className="btn-signout" onClick={handleLogout}>
+                                {/* ปุ่ม Sign Out จะอยู่สำหรับทั้งผู้ใช้ทุกคนที่ล็อกอิน */}
+                                <button
+                                    onClick={handleLogout}
+                                    style={{
+                                        backgroundColor: "#f8f9fa",
+                                        border: "1px solid #ccc",
+                                        padding: "5px 10px",
+                                        cursor: "pointer",
+                                        fontSize: "16px",
+                                    }}
+                                >
                                     Sign out
                                 </button>
                             </div>
