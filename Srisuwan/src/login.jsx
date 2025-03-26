@@ -1,60 +1,32 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./login.css";
-import google from "./assets/google.svg";
-import { useAuth } from "./components/AuthContext";
-import { jwtDecode } from "jwt-decode";
-
+import google from "../assets/google.svg";
+import "../css/Login.css";
+import { Link } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setUser } = useAuth(); // ✅ ย้ายมาไว้ใน component
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-  
-    try {
-      const response = await fetch("http://localhost:5001/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        alert(data.error || "Invalid email or password!");
-        setLoading(false);
-        return;
-      }
-
-      // ✅ decode token
-      const decoded = jwtDecode(data.token);
-      const role = decoded.role;
-
-      localStorage.setItem("token", data.token);
-      setUser({ email, role });
-      localStorage.setItem("user", JSON.stringify({ email, role }));
-
-      if (role === "admin") {
-        navigate("/editroom");
-      } else {
-        navigate("/");
-      }
-
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("Something went wrong!");
+   
+    if (email === "admin@example.com" && password === "admin123") {
+      
+      navigate("/admin");
+    } else if (email === "user@example.com" && password === "user123") {
+      
+      navigate("/");
+    } else {
+      alert("Invalid email or password!");
     }
 
     setLoading(false);
   };
-  
+
   return (
     <div className="login-container">
       <section className="welcome-section">
@@ -80,7 +52,7 @@ const Login = () => {
 
           <div className="form-group">
             <input
-              type=""
+              type="password"
               placeholder="Password"
               className="form-control"
               value={password}
@@ -110,7 +82,7 @@ const Login = () => {
           </button>
 
           <p className="signup-link">
-            Don’t have an account? <a href="#!">Sign Up</a>
+            Don’t have an account? <Link to="/register">Sign Up</Link>
           </p>
         </form>
       </section>

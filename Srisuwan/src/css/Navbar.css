@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Thonburi&display=swap');
+
+* {
+    font-family: "Thonburi", sans-serif;
+}
+
+.navbar {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.navbar-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand h4 {
+    margin-left: 10px;
+    color: black;
+}
+
+.signin-link {
+    display: flex;
+    align-items: center;
+    color: black;
+    text-decoration: none;
+    font-weight: 350;
+    font-size: 20px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-greeting {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.btn-edit,
+.btn-signout {
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.btn-signout {
+    margin-right: 0;
+}
+
+.btn-edit:hover,
+.btn-signout:hover {
+    background-color: #e0e0e0;
+}
+
+
+@media screen and (max-width: 1200px) {
+    .navbar {
+        padding: 10px 15px;
+    }
+
+    .signin-link {
+        font-size: 18px;
+        margin-right: 5px;
+    }
+
+    .user-greeting {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+
+    .btn-edit,
+    .btn-signout {
+        font-size: 14px;
+        padding: 5px 8px;
+    }
+}
+
+/* For screens smaller than 768px (Mobile or small tablet screens) */
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 8px 10px;
+    }
+
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .signin-link {
+        font-size: 16px;
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+
+    .user-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user-greeting {
+        font-size: 14px;
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+
+    .btn-edit,
+    .btn-signout {
+        font-size: 14px;
+        padding: 5px 8px;
+    }
+}
+
+/* For screens smaller than 480px (Mobile screens) */
+@media screen and (max-width: 480px) {
+    .navbar {
+        padding: 5px 10px;
+    }
+
+    .navbar-brand h4 {
+        font-size: 18px;
+    }
+
+    .signin-link {
+        font-size: 14px;
+        margin-right: 0;
+    }
+
+    .user-greeting {
+        font-size: 12px;
+    }
+
+    .btn-edit,
+    .btn-signout {
+        font-size: 12px;
+        padding: 4px 6px;
+    }
+}   

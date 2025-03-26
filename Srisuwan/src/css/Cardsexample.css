@@ -1,0 +1,110 @@
+.cardx-container {
+    display: flex;
+    flex-direction: row; 
+    gap: 70px; 
+    justify-content: center;
+    margin-top: 25px;
+  }
+  
+  .cardx {
+    width: 250px;
+    min-height: 320px; 
+    background: white;
+    border-radius: 20px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    transition: 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .img {
+    width: 100%;
+    height: 120px; 
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background: linear-gradient(#e66465, #9198e5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .text {
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+  }
+  
+  .p {
+    font-size: 13px;
+    color: #666;
+  }
+  @media screen and (max-width: 1200px) {
+    .cardx-container {
+      gap: 40px; /* Reduce gap between cards */
+      flex-direction: row;
+      justify-content: center;
+    }
+  
+    .cardx {
+      width: 220px; /* Slightly smaller width */
+      min-height: 280px; /* Reduce card height */
+    }
+  
+    .h3 {
+      font-size: 14px; /* Smaller heading */
+    }
+  
+    .p {
+      font-size: 12px; /* Smaller paragraph text */
+    }
+  }
+  
+  /* For screens smaller than 768px (Mobile or small tablets) */
+  @media screen and (max-width: 768px) {
+    .cardx-container {
+      gap: 30px;
+      flex-direction: column; /* Stack cards vertically */
+      align-items: center;
+    }
+  
+    .cardx {
+      width: 80%; /* Cards take up most of the screen width */
+      min-height: 250px; /* Reduce height for smaller screens */
+    }
+  
+    .h3 {
+      font-size: 14px; /* Adjust font size */
+    }
+  
+    .p {
+      font-size: 12px; /* Adjust font size */
+    }
+  }
+  
+  /* For screens smaller than 480px (Mobile screens) */
+  @media screen and (max-width: 480px) {
+    .cardx-container {
+      gap: 20px; /* Even smaller gap */
+    }
+  
+    .cardx {
+      width: 90%; /* Cards take almost full width */
+      min-height: 220px; /* Even smaller height */
+    }
+  
+    .h3 {
+      font-size: 12px; /* Further reduce font size */
+    }
+  
+    .p {
+      font-size: 10px; /* Further reduce font size */
+    }
+  }
