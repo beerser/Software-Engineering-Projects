@@ -7,6 +7,7 @@ import RoomChart from "../components/RoomChart";
 import RoomCalendar from "../components/RoomCalendar";
 import Papa from "papaparse";
 import { supabase } from "../../../Back-end/supabaseClient";
+import "../css/Admin.css";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
@@ -51,9 +52,9 @@ const Dashboard = ({ setRooms }) => {
   const addRoom = () => {
     const newId = pendingChanges.length ? Math.max(...pendingChanges.map(room => room.id || 0)) + 1 : 1;
     const newRoom = {
-      id: newId, 
+      id: newId,
       room_number: `Room ${newId}`,
-      price: 3000,  
+      price: 3000,
       status: "available",
       description: "New Room",
       image_url: "https://via.placeholder.com/150"
@@ -65,7 +66,7 @@ const Dashboard = ({ setRooms }) => {
  
   const updateRoom = (id, field, value) => {
     setPendingChanges(
-      pendingChanges.map(room => 
+      pendingChanges.map(room =>
         room.id === id ? { ...room, [field]: value } : room
       )
     );
@@ -82,19 +83,42 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div>
             <h2>Dashboard Overview</h2>
+
+            {/* การ์ดแสดงข้อมูลสำคัญ */}
             <div className="dashboard-summary">
-              <h3>Total Rooms: {pendingChanges.length}</h3>
-              <h3>Available Rooms: {pendingChanges.filter(room => room.status === "available").length}</h3>
-              <h3>Booked Rooms: {pendingChanges.filter(room => room.status === "booked").length}</h3>
+              <div className="card">
+                <h4><strong>Income</strong></h4>
+                <p>2000 Bath</p>
+              </div>
+              <div className="card">
+                <h4><strong>Current tenants</strong></h4>
+                <p>{pendingChanges.filter(room => room.status === "booked").length} Rooms</p>
+              </div>
+              <div className="card">
+                <h4><strong>Remaining number of rooms</strong></h4>
+                <p>{pendingChanges.filter(room => room.status === "available").length} Rooms</p>
+              </div>
             </div>
-            <button onClick={addRoom} className="btn btn-success" style={{ margin: "10px" }}>Add Room</button>
-            <RoomChart rooms={pendingChanges} />
-            <RoomCalendar rooms={pendingChanges} />
-            <button onClick={handleConfirm} className="btn btn-primary" style={{ marginTop: "10px" }}>
-              Confirm Changes
+
+            {/* ปุ่มเพิ่มห้อง */}
+            <button onClick={addRoom} className="btn btn-success" style={{ margin: "10px" }}>
+              Add Room
             </button>
+
+            {/* ส่วนของ Room Chart และ Room Calendar */}
+            <div className="room-chart-calendar-container">
+              <div className="room-chart">
+                <RoomChart rooms={pendingChanges} />
+              </div>
+              <div className="room-calendar">
+                <RoomCalendar rooms={pendingChanges} />
+              </div>
+            </div>
           </div>
         );
+
+
+
       case "availableRoom":
         return (
           <div>
@@ -150,7 +174,6 @@ const Dashboard = ({ setRooms }) => {
   return (
     <div className="dashboard-container">
       <aside className="sidebar">
-        <h2>SRISUWAN</h2>
         <ul>
           <li onClick={() => setActivePage("dashboard")} style={{ cursor: "pointer" }}>Dashboard</li>
           <li onClick={() => setActivePage("availableRoom")} style={{ cursor: "pointer" }}>Available Room</li>
@@ -160,9 +183,6 @@ const Dashboard = ({ setRooms }) => {
       </aside>
       <main className="main-content">
         <header className="top-bar">
-          <button onClick={() => navigate("/")} className="btn btn-warning" style={{ marginRight: "10px" }}>
-            Back to Home
-          </button>
           <a href="/login" className="logout">Logout</a>
         </header>
         <section className="content">

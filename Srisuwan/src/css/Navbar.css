@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Thonburi&display=swap');
+
+* {
+    font-family: "Thonburi", sans-serif;
+}
+
+.navbar {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+
+.navbar-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand h4 {
+    margin-left: 10px;
+    color: black;
+}
+
+.signin-link {
+    display: flex;
+    align-items: center;
+    color: black;
+    text-decoration: none;
+    font-weight: 350;
+    font-size: 20px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-greeting {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.btn-edit,
+.btn-signout {
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.btn-signout {
+    margin-right: 0;
+}
+
+.btn-edit:hover,
+.btn-signout:hover {
+    background-color: #e0e0e0;
+}
