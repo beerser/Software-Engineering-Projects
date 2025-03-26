@@ -13,6 +13,7 @@ import Cardsexample from "../components/Cardsexample";
 import Login from "./Login";
 import Register from "./Register";
 import Footer from "../components/footer";
+import Neary from "../components/Neary";
 
 
 function Home() {
@@ -122,6 +123,7 @@ const HomePage = ({ rooms, handlePaymentClick }) => {
         Hightlights of this apartment
       </h1>
       <Cardtext></Cardtext>
+      <Neary/>
       <h1 className="texthomecenter">Key Features of the Room</h1>
       <h2 className="texthomecenter-small">Things avaiilable in the room</h2>
       <Cardsexample></Cardsexample>
