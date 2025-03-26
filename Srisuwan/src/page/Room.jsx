@@ -4,6 +4,7 @@ import fanlogo from "../assets/fan.svg";
 import bathroomlogo from "../assets/bathroom.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../css/Room.css";
+import Footer from "../components/footer";
 
 
 const Room = () => {
@@ -32,6 +33,7 @@ const Room = () => {
 
 
   return (
+    <>
     <div className="room-container">
       <div className="header">
         <button onClick={() => navigate("/")} className="back-button">
@@ -82,7 +84,10 @@ const Room = () => {
       <button className="confirm-button" onClick={handleBookRoom}>
         Book a room
       </button>
+      
     </div>
+    <Footer/>
+    </>
   );
 };
 

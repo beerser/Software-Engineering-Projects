@@ -2,6 +2,7 @@ import React from 'react';
 import "../css/Payment.css";
 import { useLocation, useNavigate } from 'react-router-dom';
 import QR from '../components/QR';
+import Footer from '../components/footer';
 
 const Payment = () => {
   const { state } = useLocation();
@@ -21,6 +22,7 @@ const Payment = () => {
   }
 
   return (
+    <>
     <div>
       <div className="payment-container">
         <div className="header">
@@ -60,6 +62,8 @@ const Payment = () => {
 
       </div>
     </div>
+    <Footer/>
+    </>
     
   );
 };

@@ -22,12 +22,18 @@
 }
 
 .back-button {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  background-color: #2562dc;
-  border-radius: 0.375rem;
-  transition: background-color 0.2s;
+  width: auto;
+  padding: 8px 16px;
   border: none;
+  border-radius: 8px;
+  background-color: #0084ff;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-left: 20px; 
+  margin-top: 20px;
+  display: block;
 }
 
 .back-button:hover {
@@ -95,32 +101,59 @@
 }
 
 .confirm-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 125px;
-  padding: 0.5rem 1rem;
+  width: auto;
+  padding: 8px 16px; 
   border: none;
-  border-radius: 7px;
+  border-radius: 8px; 
   background-color: #0084ff;
-  color:white;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-left: auto; 
+  margin-right: 20px;
+  display: block; 
 }
 
+
+
+.confirm-button:hover {
+  background-color: #006bb3;
+}
+
+.payment-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: flex-end; /* Ensures footer stays at the bottom if content is not enough */
+}
+
+/* Responsive Media Queries */
 @media screen and (max-width: 768px) {
   .grid {
-      grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
+
   .header {
-      font-size: 20px;
+    font-size: 20px;
+  }
+
+  .confirm-button {
+    font-size: 16px;
   }
 }
 
 @media screen and (max-width: 480px) {
   .grid {
-      grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
+
   .header {
-      font-size: 18px;
-      padding: 15px;
+    font-size: 18px;
+    padding: 15px;
+  }
+
+  .confirm-button {
+    font-size: 14px;
   }
 }
