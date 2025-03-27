@@ -4,6 +4,7 @@ import google from "../assets/google.svg";
 import "../css/Login.css";
 import { Link } from "react-router-dom";
 import axios from 'axios'; // ติดตั้ง axios เพื่อทำ HTTP requests
+import { useAuth } from '../components/AuthContext'; // ใช้ AuthContext เพื่อเข้าถึงฟังก์ชัน login
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(""); // เพื่อแสดง error ถ้ามี
   const navigate = useNavigate();
+  const { login } = useAuth(); // ดึงฟังก์ชัน login จาก AuthContext
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +26,10 @@ const Login = () => {
       // เก็บ JWT token และ role ใน localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", response.data.role);
+
+      // เก็บข้อมูลผู้ใช้ใน AuthContext
+      const userData = { email, role: response.data.role }; // สมมติว่าเราต้องการเก็บแค่ email และ role
+      login(userData); // ส่งข้อมูลผู้ใช้ไปที่ AuthContext
 
       // ตรวจสอบ role และไปที่หน้า admin หรือ home
       if (response.data.role === "admin") {
