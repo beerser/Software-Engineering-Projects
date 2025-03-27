@@ -3,25 +3,38 @@ import { useNavigate } from "react-router-dom";
 import google from "../assets/google.svg";
 import "../css/Login.css";
 import { Link } from "react-router-dom";
+import axios from 'axios'; // ติดตั้ง axios เพื่อทำ HTTP requests
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(""); // เพื่อแสดง error ถ้ามี
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError(""); // ล้าง error เมื่อมีการส่งคำขอใหม่
 
-   
-    if (email === "admin@example.com" && password === "admin123") {
+    try {
+      // ส่งคำขอล็อกอินไปยัง API ของเรา
+      const response = await axios.post("http://localhost:5001/api/login", { email, password });
       
-      navigate("/admin");
-    } else if (email === "user@example.com" && password === "user123") {
-      
-      navigate("/");
-    } else {
-      alert("Invalid email or password!");
+      // เก็บ JWT token และ role ใน localStorage
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", response.data.role);
+
+      // ตรวจสอบ role และไปที่หน้า admin หรือ home
+      if (response.data.role === "admin") {
+        navigate("/admin"); // ไปที่หน้า Admin Dashboard
+      } else {
+        navigate("/"); // ไปที่หน้า Home
+      }
+
+    } catch (err) {
+      // ถ้าเกิด error จาก API จะโชว์ข้อความ
+      setError("Invalid email or password!");
     }
 
     setLoading(false);
@@ -39,6 +52,8 @@ const Login = () => {
         <h3>Sign in</h3>
         <h6>Sign in or create a new account</h6>
         <form onSubmit={handleSubmit}>
+          {error && <p style={{ color: "red" }}>{error}</p>} {/* แสดง error ถ้ามี */}
+
           <div className="form-group">
             <input
               type="email"
