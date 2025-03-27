@@ -35,7 +35,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // สมัครสมาชิก
 app.post('/api/register', async (req, res) => {
-    const { name, lastname, email, password, confirmPassword, role } = req.body; // เพิ่ม role
+    const { firstname, lastname, email, password, confirmPassword, phoneNumber, role } = req.body; // เพิ่ม role
 
     if (password !== confirmPassword) {
       return res.status(400).json({ error: 'Passwords do not match' });
@@ -47,10 +47,11 @@ app.post('/api/register', async (req, res) => {
 
       // เพิ่มการกำหนดค่า role เป็น 'admin' หรือ 'user'
       const newUser = new User({ 
-        name, 
+        firstname, 
         lastname, 
         email, 
         password, 
+        phoneNumber, 
         role: role || 'user' // กำหนดค่า role เป็น 'user' ถ้าไม่ได้ส่งค่า role มา
       });
 
