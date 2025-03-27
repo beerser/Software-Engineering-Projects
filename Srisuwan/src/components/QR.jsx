@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import "./QR.css";
+import "../css/QR.css";
 
 const QR = ({ item }) => {
   const [qrCodeUrl, setQrCodeUrl] = useState('');
@@ -16,7 +16,7 @@ const QR = ({ item }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/generateQR', {
+      const response = await axios.post('http://localhost:5001/generateQR', {
         amount: amount,
         phone: '096-996-2367'
       });

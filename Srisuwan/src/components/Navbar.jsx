@@ -1,98 +1,133 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthContext"; 
-import roomImg from "../assets/logo-srisuwan-apartment-black.png";
+import { useAuth } from "./AuthContext";
+import "../css/Navbar.css";
 
 const Navbar = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const { user, setUser } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
-    const isLoginPage = location.pathname === "/login";
-    const isAdminPage = location.pathname === "/editroom";
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleLogout = () => {
-        setUser(null);  
-        localStorage.removeItem("user");  
-        navigate("/login"); 
-    };
+  const isLoginPage = location.pathname === "/login";
+  const isRegisterPage = location.pathname === "/register";
+  const isAdminPage = location.pathname === "/admin";
 
-    const handleEditRoom = () => {
-        // เปลี่ยนเส้นทางไปยังหน้า /editroom
-        navigate("/editroom");
-    };
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
-    return (
-        <>
-            {!isLoginPage && !isAdminPage && (
-                <nav className="navbar bg-body-tertiary">
-                    <div className="container-fluid">
-                        <a className="navbar-brand" href="/">
-                            <h4 style={{ fontFamily: "Segoe UI", marginLeft: "10px" }}>
-                                SRISUWAN APARTMENT
-                            </h4>
-                        </a>
+  const openModal = () => {
+    console.log('Opening modal'); // Debug log
+    setIsModalOpen(true);
+  };
 
-                        {!user ? (
-                            <Link
-                                to="/login"
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    color: "black",
-                                    fontFamily: "Segoe UI",
-                                    textDecoration: "none",
-                                    fontWeight: "350",
-                                    fontSize: "20px",
-                                    height: "40px",
-                                    marginRight: "10px",
-                                }}
-                            >
-                                <h6>Sign in</h6>
-                            </Link>
-                        ) : (
-                            <div style={{ display: "flex", alignItems: "center" }}>
-                                <span style={{ marginRight: "10px", fontSize: "18px" }}>
-                                    Hello, {user.email}
-                                </span>
-                                
-                                {/* ถ้าเป็น admin ให้แสดงปุ่ม Edit Room */}
-                                {user.role === "admin" && (
-                                    <button
-                                        onClick={handleEditRoom}
-                                        style={{
-                                            backgroundColor: "#f8f9fa",
-                                            border: "1px solid #ccc",
-                                            padding: "5px 10px",
-                                            cursor: "pointer",
-                                            fontSize: "16px",
-                                            marginRight: "10px",
-                                        }}
-                                    >
-                                        Edit Room
-                                    </button>
-                                )}
+  const closeModal = () => {
+    console.log('Closing modal'); // Debug log
+    setIsModalOpen(false);
+  };
 
-                                {/* ปุ่ม Sign Out จะอยู่สำหรับทั้งผู้ใช้ทุกคนที่ล็อกอิน */}
-                                <button
-                                    onClick={handleLogout}
-                                    style={{
-                                        backgroundColor: "#f8f9fa",
-                                        border: "1px solid #ccc",
-                                        padding: "5px 10px",
-                                        cursor: "pointer",
-                                        fontSize: "16px",
-                                    }}
-                                >
-                                    Sign out
-                                </button>
-                            </div>
-                        )}
+  if (isRegisterPage) {
+    return null;
+  }
+
+  return (
+    <>
+      {!isLoginPage && !isAdminPage && (
+        <nav className="navbar">
+          <div className="navbar-container">
+            <a className="navbar-brand" href="/">
+              <h4>SRISUWAN APARTMENT</h4>
+            </a>
+
+            {!user ? (
+              <Link to="/login" className="signin-link">
+                <h6>Sign in</h6>
+              </Link>
+            ) : (
+              <div className="user-info">
+                <span className="user-greeting">Hello, {user.email}</span>
+
+                <button 
+                  className="btn-profile" 
+                  onClick={openModal}
+                >
+                  Profile
+                </button>
+
+                {isModalOpen && (
+                  <div 
+                    id="myModal" 
+                    className="modal" 
+                    style={{ display: 'block', position: 'fixed', zIndex: 1000 }}
+                  >
+                    <div 
+                      className="modal-content" 
+                      style={{ 
+                        backgroundColor: 'white', 
+                        margin: '15% auto', 
+                        padding: '20px', 
+                        borderRadius: '5px',
+                        width: '300px' 
+                      }}
+                    >
+                      <span 
+                        className="close" 
+                        onClick={closeModal} 
+                        style={{ 
+                          color: '#aaa', 
+                          float: 'right', 
+                          fontSize: '28px', 
+                          fontWeight: 'bold',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        &times;
+                      </span>
+                      <div>
+                        <h3>User Profile</h3>
+                        <div className="user-details">
+                          <p>Name: {user.name}</p>
+                          <p>Email: {user.email}</p>
+                        </div>
+                        <div className="sm:flex sm:flex-row-reverse flex gap-4">
+                          <button className="save-button" type="button">
+                            Save changes
+                          </button>
+                          <button 
+                            className="cancel-button" 
+                            type="button" 
+                            onClick={closeModal}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                </nav>
+                  </div>
+                )}
+
+                {user.role === "admin" && (
+                  <button 
+                    className="btn-edit" 
+                    onClick={() => navigate("/admin")}
+                  >
+                    Edit Room
+                  </button>
+                )}
+
+                <button className="btn-signout" onClick={handleLogout}>
+                  Sign out
+                </button>
+              </div>
             )}
-        </>
-    );
+          </div>
+        </nav>
+      )}
+    </>
+  );
 };
 
 export default Navbar;
