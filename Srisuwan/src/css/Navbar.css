@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Thonburi&display=swap');
-
 * {
     font-family: "Thonburi", sans-serif;
 }
 
 .navbar {
     background-color: #f8f9fa;
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -21,7 +19,7 @@
 }
 
 .navbar-brand h4 {
-    margin-left: 10px;
+    margin-left: 1rem;
     color: black;
 }
 
@@ -31,9 +29,9 @@
     color: black;
     text-decoration: none;
     font-weight: 350;
-    font-size: 20px;
-    height: 40px;
-    margin-right: 10px;
+    font-size: 1rem;
+    height: 2.5rem;
+    margin-right: 1rem;
 }
 
 .user-info {
@@ -42,18 +40,19 @@
 }
 
 .user-greeting {
-    margin-right: 10px;
-    font-size: 18px;
+    margin-right: 1rem;
+    font-size: 1.125rem;
 }
 
 .btn-edit,
 .btn-signout {
     background-color: #f8f9fa;
     border: 1px solid #ccc;
-    padding: 5px 10px;
+    padding: 0.5rem 1rem;
     cursor: pointer;
-    font-size: 16px;
-    margin-right: 10px;
+    font-size: 1rem;
+    margin-right: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-signout {
@@ -63,35 +62,77 @@
 .btn-edit:hover,
 .btn-signout:hover {
     background-color: #e0e0e0;
+    transform: scale(1.05);
 }
 
+/* Modal Background */
+.modal {
+    display: block; /* ทำให้ modal แสดง */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 2rem;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    font-size: 1.75rem;
+    font-weight: bold;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 @media screen and (max-width: 1200px) {
     .navbar {
-        padding: 10px 15px;
+        padding: 1rem 1.5rem;
     }
 
     .signin-link {
-        font-size: 18px;
-        margin-right: 5px;
+        font-size: 0.875rem;
+        margin-right: 0.5rem;
     }
 
     .user-greeting {
-        font-size: 16px;
-        margin-right: 5px;
+        font-size: 1rem;
+        margin-right: 0.5rem;
     }
 
     .btn-edit,
     .btn-signout {
-        font-size: 14px;
-        padding: 5px 8px;
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
     }
 }
 
 /* For screens smaller than 768px (Mobile or small tablet screens) */
 @media screen and (max-width: 768px) {
     .navbar {
-        padding: 8px 10px;
+        padding: 0.75rem 1rem;
     }
 
     .navbar-container {
@@ -100,9 +141,9 @@
     }
 
     .signin-link {
-        font-size: 16px;
+        font-size: 0.875rem;
         margin-right: 0;
-        margin-bottom: 5px;
+        margin-bottom: 0.5rem;
     }
 
     .user-info {
@@ -111,40 +152,40 @@
     }
 
     .user-greeting {
-        font-size: 14px;
+        font-size: 0.875rem;
         margin-right: 0;
-        margin-bottom: 5px;
+        margin-bottom: 0.5rem;
     }
 
     .btn-edit,
     .btn-signout {
-        font-size: 14px;
-        padding: 5px 8px;
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
     }
 }
 
 /* For screens smaller than 480px (Mobile screens) */
 @media screen and (max-width: 480px) {
     .navbar {
-        padding: 5px 10px;
+        padding: 0.5rem 1rem;
     }
 
     .navbar-brand h4 {
-        font-size: 18px;
+        font-size: 1.125rem;
     }
 
     .signin-link {
-        font-size: 14px;
+        font-size: 0.875rem;
         margin-right: 0;
     }
 
     .user-greeting {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .btn-edit,
     .btn-signout {
-        font-size: 12px;
-        padding: 4px 6px;
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
     }
-}   
+}
