@@ -1,9 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Thonburi&display=swap');
+
+.card__title, .card__content {
+  font-family: "Thonburi", sans-serif !important;
+}
+
+.card-container {
+  font-family: "Thonburi", sans-serif;
+}
+
 .card-container {
     display: flex;
     flex-direction: row; 
     gap: 1rem; 
     justify-content: space-between; 
     margin-top: 20px;
+    margin-bottom: 80px;
   }
   
   .card {
@@ -11,12 +22,11 @@
     margin-left: 25px;
     margin-right: 25px;
     width: 250px;
-    font-family: "Arial";
     padding: 1rem;
     cursor: pointer;
     border-radius: 0.75rem;
     background: #f1f1f3;
-    box-shadow: 0px 9px 16px 0px rgb(0 0 0 / 3%);
+    box-shadow: 0px 9px 16px 0px rgb(0 0 0 / 10%);
   }
   
   .card__title {

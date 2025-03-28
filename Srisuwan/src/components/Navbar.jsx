@@ -35,7 +35,7 @@ const Navbar = () => {
         <nav className="navbar">
           <div className="navbar-container">
             <a className="navbar-brand" href="/">
-              <h4>SRISUWAN APARTMENT</h4>
+              <h4>SRISUWAN</h4>
             </a>
 
             {!user ? (
