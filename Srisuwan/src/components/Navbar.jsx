@@ -72,7 +72,9 @@ const Navbar = () => {
                         backgroundColor: "white",
                         margin: "15% auto",
                         padding: "20px",
-                        borderRadius: "5px",
+                        borderRadius:"20px",
+                        marginRight:"20px",
+                        marginTop:"7%",
                         width: "300px",
                       }}
                     >
@@ -90,27 +92,17 @@ const Navbar = () => {
                         &times;
                       </span>
                       <div>
-                        <h3>User Profile</h3>
+                        <h3 className="user-detailac">My account</h3>
                         <div className="user-details">
-                          <p>Name: {user.firstname} {user.lastname}</p>
-                          <p>Email: {user.email}</p>
+                         <a href="">All room reservations</a>
+                         <br /> 
+                         <a href="">Personal information</a>
                         </div>
 
-                        <div className="sm:flex sm:flex-row-reverse flex gap-4">
-                          <button className="save-button" type="button">
-                            Save changes
-                          </button>
-                          <button
-                            className="cancel-button"
-                            type="button"
-                            onClick={closeModal}
-                          >
-                            Cancel
-                          </button>
-                        </div>
+                        
 
                         <button className="btn-signout" onClick={handleLogout}>
-                          Sign out
+                          Logout
                         </button>
                       </div>
                     </div>
