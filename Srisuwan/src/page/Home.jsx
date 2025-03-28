@@ -14,6 +14,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Footer from "../components/footer";
 import Neary from "../components/Neary";
+import Roombooking from "./Roombooking";
 
 
 function Home() {
@@ -82,6 +83,9 @@ function Home() {
             path="/admin"
             element={<ProtectedRoute><Admin rooms={rooms} setRooms={setRooms} /></ProtectedRoute>}
           />
+          <Route
+            path="/information"
+            element={<Roombooking/>}/>
         </Routes>
       </Router>
     </AuthProvider>

@@ -28,15 +28,17 @@ const Login = () => {
       localStorage.setItem("role", response.data.role);
       localStorage.setItem("firstname", response.data.firstname);
       localStorage.setItem("lastname", response.data.lastname);
+      localStorage.setItem("phoneNumber", response.data.phoneNumber);
       console.log("First Name:", response.data.firstname);
       console.log("Last Name:", response.data.lastname);
-
+      console.log("phoneNumber:", response.data.phoneNumber);
       // เก็บข้อมูลผู้ใช้ใน AuthContext
       const userData = { 
         email, 
         role: response.data.role, 
         firstname: response.data.firstname,  // ต้องแน่ใจว่า API ส่งข้อมูลนี้มา
-        lastname: response.data.lastname     // ต้องแน่ใจว่า API ส่งข้อมูลนี้มา
+        lastname: response.data.lastname,    // ต้องแน่ใจว่า API ส่งข้อมูลนี้มา
+        phoneNumber: response.data.phoneNumber
       };
       
       console.log("User Data:", userData);  

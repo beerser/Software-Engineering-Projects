@@ -67,8 +67,22 @@ app.post('/api/register', async (req, res) => {
     console.log(`📥 Request: ${req.method} ${req.url}`);
     next();
   });
+  app.get('/api/user', async (req, res) => {
+    try {
+      const user = await User.find();  // ดึงข้อมูลห้องจาก MongoDB
+      if (user.length === 0) {
+        return res.status(404).json({ message: 'No rooms found' });
+      }
+      res.json(user);  
+    } catch (err) {
+      console.error('Error fetching rooms:', err);
+      res.status(500).json({ error: 'Failed to fetch rooms' });
+    }
+  });
+  
   
   app.post('/api/login', async (req, res) => {
+    
     const { email, password } = req.body;
   
     try {
@@ -88,14 +102,16 @@ app.post('/api/register', async (req, res) => {
         role: user.role,
         token: token,
         firstname: user.firstname,  // ตรวจสอบว่าได้ดึงข้อมูลเหล่านี้มาหรือไม่
-        lastname: user.lastname
+        lastname: user.lastname,
+        phoneNumber: user.phoneNumber
       });
       res.json({
         message: 'Login success',
         role: user.role,
         token: token,
         firstname: user.firstname,
-        lastname: user.lastname
+        lastname: user.lastname,
+        phoneNumber: user.phoneNumber
       });
       
   
