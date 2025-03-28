@@ -268,6 +268,17 @@ const Dashboard = ({ setRooms }) => {
             />
             Manage Booking
           </li>
+          <li
+            onClick={() => navigate("/")} 
+            style={{ cursor: "pointer" }}
+          >
+            <img
+              src={Edit}
+              alt="Edit Icon"
+              style={{ width: "20px", marginRight: "10px" }}
+            />
+            Main Menu
+          </li>
         </ul>
       </aside>
       <main className="main-content">
