@@ -1,97 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Thonburi&display=swap');
+
+.card__title,
+.card__content {
+  font-family: "Thonburi", sans-serif !important;
+}
+
 .card-container {
-    display: flex;
-    flex-direction: row; 
-    gap: 1rem; 
-    justify-content: space-between; 
-    margin-top: 20px;
+  font-family: "Thonburi", sans-serif;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 70px;
+}
+
+.card {
+  margin-top: 10px;
+  margin-left: 25px;
+  margin-right: 25px;
+  width: 250px;
+  padding: 1rem;
+  cursor: pointer;
+  border-radius: 0.75rem;
+  background: #f1f1f3;
+  box-shadow: 0px 9px 16px 0px rgb(0 0 0 / 10%);
+}
+
+.card__title {
+  font-size: 20px;
+  color: #333;
+  font-weight: 700;
+}
+
+.card__content {
+  font-size: 14px;
+  color: #666;
+}
+
+@media screen and (max-width: 1200px) {
+  .card-container {
+    gap: 1rem;
+    flex-direction: row;
+    /* Keep row layout */
+    justify-content: center;
   }
-  
+
   .card {
-    margin-top: 10px;
-    margin-left: 25px;
-    margin-right: 25px;
-    width: 250px;
-    font-family: "Arial";
-    padding: 1rem;
-    cursor: pointer;
-    border-radius: 0.75rem;
-    background: #f1f1f3;
-    box-shadow: 0px 9px 16px 0px rgb(0 0 0 / 3%);
+    width: 220px;
+    /* Slightly reduce the width */
   }
-  
+
   .card__title {
-    font-size: 20px;
-    color: #333;
-    font-weight: 700;
+    font-size: 18px;
+    /* Reduce title size */
   }
-  
+
   .card__content {
+    font-size: 13px;
+    /* Reduce content font size */
+  }
+}
+
+/* For screens smaller than 768px (Mobile or small tablet screens) */
+@media screen and (max-width: 768px) {
+  .card-container {
+    gap: 1rem;
+    flex-direction: column;
+    /* Stack cards vertically */
+    align-items: center;
+  }
+
+  .card {
+    width: 80%;
+    /* Make cards take up more space */
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .card__title {
+    font-size: 16px;
+    /* Further reduce title font size */
+  }
+
+  .card__content {
+    font-size: 12px;
+    /* Further reduce content font size */
+  }
+}
+
+/* For screens smaller than 480px (Mobile screens) */
+@media screen and (max-width: 480px) {
+  .card-container {
+    gap: 1rem;
+    flex-direction: column;
+    /* Stack cards vertically */
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+    /* Cards take almost the full width */
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .card__title {
     font-size: 14px;
-    color: #666;
+    /* Even smaller title font size */
   }
-  
-  @media screen and (max-width: 1200px) {
-    .card-container {
-      gap: 1rem;
-      flex-direction: row; /* Keep row layout */
-      justify-content: center;
-    }
-  
-    .card {
-      width: 220px; /* Slightly reduce the width */
-    }
-  
-    .card__title {
-      font-size: 18px; /* Reduce title size */
-    }
-  
-    .card__content {
-      font-size: 13px; /* Reduce content font size */
-    }
+
+  .card__content {
+    font-size: 11px;
+    /* Further reduce content font size */
   }
-  
-  /* For screens smaller than 768px (Mobile or small tablet screens) */
-  @media screen and (max-width: 768px) {
-    .card-container {
-      gap: 1rem;
-      flex-direction: column; /* Stack cards vertically */
-      align-items: center;
-    }
-  
-    .card {
-      width: 80%; /* Make cards take up more space */
-      margin-left: 0;
-      margin-right: 0;
-    }
-  
-    .card__title {
-      font-size: 16px; /* Further reduce title font size */
-    }
-  
-    .card__content {
-      font-size: 12px; /* Further reduce content font size */
-    }
-  }
-  
-  /* For screens smaller than 480px (Mobile screens) */
-  @media screen and (max-width: 480px) {
-    .card-container {
-      gap: 1rem;
-      flex-direction: column; /* Stack cards vertically */
-      align-items: center;
-    }
-  
-    .card {
-      width: 90%; /* Cards take almost the full width */
-      margin-left: 0;
-      margin-right: 0;
-    }
-  
-    .card__title {
-      font-size: 14px; /* Even smaller title font size */
-    }
-  
-    .card__content {
-      font-size: 11px; /* Further reduce content font size */
-    }
-  }
+}

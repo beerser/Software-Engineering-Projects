@@ -7,7 +7,7 @@ const Bannerbg = () => {
       src={bannerImg}  
       className="img-fluid" 
       alt="..." 
-      style={{ width: "100%", borderRadius: "10px" }} 
+      style={{ width: "100%"}} 
     />
     <div 
       style={{ 

@@ -4,11 +4,12 @@
     gap: 70px; 
     justify-content: center;
     margin-top: 25px;
+    margin-bottom: 70px;
   }
   
   .cardx {
     width: 250px;
-    min-height: 320px; 
+    min-height: 150px; 
     background: white;
     border-radius: 20px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
@@ -37,8 +38,8 @@
   }
   
   .h3 {
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 15px !important;
+    font-weight: bold !important;
     color: black;
   }
   
@@ -54,8 +55,8 @@
     }
   
     .cardx {
-      width: 220px; /* Slightly smaller width */
-      min-height: 280px; /* Reduce card height */
+      width: 300px; /* Slightly smaller width */
+      min-height: 200px; /* Reduce card height */
     }
   
     .h3 {

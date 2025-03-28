@@ -102,7 +102,6 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-
 const HomePage = ({ rooms, handlePaymentClick }) => {
   return (
     <>
