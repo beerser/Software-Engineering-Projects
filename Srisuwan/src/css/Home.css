@@ -7,11 +7,11 @@
   font-weight: bold; 
 }
 .texthomecenter{
-  height: 20px;
+  height: auto;
   font-size: 20px !important;  
   margin-top: 25px;
   margin-left: 25px;
-  margin-bottom: 3px; 
+  margin-bottom: 4px; 
   display: flex;
   justify-content: center; 
   align-items: center; 
@@ -19,7 +19,7 @@
   font-weight: bold; 
 }
 .texthomecenter-small{
-  height: 5px;
+  height: auto;
   font-size: 20px !important;  
   margin-top:10px;
   margin-left: 25px;
