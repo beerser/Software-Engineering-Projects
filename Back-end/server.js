@@ -83,8 +83,23 @@ app.post('/api/register', async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
       );
+      console.log("Sending response data: ", {
+        message: 'Login success',
+        role: user.role,
+        token: token,
+        firstname: user.firstname,  // ตรวจสอบว่าได้ดึงข้อมูลเหล่านี้มาหรือไม่
+        lastname: user.lastname
+      });
+      res.json({
+        message: 'Login success',
+        role: user.role,
+        token: token,
+        firstname: user.firstname,
+        lastname: user.lastname
+      });
+      
   
-      res.json({ message: '✅ Login success', token, role: user.role });
+      
     } catch (err) {
       res.status(500).json({ error: 'Something went wrong' });
     }

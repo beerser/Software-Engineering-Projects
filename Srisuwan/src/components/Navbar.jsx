@@ -48,8 +48,8 @@ const Navbar = () => {
               </Link>
             ) : (
               <div className="user-info">
-                <span className="user-greeting">Hello, {user.email}</span>
-
+                <span className="user-greeting">Hello,{user.firstname}</span>
+                
                 <button 
                   className="btn-profile" 
                   onClick={openModal}
@@ -89,8 +89,8 @@ const Navbar = () => {
                       <div>
                         <h3>User Profile</h3>
                         <div className="user-details">
-                          <p>Name: {user.name}</p>
-                          <p>Email: {user.email}</p>
+                        <p>Name: {user.firstname} {user.lastname}</p>
+                        <p>Email: {user.email}</p>
                         </div>
                         <div className="sm:flex sm:flex-row-reverse flex gap-4">
                           <button className="save-button" type="button">
