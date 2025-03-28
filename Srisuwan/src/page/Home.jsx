@@ -117,7 +117,7 @@ const HomePage = ({ rooms, handlePaymentClick }) => {
       <Cardtext></Cardtext>
       <Neary/>
       <h1 className="texthomecenter">Key Features of the Room</h1>
-      <h2 className="texthomecenter-small">Things avaiilable in the room</h2>
+      <h2 className ="texthomecenter-small">Things avaiilable in the room</h2>
       <Cardsexample></Cardsexample>
       <Footer/>
     </>
