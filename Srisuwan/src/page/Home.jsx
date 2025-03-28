@@ -18,45 +18,37 @@ import Neary from "../components/Neary";
 
 function Home() {
   const [selectedItem, setSelectedItem] = useState(null);
-  const [rooms, setRooms] = useState([
-    {
-      id: 1,
-      title: "Room 101",
-      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
-      content: "1200 Bath",
-    },
-    {
-      id: 2,
-      title: "Room 102",
-      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
-      content: "1000 Bath",
-    },{
-      id: 3,
-      title: "Room 103",
-      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
-      content: "700 Bath",
-    },{
-      id: 4,
-      title: "Room 104",
-      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
-      content: "500 Bath",
-    },{
-      id: 5,
-      title: "Room 105",
-      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
-      content: "400 Bath",
-    },{
-      id: 6,
-      title: "Room 106",
-      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
-      content: "400 Bath",
-    },{
-      id: 7,
-      title: "Room 107",
-      url: "https://storage.googleapis.com/zmyhome-bucket/apartment/3799/12-20-2022-04-17-38307981238.jpg",
-      content: "400 Bath",
-    }
-  ]);
+  const [rooms, setRooms] = useState([]);
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        
+        const token = localStorage.getItem('token');  
+        if (!token) {
+          throw new Error('No token found');
+        }
+
+      
+        const response = await fetch('http://localhost:5001/api/rooms', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`, 
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch rooms');
+        }
+
+        const data = await response.json();
+        setRooms(data); 
+      } catch (error) {
+        console.error('Error fetching rooms:', error);
+      }
+    };
+
+    fetchRooms();
+  }, []);  // Run once when component mounts
 
   useEffect(() => {
     localStorage.setItem("rooms", JSON.stringify(rooms));

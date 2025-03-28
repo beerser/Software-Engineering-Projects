@@ -120,15 +120,20 @@ app.post('/api/book-dorm', auth, async (req, res) => {
     res.json({ message: '✅ Booking success', booking: newBooking });
   });
 
-  // ดึงข้อมูลห้องทั้งหมด (admin เท่านั้น)
-app.get('/api/admin/rooms', auth, isAdmin, async (req, res) => {
+
+  app.get('/api/rooms', async (req, res) => {
     try {
-      const rooms = await Room.find();
-      res.json(rooms);
+      const rooms = await Room.find();  // ดึงข้อมูลห้องจาก MongoDB
+      if (rooms.length === 0) {
+        return res.status(404).json({ message: 'No rooms found' });
+      }
+      res.json(rooms);  // ส่งข้อมูลห้องกลับเป็น JSON
     } catch (err) {
+      console.error('Error fetching rooms:', err);
       res.status(500).json({ error: 'Failed to fetch rooms' });
     }
   });
+  
 
   app.put('/api/admin/update-rooms', auth, isAdmin, async (req, res) => {
     try {
