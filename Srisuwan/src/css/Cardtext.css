@@ -6,21 +6,19 @@
 }
 
 .card-container {
-  font-family: "Thonburi", sans-serif;
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  justify-content: space-between;
+  justify-content: flex-start; /* ชิดซ้าย */
   margin-top: 20px;
   margin-bottom: 70px;
 }
 
 .card {
   margin-top: 10px;
-  margin-left: 25px;
-  margin-right: 25px;
-  width: 250px;
-  padding: 1rem;
+  margin-left: 30px;
+  margin-right: 40px;
+  width: 300px;
   cursor: pointer;
   border-radius: 0.75rem;
   background: #f1f1f3;
@@ -28,14 +26,15 @@
 }
 
 .card__title {
-  font-size: 20px;
+  font-size: 14px !important;
   color: #333;
   font-weight: 700;
+  text-align: left;
 }
 
 .card__content {
-  font-size: 14px;
-  color: #666;
+  font-size: 14px !important;
+  text-align: left;
 }
 
 @media screen and (max-width: 1200px) {
@@ -52,7 +51,7 @@
   }
 
   .card__title {
-    font-size: 18px;
+    font-size: 15px;
     /* Reduce title size */
   }
 
@@ -79,12 +78,12 @@
   }
 
   .card__title {
-    font-size: 16px;
+    font-size: 15px;
     /* Further reduce title font size */
   }
 
   .card__content {
-    font-size: 12px;
+    font-size: 15px;
     /* Further reduce content font size */
   }
 }
