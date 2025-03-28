@@ -6,19 +6,15 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "../css/Room.css";
 import Footer from "../components/footer";
 
-
 const Room = () => {
   const [isBooked, setIsBooked] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
 
-  const { item } = location.state || {}; 
+  // ตรวจสอบว่า item มีค่าหรือไม่
+  const { item } = location.state || {}; // ถ้าไม่มีให้เป็น undefined
 
-  const handleBookRoom = () => {
-    setIsBooked(true);
-    navigate("/payment", { state: { item } });
-  };
-
+  // ตรวจสอบ item และถ้าไม่มีให้แสดงข้อความ error
   if (!item) {
     return (
       <div className="error-container">
@@ -30,7 +26,10 @@ const Room = () => {
     );
   }
 
-
+  const handleBookRoom = () => {
+    setIsBooked(true);
+    navigate("/payment", { state: { item } });
+  };
 
   return (
     <>
@@ -62,7 +61,10 @@ const Room = () => {
 
         <div className="room-details">
           <h2>{item.roomNumber}</h2>
-          <p>{item.price}</p>
+          <p>{item.price} Baht</p>
+          <hr />
+          {/* ตรวจสอบค่า description */}
+          <p><strong>Description:</strong> {item.description || "No description available"}</p>
           <hr />
           <div className="icon-container">
             <div className="icon-item">
@@ -84,7 +86,6 @@ const Room = () => {
       <button className="confirm-button" onClick={handleBookRoom}>
         Book a room
       </button>
-      
     </div>
     <Footer/>
     </>
