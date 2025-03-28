@@ -22,15 +22,18 @@ const Neary = () => {
 
       <div className="right-container">
         <div className="institutions-title">
-          <h2>Which educational institutions are nearby?</h2>
+          <h2>
+            Which educational institutions
+            <span className="break-line">are nearby?</span>
+          </h2>
         </div>
 
         <div className="thumbnail-indicator" style={{ left: `${selectedIndex * 120}px` }}></div>
 
         <div className="thumbnail-grid">
           {institutions.map((institution, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`thumbnail-card ${selectedIndex === index ? 'active' : ''}`}
               onClick={() => setSelectedIndex(index)}
             >

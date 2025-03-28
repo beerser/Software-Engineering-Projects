@@ -1,30 +1,29 @@
-.texthome{
+.texthome {
   height: 30px;
-  font-size: 35px;
-  font-family:'Segoe UI' ;
-  margin-top:25px ;
-  margin-left: 25px;
+  font-size: 20px !important;  
+  margin-top: 25px;
+  margin-left: 30px !important;
   margin-bottom: 5px;
+  font-weight: bold; 
 }
 .texthomecenter{
-  height: 30px;
-  font-size: 35px;
-  font-family:'Segoe UI' ;
-  margin-top:25px ;
+  height: 20px;
+  font-size: 20px !important;  
+  margin-top: 25px;
   margin-left: 25px;
-  margin-bottom: 5px;
+  margin-bottom: 3px; 
   display: flex;
   justify-content: center; 
   align-items: center; 
   text-align: center; 
+  font-weight: bold; 
 }
 .texthomecenter-small{
-  height: 30px;
-  font-size: 35px;
-  font-family:'Segoe UI' ;
+  height: 5px;
+  font-size: 20px !important;  
   margin-top:10px;
   margin-left: 25px;
-  margin-bottom: 5px;
+  margin-bottom: 50px;
   font-weight: 400;
   display: flex;
   justify-content: center; 
