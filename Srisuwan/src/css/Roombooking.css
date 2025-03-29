@@ -1,141 +1,241 @@
-/* Roombooking.css */
-
 /* Layout สำหรับ sidebar และ content */
 .containere {
-    display: flex !important;
-  }
-  
-  .sidebare {
-    width: 250px;
-    background-color: #f4f4f4;
-    padding: 20px;
-    height: 400px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    margin-top: 2%;
-  }
-  
-  .main-contente {
-    flex-grow: 1;
-    padding: 20px;
-    background-color: #fff;
-  }
-  
-  .sidebare ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .sidebare-item {
-    margin: 15px 0;
-    cursor: pointer;
-  }
-  
-  
-  .info-item-users {
-    display: flex;
-    justify-content: flex-start; 
-    align-items: center; 
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    width: 100%;
-  }
-.userr{
-    margin-right: 41%;
-    color: #9C9292;
-    font-weight: 700;
+  display: flex;
+  flex-wrap: wrap; /* ให้การ์ดไหลลงเป็นแถวเมื่อพื้นที่หมด */
+  justify-content: flex-start;
+  gap: 20px;
 }
-.userrr{
+
+.sidebare {
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  height: 62vh; /* ทำให้ sidebar สูงเต็มหน้าจอ */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  margin-top: 4%;
+  margin-left: 2%;
+}
+
+.main-contente {
+  flex-grow: 1;
+  padding: 20px;
+  height: 62vh; /* ทำให้ sidebar สูงเต็มหน้าจอ */
+  margin-top: 2.6%;
+  background-color: #fff;
+  box-sizing: border-box; /* ป้องกันการ overflow */
+  margin-right: 1%;
+}
+
+.sidebare ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebare-item {
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+.info-item-users {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.userr {
+  margin-right: 41%;
   color: #9C9292;
   font-weight: 700;
 }
-.userrrr{
+
+.userrr {
+  color: #9C9292;
+  font-weight: 700;
+}
+
+.userrrr {
   color: #000000;
   font-weight: 400;
 }
-  
-  .user-info {
-    display: flex;
-    flex-direction: column; 
-  }
-  
-  .edit-btn {
-    background-color: #f9f9f9;
-    color: rgb(0, 0, 0);
-    border: none;
-    padding: 4px 8px;  
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 12px; 
-    transition: background-color 0.3s;
-    margin-left: auto; 
-    margin-right: 20%;
-    width: auto; 
-  }
-  .cancel-btn{
-    color: red;
-    background-color: #f9f9f9 !important;
-  }
-  .confirm-btn{
-    color: #ffffff;
-    border-radius: 10px;
-  }
-  
-  .edit-btn:hover {
-    background-color: #f9f9f9 !important;
-  }
-  .btcontir {
-    display: flex; 
-    justify-content: space-between; 
-    gap: 10px; 
-    margin-top: 40%;
-    margin-left: 40% !important;
-    margin-right: 0%;
-  }
-  .bttcontir {
-    display: flex; 
-    justify-content: space-between; 
-    gap: 10px; 
-    margin-left: 12% !important;
-    margin-right: 0%;
-  }
-  
-  .btcontir button {
-    padding: 10px 20px; 
-    font-size: 16px; 
-  }
-  
-  .info-item-user {
-    display: flex;
-    flex-direction: column; 
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  .info-item-rooms {
-    display: flex;
-    height: 400px;
-    flex-direction: column; 
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .info-item-user p {
-    margin: 5px 0; /* ลดช่องว่างระหว่างบรรทัด */
-  }
-  p {
-    font-size: 16px;
-    margin: 0;
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-btn {
+  background-color: #f9f9f9;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 12px;
+  transition: background-color 0.3s;
+  margin-left: auto;
+  width: auto;
+}
+
+.cancel-btn {
+  color: red;
+  background-color: #f9f9f9 !important;
+}
+
+.confirm-btn {
+  color: #ffffff;
+  border-radius: 10px;
+}
+
+.edit-btn:hover {
+  background-color: #f9f9f9 !important;
+}
+
+.btcontir {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 40%;
+  margin-left: 40% !important;
+}
+
+.bttcontir {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-left: 12% !important;
+}
+
+.btcontir button {
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.info-item-user {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.info-item-rooms {
+  display: flex;
+  height: 400px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.info-item-user p {
+  margin: 5px 0;
+}
+
+p {
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Media Queries สำหรับปรับ layout ให้พอดีกับขนาดหน้าจอ */
+
+@media screen and (max-width: 1200px) {
+  .sidebare {
+    width: 220px; /* ลดขนาดของ sidebar สำหรับหน้าจอขนาดกลาง */
   }
 
+  .main-contente {
+    padding: 15px;
+  }
+
+  .btcontir {
+    margin-left: 30% !important;
+  }
+
+  .bttcontir {
+    margin-left: 10% !important;
+  }
+
+  .info-item-users, .info-item-user, .info-item-rooms {
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .containere {
+    flex-direction: column; /* วาง sidebar และ content ลงแนวตั้งสำหรับมือถือหรือแท็บเล็ต */
+  }
+
+  .sidebare {
+    width: 100%; /* ใช้พื้นที่ทั้งหมดสำหรับ sidebar */
+    height: auto;
+  }
+
+  .main-contente {
+    padding: 10px;
+  }
+
+  .btcontir {
+    margin-left: 20% !important;
+  }
+
+  .bttcontir {
+    margin-left: 5% !important;
+  }
+
+  .info-item-users, .info-item-user, .info-item-rooms {
+    padding: 10px;
+  }
+
+  .edit-btn {
+    font-size: 10px; /* ลดขนาดปุ่มให้เล็กลง */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .containere {
+    flex-direction: column; /* วาง sidebar และ content ลงแนวตั้ง */
+  }
+
+  .sidebare {
+    width: 100%; /* ใช้พื้นที่ทั้งหมดสำหรับ sidebar */
+    height: auto;
+  }
+
+  .main-contente {
+    padding: 8px;
+  }
+
+  .btcontir {
+    margin-left: 10% !important;
+  }
+
+  .bttcontir {
+    margin-left: 3% !important;
+  }
+
+  .info-item-users, .info-item-user, .info-item-rooms {
+    padding: 8px;
+  }
+
+  .edit-btn {
+    font-size: 9px; /* ลดขนาดปุ่มให้เล็กลง */
+  }
+
+  p {
+    font-size: 14px; /* ลดขนาดตัวอักษร */
+  }
+}

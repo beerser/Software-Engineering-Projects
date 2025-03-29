@@ -7,22 +7,22 @@
 
 .card-container {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap; /* ให้การ์ดไหลลงเป็นแถวเมื่อพื้นที่หมด */
   gap: 1rem;
-  justify-content: flex-start; /* ชิดซ้าย */
-  margin-top: 20px;
+  justify-content: center; /* ชิดซ้าย */
+  margin-top: 35px;
   margin-bottom: 70px;
 }
 
 .card {
   margin-top: 10px;
-  margin-left: 30px;
-  margin-right: 40px;
-  width: 300px;
+  width: 250px; /* ขนาดการ์ดในหน้าจอใหญ่ */
   cursor: pointer;
   border-radius: 0.75rem;
   background: #f1f1f3;
   box-shadow: 0px 9px 16px 0px rgb(0 0 0 / 10%);
+  transition: transform 0.3s ease-in-out; /* เพิ่มเอฟเฟคขยับ */
+  padding: 15px; /* เพิ่ม padding เพื่อให้เนื้อหาดูห่างจากขอบ */
 }
 
 .card__title {
@@ -37,31 +37,26 @@
   text-align: left;
 }
 
+/* สำหรับหน้าจอขนาด 1200px หรือเล็กกว่า */
 @media screen and (max-width: 1200px) {
   .card-container {
-    gap: 1rem;
-    flex-direction: row;
-    /* Keep row layout */
-    justify-content: center;
+    justify-content: center; /* จัดการให้การ์ดชิดกลาง */
   }
 
   .card {
-    width: 220px;
-    /* Slightly reduce the width */
+    width: 220px; /* ลดขนาดการ์ด */
   }
 
   .card__title {
     font-size: 15px;
-    /* Reduce title size */
   }
 
   .card__content {
     font-size: 13px;
-    /* Reduce content font size */
   }
 }
 
-/* For screens smaller than 768px (Mobile or small tablet screens) */
+/* สำหรับหน้าจอขนาด 768px หรือเล็กกว่า (Mobile หรือ Tablet ขนาดเล็ก) */
 @media screen and (max-width: 768px) {
   .card-container {
     gap: 1rem;
@@ -71,24 +66,22 @@
   }
 
   .card {
-    width: 80%;
-    /* Make cards take up more space */
+    width: 90%;
+    /* การ์ดใช้พื้นที่มากขึ้น */
     margin-left: 0;
     margin-right: 0;
   }
 
   .card__title {
     font-size: 15px;
-    /* Further reduce title font size */
   }
 
   .card__content {
     font-size: 15px;
-    /* Further reduce content font size */
   }
 }
 
-/* For screens smaller than 480px (Mobile screens) */
+/* สำหรับหน้าจอขนาด 480px หรือเล็กกว่า (Mobile ขนาดเล็ก) */
 @media screen and (max-width: 480px) {
   .card-container {
     gap: 1rem;
@@ -99,18 +92,16 @@
 
   .card {
     width: 90%;
-    /* Cards take almost the full width */
+    /* การ์ดใช้พื้นที่เกือบเต็มหน้าจอ */
     margin-left: 0;
     margin-right: 0;
   }
 
   .card__title {
     font-size: 14px;
-    /* Even smaller title font size */
   }
 
   .card__content {
     font-size: 11px;
-    /* Further reduce content font size */
   }
 }
