@@ -1,15 +1,89 @@
-.Room-contie a{
-    color: black;
-    text-decoration: none;
-    margin: 50px ;
-   
-}
+/* Roombooking.css */
 
-.Room-contie{
-    background-color: aliceblue;
-    max-width: 20%;
-    border-radius: 10px;
-    margin-left: 4%;
-    margin-top: 5%;
-    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.3);
+/* Layout สำหรับ sidebar และ content */
+.container {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar-item {
+    margin: 15px 0;
+    cursor: pointer;
+  }
+  
+  
+  .info-item-users {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center; 
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+.userr{
+    margin-right: 41%;
 }
+  
+  .user-info {
+    display: flex;
+    flex-direction: column; 
+  }
+  
+  .edit-btn {
+    background-color: #f9f9f9;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 4px 8px;  /* ลดขนาดปุ่มให้เล็กลง */
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 12px; /* ขนาดตัวอักษรเล็กลง */
+    transition: background-color 0.3s;
+    margin-left: auto; /* ทำให้ปุ่มอยู่ขวาสุด */
+    margin-right: 5%;
+    width: auto; /* ทำให้ปุ่มไม่กว้างเกินไป */
+  }
+  
+  .edit-btn:hover {
+    background-color: #f9f9f9 !important;
+  }
+  
+  
+  .info-item-user {
+    display: flex;
+    flex-direction: column; /* จัดข้อมูลแนวตั้ง */
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .info-item-user p {
+    margin: 5px 0; /* ลดช่องว่างระหว่างบรรทัด */
+  }
+  p {
+    font-size: 16px;
+    margin: 0;
+  }

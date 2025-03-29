@@ -94,7 +94,7 @@ const Navbar = () => {
                       <div>
                         <h3 className="user-detailac">My account</h3>
                         <div className="user-details">
-                         <a href="">All room reservations</a>
+                         <a href="/information">All room reservations</a>
                          <br /> 
                          <a href="">Personal information</a>
                         </div>

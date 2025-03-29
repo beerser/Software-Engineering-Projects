@@ -1,74 +1,73 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Footer from "../components/footer";
 import "../css/Roombooking.css";
-import Edit from "../assets/edit.svg"; // สมมุติว่าไฟล์นี้คือไอคอนที่ใช้
-import { useAuth } from "../components/AuthContext"; // ใช้สำหรับ Authentication ถ้ามี
+import Edit from "../assets/edit.svg";
+import { useAuth } from "../components/AuthContext";
 
 const Roombooking = () => {
-  const { user } = useAuth(); // ดึงข้อมูล user จาก useAuth
-  const [activePage, setActivePage] = useState("allroomreservations"); // กำหนด activePage
+  const { user } = useAuth();
+  const [activePage, setActivePage] = useState("allroomreservations");
 
   const renderContent = () => {
     switch (activePage) {
       case "allroomreservations":
         return (
-          <div>
-            <h2>All room reservations</h2>
-            {/* เพิ่มเนื้อหาที่เกี่ยวข้องกับการจองห้อง */}
-          </div>
+          <section className="room-reservations">
+            <p>All room reservations</p>
+          </section>
         );
       case "personalinformations":
-        // ตรวจสอบว่า user มีข้อมูลหรือไม่ก่อนที่จะแสดง
         if (user) {
           return (
-            <div>
-              <h2>Personal Information</h2>
-              <h4>Username: {user.firstname} {user.lastname}</h4>
-              <h4>Email: {user.email}</h4>
-              <h4>Phone number: {user.phoneNumber}</h4>
-            </div>
+            <section className="personal-info">
+              <div className="info-item-users">
+                <div className="user-info">
+                  <p className="userr">Username</p>
+                  <p>
+                    {user.firstname} {user.lastname}
+                  </p>
+                </div>
+                <button className="edit-btn">Edit</button>
+              </div>
+              <div className="info-item-user">
+                <p>Email</p>
+                <p>{user.email}</p>
+              </div>
+              <div className="info-item-user">
+                <p>Phone number</p>
+                <p>{user.phoneNumber}</p>
+              </div>
+            </section>
           );
         } else {
-          return <div>Loading...</div>; // กรณีที่ user ยังไม่โหลด
+          return <p>Loading...</p>;
         }
       default:
-        return <div>Select a page from the menu.</div>;
+        return <p>Select a page from the menu.</p>;
     }
   };
 
   return (
     <>
-      <div>
+      <div className="container">
         <aside className="sidebar">
           <ul>
             <li
               onClick={() => setActivePage("allroomreservations")}
-              style={{ cursor: "pointer" }}
+              className="sidebar-item"
             >
-              <img
-                src={Edit}
-                alt="Edit Icon"
-                style={{ width: "20px", marginRight: "10px" }}
-              />
               All Room Reservations
             </li>
             <li
               onClick={() => setActivePage("personalinformations")}
-              style={{ cursor: "pointer" }}
+              className="sidebar-item"
             >
-              <img
-                src={Edit}
-                alt="Edit Icon"
-                style={{ width: "20px", marginRight: "10px" }}
-              />
               Personal Information
             </li>
           </ul>
         </aside>
 
-        <main className="main-content">
-          <section className="content">{renderContent()}</section>
-        </main>
+        <main className="main-content">{renderContent()}</main>
       </div>
 
       <Footer />
