@@ -5,8 +5,8 @@ import axios from "axios";
 import { useAuth } from "../components/AuthContext";
 
 const Roombooking = () => {
-  const { user } = useAuth(); // ดึงข้อมูลผู้ใช้จาก context
-  const [isEditing, setIsEditing] = useState(false); // สถานะการแก้ไข
+  const { user } = useAuth();
+  const [isEditing, setIsEditing] = useState(false); 
   const [activePage, setActivePage] = useState("allroomreservations");
   const [userData, setUserData] = useState({
     firstname: user ? user.firstname : "",
@@ -27,33 +27,33 @@ const Roombooking = () => {
   }, [user]);
 
   const handleEditClick = () => {
-    setIsEditing(true); // เปิดโหมดแก้ไขเมื่อคลิกปุ่ม
+    setIsEditing(true); 
   };
 
   const handleSave = async () => {
-    const token = localStorage.getItem('token');  // ดึง token จาก localStorage หรือที่ที่คุณเก็บไว้
+    const token = localStorage.getItem('token');  
   
     if (!token) {
-      console.log("Token not found!");  // ถ้าไม่มี token
+      console.log("Token not found!"); 
       return;
     }
   
     try {
       const response = await axios.put(
-        "http://localhost:5001/api/user/update",  // ใช้ URL ที่ถูกต้อง
+        "http://localhost:5001/api/user/update",  
         {
           firstname: userData.firstname,
           lastname: userData.lastname,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,  // ส่ง JWT token ใน header
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
   
       console.log("User updated:", response.data);
-      setIsEditing(false);  // ปิดโหมดการแก้ไข
+      setIsEditing(false);  
     } catch (error) {
       console.error("Error updating user:", error);
     }
@@ -63,7 +63,7 @@ const Roombooking = () => {
   
 
   const handleCancel = () => {
-    setIsEditing(false); // ยกเลิกการแก้ไข
+    setIsEditing(false);
   };
 
   const handleChange = (e) => {
@@ -75,7 +75,7 @@ const Roombooking = () => {
     switch (activePage) {
       case "allroomreservations":
         return (
-          <section className="room-reservations">
+          <section className="info-item-rooms">
             <p>All room reservations</p>
           </section>
         );
@@ -87,7 +87,7 @@ const Roombooking = () => {
                 <div className="user-info">
                   <p className="userr">Username</p>
                   {isEditing ? (
-                    <div>
+                    <div className="userrrr">
                       <input
                         type="text"
                         name="firstname"
@@ -107,9 +107,9 @@ const Roombooking = () => {
                     <p>{userData.firstname} {userData.lastname}</p>
                   )}
                 </div>
-                <div>
+                <div className="bttcontir">
                   {isEditing ? (
-                    <div>
+                    <div className="btcontir">
                       <button className="cancel-btn" onClick={handleCancel}>Cancel</button>
                       <button className="confirm-btn" onClick={handleSave}>Confirm</button>
                     </div>
@@ -119,17 +119,17 @@ const Roombooking = () => {
                 </div>
               </div>
               <div className="info-item-user">
-                <p>Email</p>
-                <p>{user.email}</p>
+                <p className="userrr">Email</p>
+                <p className="userrrr">{user.email}</p>
               </div>
               <div className="info-item-user">
-                <p>Phone number</p>
-                <p>{user.phoneNumber}</p>
+                <p className="userrr">Phone number</p>
+                <p className="userrrr">{user.phoneNumber}</p>
               </div>
             </section>
           );
         } else {
-          return <p>Loading...</p>;  // แสดงข้อความ "Loading..." หากข้อมูลผู้ใช้ยังไม่โหลด
+          return <p>Loading...</p>;  
         }
       default:
         return <p>Select a page from the menu.</p>;
@@ -138,25 +138,25 @@ const Roombooking = () => {
 
   return (
     <>
-      <div className="container">
-        <aside className="sidebar">
+      <div className="containere">
+        <aside className="sidebare">
           <ul>
             <li
               onClick={() => setActivePage("allroomreservations")}
-              className="sidebar-item"
+              className="sidebare-item"
             >
               All Room Reservations
             </li>
             <li
               onClick={() => setActivePage("personalinformations")}
-              className="sidebar-item"
+              className="sidebare-item"
             >
               Personal Information
             </li>
           </ul>
         </aside>
 
-        <main className="main-content">{renderContent()}</main>
+        <main className="main-contente">{renderContent()}</main>
       </div>
 
       <Footer />

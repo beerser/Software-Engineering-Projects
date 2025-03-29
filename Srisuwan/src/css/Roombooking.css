@@ -1,29 +1,31 @@
 /* Roombooking.css */
 
 /* Layout สำหรับ sidebar และ content */
-.container {
-    display: flex;
+.containere {
+    display: flex !important;
   }
   
-  .sidebar {
+  .sidebare {
     width: 250px;
     background-color: #f4f4f4;
     padding: 20px;
+    height: 400px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    margin-top: 2%;
   }
   
-  .main-content {
+  .main-contente {
     flex-grow: 1;
     padding: 20px;
     background-color: #fff;
   }
   
-  .sidebar ul {
+  .sidebare ul {
     list-style: none;
     padding: 0;
   }
   
-  .sidebar-item {
+  .sidebare-item {
     margin: 15px 0;
     cursor: pointer;
   }
@@ -42,6 +44,16 @@
   }
 .userr{
     margin-right: 41%;
+    color: #9C9292;
+    font-weight: 700;
+}
+.userrr{
+  color: #9C9292;
+  font-weight: 700;
+}
+.userrrr{
+  color: #000000;
+  font-weight: 400;
 }
   
   .user-info {
@@ -53,24 +65,63 @@
     background-color: #f9f9f9;
     color: rgb(0, 0, 0);
     border: none;
-    padding: 4px 8px;  /* ลดขนาดปุ่มให้เล็กลง */
+    padding: 4px 8px;  
     cursor: pointer;
     border-radius: 5px;
-    font-size: 12px; /* ขนาดตัวอักษรเล็กลง */
+    font-size: 12px; 
     transition: background-color 0.3s;
-    margin-left: auto; /* ทำให้ปุ่มอยู่ขวาสุด */
-    margin-right: 5%;
-    width: auto; /* ทำให้ปุ่มไม่กว้างเกินไป */
+    margin-left: auto; 
+    margin-right: 20%;
+    width: auto; 
+  }
+  .cancel-btn{
+    color: red;
+    background-color: #f9f9f9 !important;
+  }
+  .confirm-btn{
+    color: #ffffff;
+    border-radius: 10px;
   }
   
   .edit-btn:hover {
     background-color: #f9f9f9 !important;
   }
+  .btcontir {
+    display: flex; 
+    justify-content: space-between; 
+    gap: 10px; 
+    margin-top: 40%;
+    margin-left: 40% !important;
+    margin-right: 0%;
+  }
+  .bttcontir {
+    display: flex; 
+    justify-content: space-between; 
+    gap: 10px; 
+    margin-left: 12% !important;
+    margin-right: 0%;
+  }
   
+  .btcontir button {
+    padding: 10px 20px; 
+    font-size: 16px; 
+  }
   
   .info-item-user {
     display: flex;
-    flex-direction: column; /* จัดข้อมูลแนวตั้ง */
+    flex-direction: column; 
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  .info-item-rooms {
+    display: flex;
+    height: 400px;
+    flex-direction: column; 
     justify-content: flex-start;
     align-items: flex-start;
     padding: 15px;
@@ -87,3 +138,4 @@
     font-size: 16px;
     margin: 0;
   }
+

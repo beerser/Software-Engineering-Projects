@@ -158,20 +158,43 @@ app.put('/api/user/update', auth, async (req, res) => {
 
 
 
-app.post("/api/book-dorm", auth, async (req, res) => {
-  // ถ้ามาถึงตรงนี้ แปลว่า token ผ่านแล้ว
-  const { dormName, date } = req.body;
-  const userId = req.user.userId;
+// API สำหรับการจองห้อง
+app.post('/api/book-room', auth, async (req, res) => {
+  const { roomId } = req.body; // ห้องที่ผู้ใช้เลือก
+  const userId = req.user.userId; // ผู้ใช้ที่กำลังจอง
 
-  const newBooking = new Booking({
-    userId,
-    dormName,
-    date,
-  });
+  try {
+    // หาห้องที่ผู้ใช้เลือกจากห้องที่มี
+    const room = await Room.findById(roomId);
 
-  await newBooking.save();
-  res.json({ message: "✅ Booking success", booking: newBooking });
+    if (!room || room.status !== 'available') {
+      return res.status(400).json({ error: 'Room not available for booking' });
+    }
+
+    // เปลี่ยนสถานะห้องจาก 'available' เป็น 'booked'
+    room.status = 'booked';
+
+    // บันทึกการจองในฐานข้อมูล (คอลเล็กชัน bookings)
+    const newBooking = new Booking({
+      userId,
+      roomId: room._id,
+      room_number: room.room_number,
+      price: room.price,
+      booking_date: new Date(),
+    });
+
+    await newBooking.save();  // บันทึกการจองในฐานข้อมูล
+
+    // บันทึกสถานะห้องที่อัปเดต
+    await room.save();
+
+    res.json({ message: 'Room booked successfully', booking: newBooking });
+  } catch (err) {
+    console.error('Error booking room:', err);
+    res.status(500).json({ error: 'Failed to book room' });
+  }
 });
+
 
 app.get("/api/rooms", async (req, res) => {
   try {
