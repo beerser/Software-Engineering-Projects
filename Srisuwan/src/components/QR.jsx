@@ -44,9 +44,6 @@ const QR = ({ item }) => {
               <li className="nav-item1">
                 <a className="nav-link active" style={{ color: "black" }} aria-current="page">Promptpay</a>
               </li>
-              <li className="nav-item2">
-                <a className="nav-link">Change</a>
-              </li>
             </ul>
           </div>
         </div>
