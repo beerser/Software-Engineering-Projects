@@ -118,7 +118,7 @@ const Dashboard = ({ setRooms }) => {
       case "availableRoom":
         return (
           <div>
-            <h2 className="texter">Manage room</h2>
+            <h2 className="text-header">Manage room</h2>
             <Availableroom />
           </div>
         );
@@ -135,11 +135,11 @@ const Dashboard = ({ setRooms }) => {
       case "manageBooking":
         return (
           <div>
-            <h3 className="texter">Manage Booking</h3>
+            <h2 className="text-header">Manage Booking</h2>
 
             <Confirm bookingDetails={bookingDetails} />
             <hr />
-            <h3 className="texter">Promptpay Booking</h3>
+            <h2 className="text-header">Promptpay Booking</h2>
             <Managepay />
           </div>
         );
@@ -212,7 +212,7 @@ const Dashboard = ({ setRooms }) => {
             Logout
           </a>
         </header>
-        <section className="content">{renderContent()}</section>
+        <section className="manage-booking-content">{renderContent()}</section>
       </main>
     </div>
   );
