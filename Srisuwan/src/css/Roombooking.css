@@ -7,18 +7,18 @@
 }
 
 .sidebare {
-  width: 250px;
+  width: auto;
   background-color: #f4f4f4;
   padding: 20px;
   height: 62vh;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
   margin-top: 4%;
   margin-left: 2%;
 }
 
 .main-contente {
-  flex-grow: 1;
   padding: 20px;
+  width: 79%;
   height: 62vh;
   margin-top: 2.6%;
   background-color: #fff;
@@ -37,6 +37,7 @@
   height: 40px;
   padding: 10px 20px;
 }
+
 .sidebare-item.active {
   background-color: #EAEAEA;
   color: #000000;
@@ -44,6 +45,7 @@
   height: 40px;
   padding: 10px 20px;
 }
+
 .info-item-users,
 .info-item-user,
 .info-item-rooms {
@@ -51,7 +53,7 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
 }
 
 .info-item-users {
@@ -70,7 +72,14 @@
 }
 
 .info-item-rooms {
-  height: 400px;
+  height: 62vh;
+}
+
+.info-item-rooms p {
+  color: #BCBCBC;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-weight: bold;
 }
 
 .userr {
@@ -103,7 +112,7 @@
   border-radius: 5px;
   font-size: 12px;
   transition: background-color 0.3s;
-  margin-left: auto;
+  margin-left: 85vh; /* ชิดขวาภายใน flexbox */
   width: auto;
 }
 
@@ -133,12 +142,13 @@
   margin-left: 40% !important;
 }
 
-.bttcontir {
-  margin-left: 12% !important;
+.btcontir {
+  display: flex;
+  justify-content: flex-start; /* ทำให้เริ่มต้นจากซ้าย */
 }
 
 .btcontir button {
-  padding: 10px 20px;
+  padding: 10px 10px;
   font-size: 16px;
 }
 
@@ -151,7 +161,7 @@ p {
 /* Media Queries */
 @media screen and (max-width: 1200px) {
   .sidebare {
-    width: 220px;
+    width: 250px; /* ปรับให้เหมาะสม */
   }
 
   .main-contente {
@@ -169,7 +179,7 @@ p {
   .info-item-users,
   .info-item-user,
   .info-item-rooms {
-    padding: 10px;
+    padding: 12px; /* ปรับ padding */
   }
 }
 
@@ -225,7 +235,7 @@ p {
   .info-item-users,
   .info-item-user,
   .info-item-rooms {
-    padding: 8px;
+    padding: 8px; /* ลด padding สำหรับอุปกรณ์ขนาดเล็ก */
   }
 
   .edit-btn {
@@ -233,6 +243,6 @@ p {
   }
 
   p {
-    font-size: 14px;
+    font-size: 14px; /* ปรับขนาดตัวอักษร */
   }
 }
