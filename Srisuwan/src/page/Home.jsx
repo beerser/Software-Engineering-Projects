@@ -20,6 +20,7 @@ import Upload from "./Upload";
 function Home() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [rooms, setRooms] = useState([]);
+
   useEffect(() => {
     const fetchRooms = async () => {
       try {
@@ -53,8 +54,10 @@ function Home() {
   }, []);  // Run once when component mounts
 
   useEffect(() => {
-    localStorage.setItem("rooms", JSON.stringify(rooms));
+    localStorage.setItem("rooms", JSON.stringify(data));
   }, [rooms]);
+  
+
 
   const handlePaymentClick = (paymentDetails) => {
     setSelectedItem(paymentDetails);
@@ -115,6 +118,7 @@ const HomePage = ({ rooms, handlePaymentClick }) => {
       <h1 className="texthome">
         Available rooms
       </h1>
+      
       <Cards obj={rooms} onPaymentClick={handlePaymentClick} />
       <h1 className="texthome">
         Hightlights of this apartment

@@ -13,7 +13,7 @@ const Room = () => {
   const location = useLocation();
 
   const { item } = location.state || {};
-
+  console.log(item)
   if (!item) {
     return (
       <div className="error-container">

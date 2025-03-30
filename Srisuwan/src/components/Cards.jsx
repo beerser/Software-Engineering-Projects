@@ -4,12 +4,13 @@ import "../css/Cards.css";  // นำเข้าไฟล์ CSS
 
 const Cards = ({ obj, onPaymentClick }) => {
   const navigate = useNavigate();
-
+  
   const handleRentClick = (item) => {
     const paymentDetails = {
       roomNumber: item.room_number, 
       price: item.price,
       imageUrl: item.image_url,
+      description: item.description,
       timestamp: new Date().toLocaleString(),
       bookingId: `BK${Math.random().toString(36).substr(2, 9)}`.toUpperCase()
     };
@@ -17,6 +18,8 @@ const Cards = ({ obj, onPaymentClick }) => {
     onPaymentClick(paymentDetails); 
     navigate("/room", { state: { item: paymentDetails } }); 
   };
+
+
 
   return (
     <div className="scroll-container">
