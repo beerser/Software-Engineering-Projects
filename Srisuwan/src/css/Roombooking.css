@@ -112,7 +112,7 @@
   border-radius: 5px;
   font-size: 12px;
   transition: background-color 0.3s;
-  margin-left: 85vh; /* ชิดขวาภายใน flexbox */
+  margin-left: 100vh; /* ชิดขวาภายใน flexbox */
   width: auto;
 }
 
