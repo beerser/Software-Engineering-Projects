@@ -1,7 +1,6 @@
 /* Layout สำหรับ sidebar และ content */
 .containere {
   display: flex;
-  flex-wrap: wrap;
   justify-content: flex-start;
   gap: 20px;
 }
@@ -80,6 +79,9 @@
   margin-top: 10px;
   margin-left: 10px;
   font-weight: bold;
+}
+.ur{
+  color: #000000 !important;
 }
 
 .userr {

@@ -6,16 +6,19 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Comechart = () => {
-  const [incomeData, setIncomeData] = useState([]);  // กำหนด state สำหรับข้อมูลรายได้
+  const [incomeData, setIncomeData] = useState([]);
 
-  // ดึงข้อมูลรายได้จาก API
   useEffect(() => {
     const fetchIncomeData = async () => {
       try {
-        const res = await fetch("http://localhost:5001/api/income");  // ดึงข้อมูลจาก API
+        const res = await fetch("http://localhost:5001/api/income");  
         const data = await res.json();
-        console.log("Income data fetched:", data);  // ตรวจสอบข้อมูลที่ดึงมาจาก API
-        setIncomeData(data);  // อัปเดตข้อมูลที่ดึงมาใน state
+        console.log("Income data fetched:", data);
+
+        // กรองข้อมูลเฉพาะเดือนที่ต้องการ (เช่น January, February)
+        const filteredData = data.filter(item => item.month === "January" || item.month === "February");
+        
+        setIncomeData(filteredData);  
       } catch (err) {
         console.error("Error fetching income data:", err);
       }
@@ -24,12 +27,11 @@ const Comechart = () => {
     fetchIncomeData();
   }, []);
 
-  // ตรวจสอบว่ามีข้อมูลรายได้หรือไม่
   if (incomeData.length === 0) {
-    return <div>Loading...</div>;  // แสดงข้อความ "Loading..." หากยังไม่ได้รับข้อมูล
+    return <div>Loading...</div>; // หากยังไม่มาข้อมูลให้แสดง Loading...
   }
 
-  // การคำนวณข้อมูลที่แสดงในกราฟ
+  // กำหนดข้อมูลที่จะแสดงในกราฟ
   const data = {
     labels: incomeData.map(item => item.month),  // ใช้ชื่อเดือนจากข้อมูลที่ดึงมา
     datasets: [
