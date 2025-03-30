@@ -40,36 +40,12 @@ const Roombooking = () => {
     fetchReservations();
   }, [user]); // แค่โหลดข้อมูลครั้งเดียวเมื่อโหลดหน้า
 
-  const genQR = async () => {
-    const amount = parseFloat(item.price);
-
-    if (isNaN(amount) || amount <= 0) {
-      setError("Invalid amount");
-      return;
-    }
-
-    try {
-      const response = await axios.post("http://localhost:5001/generateQR", {
-        amount: amount,
-        phone: "0969962367",
-      });
-
-      if (response.data.RespCode === 200) {
-        setQrCodeUrl(response.data.Result);
-        setError("");
-        setIsConfirmed(true); // ตั้งค่าเป็นยืนยันแล้ว
-      } else {
-        setError(response.data.RespMessage || "Failed to generate QR code");
-      }
-    } catch (err) {
-      setError(err.message || "Failed to generate QR code");
-      console.error("Request Error:", err);
-    }
-  };
-
   const handleEditClick = () => {
     setIsEditing(true);
   };
+
+
+
 
   const getPaymentStatusColor = (status) => {
     if (status === "pending") {
@@ -198,7 +174,7 @@ const Roombooking = () => {
                     </div>
                   ) : (
                     <p>
-                      {userData.firstname} {userData.lastname}
+                      {user.firstname} {user.lastname}
                     </p>
                   )}
                 </div>
