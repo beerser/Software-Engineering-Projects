@@ -20,6 +20,29 @@ const Managepay = () => {
     }
   };
 
+
+
+useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch("http://localhost:5001/api/rooms", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        setRooms(data);
+      } catch (err) {
+        console.error("Error fetching rooms", err);
+      }
+    };
+
+    fetchRooms();
+  }, []);
+  
+
+
+
+
   // ฟังก์ชันดึงข้อมูลการจอง
   const fetchReservations = async () => {
     try {
@@ -43,6 +66,7 @@ const Managepay = () => {
 
   const updateBookingStatus = async (user_firstname, user_lastname, room_number, slip_filename, status) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch('http://localhost:5001/api/confirmBooking', {
         method: 'POST',
         headers: {
@@ -54,7 +78,8 @@ const Managepay = () => {
           room_number, 
           slip_filename, 
           status 
-        }),  // ส่งข้อมูลที่ต้องการ
+        }),  
+        
       });
       
       if (response.ok) {

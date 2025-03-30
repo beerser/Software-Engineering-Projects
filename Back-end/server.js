@@ -13,9 +13,9 @@ const Booking = require("./models/Booking");
 const { auth, isAdmin } = require("./middleware/auth");
 const Room = require("./models/Room");
 const PORT = process.env.PORT || 5001;
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const Income = require("./models/Income");
 
 app.use(express.json());
@@ -76,7 +76,6 @@ app.post("/api/register", async (req, res) => {
   }
 });
 
-
 app.use((req, res, next) => {
   console.log(`📥 Request: ${req.method} ${req.url}`);
   next();
@@ -116,7 +115,6 @@ app.post("/api/login", async (req, res) => {
       firstname: user.firstname, // ตรวจสอบว่าได้ดึงข้อมูลเหล่านี้มาหรือไม่
       lastname: user.lastname,
       phoneNumber: user.phoneNumber,
-      
     });
     res.json({
       message: "Login success",
@@ -125,21 +123,20 @@ app.post("/api/login", async (req, res) => {
       firstname: user.firstname,
       lastname: user.lastname,
       phoneNumber: user.phoneNumber,
-      
     });
   } catch (err) {
     res.status(500).json({ error: "Something went wrong" });
   }
 });
 
-app.put('/api/user/update', auth, async (req, res) => {
+app.put("/api/user/update", auth, async (req, res) => {
   const { firstname, lastname } = req.body;
 
   try {
-    const user = await User.findById(req.user.userId);  // ใช้ userId จาก token
+    const user = await User.findById(req.user.userId); // ใช้ userId จาก token
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
     // อัปเดตข้อมูลชื่อและนามสกุล
@@ -150,23 +147,20 @@ app.put('/api/user/update', auth, async (req, res) => {
     await user.save();
 
     res.json({
-      message: 'User information updated successfully',
+      message: "User information updated successfully",
       user: {
         firstname: user.firstname,
         lastname: user.lastname,
-      }
+      },
     });
   } catch (error) {
     console.error("Error updating user:", error);
-    res.status(500).json({ error: 'Failed to update user' });
+    res.status(500).json({ error: "Failed to update user" });
   }
 });
 
-
-
-
 // API สำหรับการจองห้อง
-app.post('/api/book-room', auth, async (req, res) => {
+app.post("/api/book-room", auth, async (req, res) => {
   const { roomId } = req.body; // ห้องที่ผู้ใช้เลือก
   const userId = req.user.userId; // ผู้ใช้ที่กำลังจอง
 
@@ -174,12 +168,12 @@ app.post('/api/book-room', auth, async (req, res) => {
     // หาห้องที่ผู้ใช้เลือกจากห้องที่มี
     const room = await Room.findById(roomId);
 
-    if (!room || room.status !== 'available') {
-      return res.status(400).json({ error: 'Room not available for booking' });
+    if (!room || room.status !== "available") {
+      return res.status(400).json({ error: "Room not available for booking" });
     }
 
     // เปลี่ยนสถานะห้องจาก 'available' เป็น 'booked'
-    room.status = 'booked';
+    room.status = "booked";
 
     // บันทึกการจองในฐานข้อมูล (คอลเล็กชัน bookings)
     const newBooking = new Booking({
@@ -190,20 +184,17 @@ app.post('/api/book-room', auth, async (req, res) => {
       booking_date: new Date(),
     });
 
-    await newBooking.save();  // บันทึกการจองในฐานข้อมูล
+    await newBooking.save(); // บันทึกการจองในฐานข้อมูล
 
     // บันทึกสถานะห้องที่อัปเดต
     await room.save();
 
-    res.json({ message: 'Room booked successfully', booking: newBooking });
+    res.json({ message: "Room booked successfully", booking: newBooking });
   } catch (err) {
-    console.error('Error booking room:', err);
-    res.status(500).json({ error: 'Failed to book room' });
+    console.error("Error booking room:", err);
+    res.status(500).json({ error: "Failed to book room" });
   }
 });
-
-
-
 
 app.get("/api/rooms", async (req, res) => {
   try {
@@ -218,22 +209,25 @@ app.get("/api/rooms", async (req, res) => {
   }
 });
 
-
 app.put("/api/admin/rooms", async (req, res) => {
   try {
-    console.log('Request Body:', req.body);  // ตรวจสอบข้อมูลที่ได้รับ
+    console.log("Request Body:", req.body); // ตรวจสอบข้อมูลที่ได้รับ
     const updatedRooms = req.body;
 
     for (const room of updatedRooms) {
       if (room._id) {
-        const updatedRoom = await Room.findByIdAndUpdate(room._id, { 
-          status: room.status,
-          description: room.description, 
-          image_url: room.image_url,
-          price: room.price,
-          room_number: room.room_number,
-          servicefee: room.servicefee
-        }, { new: true });
+        const updatedRoom = await Room.findByIdAndUpdate(
+          room._id,
+          {
+            status: room.status,
+            description: room.description,
+            image_url: room.image_url,
+            price: room.price,
+            room_number: room.room_number,
+            servicefee: room.servicefee,
+          },
+          { new: true }
+        );
 
         if (!updatedRoom) {
           console.log(`Room with id ${room._id} not found`);
@@ -249,10 +243,6 @@ app.put("/api/admin/rooms", async (req, res) => {
     res.status(500).json({ error: "Failed to update rooms" });
   }
 });
-
-
-
-
 
 // แก้ไขข้อมูลห้องทั้งหมด (admin เท่านั้น)
 app.put("/api/admin/update-rooms", auth, isAdmin, async (req, res) => {
@@ -286,32 +276,33 @@ app.post("/generateQR", (req, res) => {
 
   const payload = generatePayload(mobileNumber, { amount });
 
-  qrcode.toDataURL(payload, {
-    type: "image/png",
-    width: 500,
-    margin: 1,
-  }, (err, qrCodeDataURL) => {
-    if (err) {
-      console.log("❌ QR Code generation failed:", err);
-      return res.status(400).json({
-        RespCode: 400,
-        RespMessage: err.message,
+  qrcode.toDataURL(
+    payload,
+    {
+      type: "image/png",
+      width: 500,
+      margin: 1,
+    },
+    (err, qrCodeDataURL) => {
+      if (err) {
+        console.log("❌ QR Code generation failed:", err);
+        return res.status(400).json({
+          RespCode: 400,
+          RespMessage: err.message,
+        });
+      }
+
+      return res.json({
+        RespCode: 200,
+        Result: qrCodeDataURL,
+        RespMessage: "Success",
       });
     }
-
-    return res.json({
-      RespCode: 200,
-      Result: qrCodeDataURL,
-      RespMessage: "Success",
-    });
-  });
+  );
 });
 
-
-
-app.use('/uploads', express.static('uploads'))
-;
-const uploadDir = 'uploads';
+app.use("/uploads", express.static("uploads"));
+const uploadDir = "uploads";
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
@@ -322,137 +313,127 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname)); // ตั้งชื่อไฟล์ใหม่
-  }
+  },
 });
 
 // กำหนดตัวกรองไฟล์
 const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+    const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
     if (!allowedTypes.includes(file.mimetype)) {
-      return cb(new Error('ไฟล์ที่อัปโหลดไม่ถูกต้อง'));
+      return cb(new Error("ไฟล์ที่อัปโหลดไม่ถูกต้อง"));
     }
     cb(null, true);
-  }
+  },
 });
 
 // กำหนดเส้นทาง POST /upload
-app.post('/upload', upload.single('slip'), (req, res) => {
+app.post("/upload", upload.single("slip"), (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).send('ไม่พบไฟล์ที่อัปโหลด');
+      return res.status(400).send("ไม่พบไฟล์ที่อัปโหลด");
     }
-    res.json({ message: 'ไฟล์ถูกอัปโหลดสำเร็จ!', filename: req.file.filename }); // ส่งชื่อไฟล์กลับไป
+    res.json({ message: "ไฟล์ถูกอัปโหลดสำเร็จ!", filename: req.file.filename }); // ส่งชื่อไฟล์กลับไป
   } catch (error) {
-    console.error('เกิดข้อผิดพลาดในการอัปโหลดไฟล์:', error.message);
-    res.status(500).send('เกิดข้อผิดพลาดในการอัปโหลดไฟล์');
+    console.error("เกิดข้อผิดพลาดในการอัปโหลดไฟล์:", error.message);
+    res.status(500).send("เกิดข้อผิดพลาดในการอัปโหลดไฟล์");
   }
 });
 
-app.get('/files', (req, res) => {
-  fs.readdir('uploads', (err, files) => {
+app.get("/files", (req, res) => {
+  fs.readdir("uploads", (err, files) => {
     if (err) {
-      return res.status(500).send('ไม่สามารถอ่านโฟลเดอร์ uploads');
+      return res.status(500).send("ไม่สามารถอ่านโฟลเดอร์ uploads");
     }
     res.json(files);
   });
 });
 
-
-
-
-app.post('/booking', upload.single('slip'), async (req, res) => {
+app.post("/booking", upload.single("slip"), async (req, res) => {
   try {
     const { user_firstname, user_lastname, room_number } = req.body;
 
-  
     const booking = new Booking({
       user_firstname,
       user_lastname,
-      room_number,  
+      room_number,
       slip_filename: req.file.filename,
-      payment_status: 'pending',
+      payment_status: "pending",
     });
 
     await booking.save();
-    res.status(201).send('การจองสำเร็จ');
+    res.status(201).send("การจองสำเร็จ");
   } catch (error) {
-    console.error('เกิดข้อผิดพลาด:', error.message);
-    res.status(500).send('เกิดข้อผิดพลาดในการสร้างการจอง');
+    console.error("เกิดข้อผิดพลาด:", error.message);
+    res.status(500).send("เกิดข้อผิดพลาดในการสร้างการจอง");
   }
 });
 
-
-
-
-
 // API สำหรับดึงข้อมูลการจองทั้งหมด
-app.get('/api/bookings', async (req, res) => {
+app.get("/api/bookings", async (req, res) => {
   try {
-    const bookings = await Booking.find();  // ดึงข้อมูลการจองทั้งหมดจาก MongoDB
+    const bookings = await Booking.find(); // ดึงข้อมูลการจองทั้งหมดจาก MongoDB
 
     if (!bookings || bookings.length === 0) {
-      return res.status(404).send('ไม่พบข้อมูลการจอง');
+      return res.status(404).send("ไม่พบข้อมูลการจอง");
     }
 
     // ส่งข้อมูลทั้งหมดของการจอง (ไม่รวม _id)
-    const bookingData = bookings.map(booking => {
-      const { user_firstname, user_lastname, room_number, slip_filename, payment_status, created_at } = booking;
-      return {
-        
+    const bookingData = bookings.map((booking) => {
+      const {
         user_firstname,
         user_lastname,
         room_number,
         slip_filename,
         payment_status,
-        created_at
+        created_at,
+      } = booking;
+      return {
+        user_firstname,
+        user_lastname,
+        room_number,
+        slip_filename,
+        payment_status,
+        created_at,
       };
     });
 
-    res.status(200).json(bookingData);  // ส่งข้อมูลการจองทั้งหมด
+    res.status(200).json(bookingData); // ส่งข้อมูลการจองทั้งหมด
   } catch (error) {
     console.error(error);
-    res.status(500).send('เกิดข้อผิดพลาดในการดึงข้อมูลการจอง');
+    res.status(500).send("เกิดข้อผิดพลาดในการดึงข้อมูลการจอง");
   }
 });
 
-
-
-
-
-
-app.put('/booking/:id/approve', async (req, res) => {
+app.put("/booking/:id/approve", async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
     if (!booking) {
-      return res.status(404).send('ไม่พบการจองนี้');
+      return res.status(404).send("ไม่พบการจองนี้");
     }
 
-    if (booking.payment_status === 'approved') {
-      return res.status(400).send('การจองนี้ได้รับการอนุมัติแล้ว');
+    if (booking.payment_status === "approved") {
+      return res.status(400).send("การจองนี้ได้รับการอนุมัติแล้ว");
     }
 
-   
-    booking.payment_status = 'approved';
+    booking.payment_status = "approved";
     await booking.save();
 
-  
     const room = await Room.findById(booking.room_id);
-    room.status = 'booked';
+    room.status = "booked";
     await room.save();
 
-    res.send('การจองได้รับการอนุมัติแล้ว');
+    res.send("การจองได้รับการอนุมัติแล้ว");
   } catch (error) {
-    console.error('เกิดข้อผิดพลาดในการอนุมัติการจอง:', error.message);
-    res.status(500).send('เกิดข้อผิดพลาด');
+    console.error("เกิดข้อผิดพลาดในการอนุมัติการจอง:", error.message);
+    res.status(500).send("เกิดข้อผิดพลาด");
   }
 });
 
-
-
-app.post('/api/confirmBooking', async (req, res) => {
-  const { user_firstname, user_lastname, room_number, slip_filename, status } = req.body;
+app.post("/api/confirmBooking", async (req, res) => {
+  const { user_firstname, user_lastname, room_number, slip_filename, status } =
+    req.body;
 
   try {
     // ค้นหาการจองที่ตรงกับข้อมูลที่ได้รับ
@@ -464,70 +445,74 @@ app.post('/api/confirmBooking', async (req, res) => {
     });
 
     if (!booking) {
-      return res.status(404).send('ไม่พบการจอง');
+      return res.status(404).send("ไม่พบการจอง");
     }
 
     // อัปเดตสถานะการจอง
-    booking.payment_status = status;  
+    booking.payment_status = status;
     await booking.save();
+    // สำหรับการอัปเดตสถานะการจอง และการเปลี่ยนสถานะของห้อง
+    if (status === "confirmed") {
+      const booking = await Booking.findOne({ room_number }); // ค้นหาการจองที่มี room_number ตรงกัน
+      const room = await Room.findOne({ room_number }); // ค้นหาห้องที่มี room_number ตรงกัน
 
-    res.status(200).send('การจองถูกอัปเดตสถานะเรียบร้อย');
+      if (room) {
+        room.status = "nonavailable"; // เปลี่ยนสถานะห้อง
+        await room.save(); // บันทึกสถานะใหม่ของห้อง
+      }
+
+      if (booking) {
+        booking.payment_status = "confirmed"; // เปลี่ยนสถานะการจอง
+        await booking.save(); // บันทึกการเปลี่ยนแปลงใน booking
+      }
+    }
+
+    res.status(200).send("การจองถูกอัปเดตสถานะเรียบร้อย");
   } catch (error) {
     console.error(error);
-    res.status(500).send('เกิดข้อผิดพลาดในการอัปเดตสถานะ');
+    res.status(500).send("เกิดข้อผิดพลาดในการอัปเดตสถานะ");
   }
 });
 
-
-
-app.post('/api/rejectBooking', async (req, res) => {
+app.post("/api/rejectBooking", async (req, res) => {
   const { bookingId } = req.body;
 
   if (!bookingId) {
-    return res.status(400).send('ไม่พบ bookingId');
+    return res.status(400).send("ไม่พบ bookingId");
   }
 
   try {
     // ลบการจองจาก MongoDB
-    const result = await Booking.deleteOne({ _id: bookingId });  // ลบเอกสารที่ตรงกับ bookingId
+    const result = await Booking.deleteOne({ _id: bookingId }); // ลบเอกสารที่ตรงกับ bookingId
 
     if (result.deletedCount === 0) {
-      return res.status(404).send('ไม่พบการจองที่ต้องการลบ');
+      return res.status(404).send("ไม่พบการจองที่ต้องการลบ");
     }
 
-    res.status(200).send('การจองถูกปฏิเสธและลบเรียบร้อยแล้ว');
+    res.status(200).send("การจองถูกปฏิเสธและลบเรียบร้อยแล้ว");
   } catch (error) {
     console.error(error);
-    res.status(500).send('เกิดข้อผิดพลาดในการปฏิเสธการจอง');
+    res.status(500).send("เกิดข้อผิดพลาดในการปฏิเสธการจอง");
   }
 });
 
-app.get('/uploads/:filename', (req, res) => {
-  const file = path.join(__dirname, 'uploads', req.params.filename);
+app.get("/uploads/:filename", (req, res) => {
+  const file = path.join(__dirname, "uploads", req.params.filename);
   res.sendFile(file);
 });
 
-
-
-
 app.get("/api/income", async (req, res) => {
   try {
-
     const incomeData = await Income.aggregate([
-      { $match: {} }  // ดึงข้อมูลทั้งหมด
+      { $match: {} }, // ดึงข้อมูลทั้งหมด
     ]);
-    console.log("Income data:", incomeData) 
-    res.json(incomeData); 
+    console.log("Income data:", incomeData);
+    res.json(incomeData);
   } catch (err) {
     console.error("Error fetching income data:", err);
     res.status(500).send("Error fetching income data.");
   }
 });
-
-
-
-
-
 
 app.listen(5001, () => {
   console.log("server running");
