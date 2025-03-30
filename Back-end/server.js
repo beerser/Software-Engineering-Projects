@@ -284,7 +284,7 @@ app.post("/generateQR", async (req, res) => {
     });
   }
 });
-
+app.use('/uploads', express.static('uploads'));
 const uploadDir = 'uploads';
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -322,6 +322,14 @@ app.post('/upload', upload.single('slip'), (req, res) => {
     console.error('เกิดข้อผิดพลาดในการอัปโหลดไฟล์:', error.message);
     res.status(500).send('เกิดข้อผิดพลาดในการอัปโหลดไฟล์');
   }
+});
+app.get('/files', (req, res) => {
+  fs.readdir('uploads', (err, files) => {
+    if (err) {
+      return res.status(500).send('ไม่สามารถอ่านโฟลเดอร์ uploads');
+    }
+    res.json(files); // ส่งรายการไฟล์เป็น JSON
+  });
 });
 
 

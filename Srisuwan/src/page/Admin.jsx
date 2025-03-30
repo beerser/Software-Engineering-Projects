@@ -10,6 +10,7 @@ import { supabase } from "../../../Back-end/supabaseClient";
 import "../css/Admin.css";
 import CalculatorFee from "../components/Calcutaorfee";
 import Edit from "../assets/edit.svg";
+import Managepay from "./Managepay";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
@@ -213,6 +214,7 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div>
             <h3 className="texter">Manage Booking</h3>
+            <Managepay/>
           </div>
         );
       default:
