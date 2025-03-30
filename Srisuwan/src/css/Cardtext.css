@@ -7,22 +7,20 @@
 
 .card-container {
   display: flex;
-  flex-direction: row;
   gap: 1rem;
-  justify-content: flex-start; /* ชิดซ้าย */
-  margin-top: 20px;
+  justify-content: center; /* ชิดซ้าย */
+  margin-top: 50px;
   margin-bottom: 70px;
+  flex-wrap: wrap; /* ทำให้การ์ดสามารถพับได้เมื่อหน้าจอเล็ก */
 }
 
 .card {
   margin-top: 10px;
-  margin-left: 30px;
-  margin-right: 40px;
-  width: 300px;
   cursor: pointer;
   border-radius: 0.75rem;
-  background: #f1f1f3;
+  background: #ffffff;
   box-shadow: 0px 9px 16px 0px rgb(0 0 0 / 10%);
+  flex: 0 0 auto; /* ไม่ให้การ์ดขยายตามขนาดของ container */
 }
 
 .card__title {
@@ -46,18 +44,16 @@
   }
 
   .card {
-    width: 220px;
-    /* Slightly reduce the width */
+    width: 220px; /* Slightly reduce the width */
+    height: auto; /* ลดความยาวการ์ด */
   }
 
   .card__title {
     font-size: 15px;
-    /* Reduce title size */
   }
 
   .card__content {
     font-size: 13px;
-    /* Reduce content font size */
   }
 }
 
@@ -71,20 +67,18 @@
   }
 
   .card {
-    width: 80%;
-    /* Make cards take up more space */
+    width: 80%; /* Make cards take up more space */
     margin-left: 0;
     margin-right: 0;
+    height: 50px; /* ลดความยาวการ์ด */
   }
 
   .card__title {
     font-size: 15px;
-    /* Further reduce title font size */
   }
 
   .card__content {
     font-size: 15px;
-    /* Further reduce content font size */
   }
 }
 
@@ -93,24 +87,21 @@
   .card-container {
     gap: 1rem;
     flex-direction: column;
-    /* Stack cards vertically */
     align-items: center;
   }
 
   .card {
-    width: 90%;
-    /* Cards take almost the full width */
+    width: 90%; /* Cards take almost the full width */
     margin-left: 0;
     margin-right: 0;
+    height: 220px; /* ลดความยาวการ์ด */
   }
 
   .card__title {
     font-size: 14px;
-    /* Even smaller title font size */
   }
 
   .card__content {
     font-size: 11px;
-    /* Further reduce content font size */
   }
 }

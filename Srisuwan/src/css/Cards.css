@@ -7,8 +7,9 @@
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   margin: 0 auto;
-  margin-left: 30px;
   margin-bottom: 50px;
+  margin-left: 30px;
+  justify-content: flex-start; /* ชิดซ้าย */
 }
 
 /* ซ่อน scrollbar บน Chrome, Safari */
@@ -20,7 +21,6 @@
   width: 10rem; /* ลดขนาดความกว้างของการ์ด */
   padding: 10px;
   scroll-snap-align: start; /* Snapping to each card when scrolling */
-  flex: 0 0 auto; /* ทำให้การ์ดมีขนาดคงที่ตามที่กำหนด */
   border-radius: 15px;
   margin: 7px;
   background-color: #fff;
@@ -59,6 +59,7 @@
 .btn-primary {
   width: 100%;
   padding: 8px;
+  margin-top: 10px;
   background-color: #007bff;
   border: none;
   color: #fff;

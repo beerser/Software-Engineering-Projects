@@ -15,7 +15,6 @@ import Register from "./Register";
 import Footer from "../components/footer";
 import Neary from "../components/Neary";
 import Roombooking from "./Roombooking";
-import Upload from "./Upload";
 
 
 function Home() {
@@ -87,8 +86,6 @@ function Home() {
           <Route
             path="/information"
             element={<Roombooking/>}/>
-
-            <Route path="/upload" element = {<Upload/>}></Route>
         </Routes>
       </Router>
     </AuthProvider>
