@@ -17,6 +17,8 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const Income = require("./models/Income");
+const Money = require("./models/Money");
+
 
 app.use(express.json());
 
@@ -496,6 +498,8 @@ app.post("/api/rejectBooking", async (req, res) => {
   }
 });
 
+
+
 app.get("/uploads/:filename", (req, res) => {
   const file = path.join(__dirname, "uploads", req.params.filename);
   res.sendFile(file);
@@ -513,6 +517,53 @@ app.get("/api/income", async (req, res) => {
     res.status(500).send("Error fetching income data.");
   }
 });
+
+
+
+
+
+
+
+app.put("/api/money", async (req, res) => {
+  const { price } = req.body;
+
+  try {
+    // ใช้ userId จาก token หรือ auth ที่คุณมี
+    const userId = req.user.id;  // สมมุติว่า token ถูกใช้เพื่อดึง userId
+
+    // หาผู้ใช้จากฐานข้อมูล
+    let money = await Money.findOne({ userId });
+
+    if (!money) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // เพิ่มเงินเข้าไปในข้อมูลที่มีอยู่
+    money.balance += price;  // สมมุติว่า 'balance' คือฟิลด์เก็บเงิน
+
+    // บันทึกข้อมูลที่อัปเดต
+    await money.save();
+
+    res.json({
+      message: "Money added successfully",
+      money: {
+        userId: money.userId,
+        balance: money.balance,
+      },
+    });
+  } catch (error) {
+    console.error("Error updating money:", error);
+    res.status(500).json({ error: "Failed to update money information" });
+  }
+});
+
+
+
+
+
+
+
+
 
 app.listen(5001, () => {
   console.log("server running");

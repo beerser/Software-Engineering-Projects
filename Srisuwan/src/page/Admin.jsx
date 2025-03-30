@@ -13,6 +13,7 @@ import Managepay from "./Managepay";
 import Availableroom from "../components/Availableroom";
 import Confirm from "../components/Confirm";
 import Comechart from "../components/comechart";
+import Monday from "../components/Monday";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
@@ -71,7 +72,7 @@ const Dashboard = ({ setRooms }) => {
                 <h4>
                   <strong>Income</strong>
                 </h4>
-                <p>2000 Bath</p>
+                <p><Monday/> Bath</p>
               </div>
               <div className="card">
                 <h4>
@@ -110,7 +111,7 @@ const Dashboard = ({ setRooms }) => {
               <div className="room-calendar">
                 <RoomCalendar rooms={pendingChanges} />
               </div>
-
+              
             </div>
           </div>
         );

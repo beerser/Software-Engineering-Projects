@@ -77,7 +77,7 @@ useEffect(() => {
           user_lastname, 
           room_number, 
           slip_filename, 
-          status 
+          status,
         }),  
         
       });
