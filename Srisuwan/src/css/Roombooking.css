@@ -34,6 +34,8 @@
 .sidebare-item {
   margin: 15px 0;
   cursor: pointer;
+  height: 40px;
+  padding: 10px 20px;
 }
 .sidebare-item.active {
   background-color: #EAEAEA;
