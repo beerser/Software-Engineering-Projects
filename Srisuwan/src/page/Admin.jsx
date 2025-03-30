@@ -19,6 +19,23 @@ const Dashboard = ({ setRooms }) => {
   const [activePage, setActivePage] = useState("dashboard");
   const navigate = useNavigate();
   const { user } = useAuth();
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch("http://localhost:5001/api/rooms", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        setRooms(data);
+        setPendingChanges(data); 
+      } catch (err) {
+        console.error("Error fetching rooms", err);
+      }
+    };
+
+    fetchRooms();
+  }, []);
 
   const exportCSV = () => {
     const csv = Papa.unparse(pendingChanges);
@@ -28,17 +45,17 @@ const Dashboard = ({ setRooms }) => {
 
   const [bookingDetails, setBookingDetails] = useState({
     user: {
-      firstname: 'John',
-      lastname: 'Doe',
-      email: 'john.doe@example.com',
-      phoneNumber: '1234567890'
+      firstname: "John",
+      lastname: "Doe",
+      email: "john.doe@example.com",
+      phoneNumber: "1234567890",
     },
     room: {
-      roomNumber: 'Room 101',
+      roomNumber: "Room 101",
       price: 2000,
-      imageUrl: 'https://example.com/room.jpg'
+      imageUrl: "https://example.com/room.jpg",
     },
-    _id: 'bookingId123' // ID ของการจอง
+    _id: "bookingId123", // ID ของการจอง
   });
 
   const renderContent = () => {
@@ -48,7 +65,6 @@ const Dashboard = ({ setRooms }) => {
           <div>
             <h2>Dashboard Overview</h2>
 
-           
             <div className="dashboard-summary">
               <div className="card">
                 <h4>
@@ -62,7 +78,7 @@ const Dashboard = ({ setRooms }) => {
                 </h4>
                 <p>
                   {
-                    pendingChanges.filter((room) => room.status === "booked")
+                    pendingChanges.filter((room) => room.status === "nonavailable")
                       .length
                   }{" "}
                   Rooms
@@ -82,7 +98,6 @@ const Dashboard = ({ setRooms }) => {
               </div>
             </div>
 
-           
             <div className="room-chart-calendar-container">
               <div className="room-chart">
                 <RoomChart rooms={pendingChanges} />
@@ -98,7 +113,7 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div>
             <h2 className="texter">Manage room</h2>
-            <Availableroom/>
+            <Availableroom />
 
             <div className="available-room-card">
               <div className="room-list">
@@ -139,7 +154,6 @@ const Dashboard = ({ setRooms }) => {
                 ))}
               </div>
             </div>
-
           </div>
         );
       case "managePayment":
@@ -156,11 +170,11 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div>
             <h3 className="texter">Manage Booking</h3>
-            
-              <Confirm bookingDetails={bookingDetails} />
+
+            <Confirm bookingDetails={bookingDetails} />
             <hr />
             <h3 className="texter">Promptpay Booking</h3>
-            <Managepay/>
+            <Managepay />
           </div>
         );
       default:
@@ -216,10 +230,7 @@ const Dashboard = ({ setRooms }) => {
             />
             Manage Booking
           </li>
-          <li
-            onClick={() => navigate("/")} 
-            style={{ cursor: "pointer" }}
-          >
+          <li onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
             <img
               src={Edit}
               alt="Edit Icon"
