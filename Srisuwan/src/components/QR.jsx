@@ -18,7 +18,7 @@ const QR = ({ item }) => {
     try {
       const response = await axios.post('http://localhost:5001/generateQR', {
         amount: amount,
-        phone: '096-996-2367'
+        phone: '0969962367'
       });
 
       if (response.data.RespCode === 200) {

@@ -43,6 +43,7 @@ function Home() {
 
         const data = await response.json();
         setRooms(data); 
+        console.log(data);
       } catch (error) {
         console.error('Error fetching rooms:', error);
       }

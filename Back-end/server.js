@@ -250,40 +250,40 @@ app.put("/api/admin/update-rooms", auth, isAdmin, async (req, res) => {
   }
 });
 
-app.post("/generateQR", async (req, res) => {
-  try {
-    const mobileNumber = req.body.phone || "000-000-0000";
-    const amount = req.body.amount || 0;
+app.post("/generateQR", (req, res) => {
+  let mobileNumber = req.body.phone?.replace(/-/g, "") || "0000000000";
+  const amount = req.body.amount || 0;
 
-    if (mobileNumber === "000-000-0000") {
-      return res.status(404).json({
-        RespCode: 404,
-        RespMessage: "Invalid phone number",
+  if (mobileNumber === "0000000000") {
+    return res.status(404).json({
+      RespCode: 404,
+      RespMessage: "Invalid phone number",
+    });
+  }
+
+  const payload = generatePayload(mobileNumber, { amount });
+
+  qrcode.toDataURL(payload, {
+    type: "image/png",
+    width: 500,
+    margin: 1,
+  }, (err, qrCodeDataURL) => {
+    if (err) {
+      console.log("❌ QR Code generation failed:", err);
+      return res.status(400).json({
+        RespCode: 400,
+        RespMessage: err.message,
       });
     }
-
-    const payload = generatePayload(mobileNumber, { amount });
-
-    // Generate QR code as data URL instead of saving to file
-    const qrCodeDataURL = await qrcode.toDataURL(payload, {
-      type: "image/png",
-      width: 500,
-      margin: 1,
-    });
 
     return res.json({
       RespCode: 200,
       Result: qrCodeDataURL,
       RespMessage: "Success",
     });
-  } catch (error) {
-    console.log(error);
-    return res.status(400).json({
-      RespCode: 400,
-      RespMessage: error.message,
-    });
-  }
+  });
 });
+
 app.use('/uploads', express.static('uploads'));
 const uploadDir = 'uploads';
 if (!fs.existsSync(uploadDir)) {
