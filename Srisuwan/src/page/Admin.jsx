@@ -6,7 +6,6 @@ import { saveAs } from "file-saver";
 import RoomChart from "../components/RoomChart";
 import RoomCalendar from "../components/RoomCalendar";
 import Papa from "papaparse";
-import { supabase } from "../../../Back-end/supabaseClient";
 import "../css/Admin.css";
 import CalculatorFee from "../components/Calcutaorfee";
 import Edit from "../assets/edit.svg";

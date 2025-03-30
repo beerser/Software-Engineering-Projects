@@ -25,12 +25,9 @@ app.get('/', (req, res) => {
 });
 
 // เชื่อมต่อ MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('🔥 Connected to MongoDB Atlas'))
-  .catch(err => console.error(err));
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log('🔥 Connected to MongoDB Atlas'))
+.catch(err => console.error(err));
   
 
 // สมัครสมาชิก
@@ -189,6 +186,6 @@ app.post('/generateQR', async (req, res) => {
     }
 });
 
-app.listen(5001, () => {
-    console.log("server running");
+app.listen(PORT, () => {
+  console.log(`server running on port ${PORT}`);
 });
