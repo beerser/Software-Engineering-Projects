@@ -400,6 +400,7 @@ app.get('/api/bookings', async (req, res) => {
     const bookingData = bookings.map(booking => {
       const { user_firstname, user_lastname, room_number, slip_filename, payment_status, created_at } = booking;
       return {
+        
         user_firstname,
         user_lastname,
         room_number,
@@ -449,21 +450,35 @@ app.put('/booking/:id/approve', async (req, res) => {
 });
 
 
+
 app.post('/api/confirmBooking', async (req, res) => {
-  const { bookingId, status } = req.body;
+  const { user_firstname, user_lastname, room_number, slip_filename, status } = req.body;
+
   try {
-    const booking = await Booking.findById(bookingId);
+    // ค้นหาการจองที่ตรงกับข้อมูลที่ได้รับ
+    const booking = await Booking.findOne({
+      user_firstname,
+      user_lastname,
+      room_number,
+      slip_filename,
+    });
+
     if (!booking) {
       return res.status(404).send('ไม่พบการจอง');
     }
-    booking.payment_status = status;  // อัปเดตสถานะการจอง
+
+    // อัปเดตสถานะการจอง
+    booking.payment_status = status;  
     await booking.save();
-    res.status(200).send('การจองถูกยืนยันแล้ว');
+
+    res.status(200).send('การจองถูกอัปเดตสถานะเรียบร้อย');
   } catch (error) {
     console.error(error);
-    res.status(500).send('เกิดข้อผิดพลาดในการยืนยันการจอง');
+    res.status(500).send('เกิดข้อผิดพลาดในการอัปเดตสถานะ');
   }
 });
+
+
 
 app.post('/api/rejectBooking', async (req, res) => {
   const { bookingId } = req.body;
