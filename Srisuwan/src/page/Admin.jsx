@@ -84,14 +84,8 @@ const Dashboard = ({ setRooms }) => {
               </div>
             </div>
 
-            {/* ปุ่มเพิ่มห้อง */}
-            <button
-              onClick={addRoom}
-              className="btn btn-success"
-              style={{ margin: "10px" }}
-            >
-              Add Room
-            </button>
+           
+            
 
             {/* ส่วนของ Room Chart และ Room Calendar */}
             <div className="room-chart-calendar-container">
