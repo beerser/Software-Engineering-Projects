@@ -24,13 +24,11 @@ function Home() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        
         const token = localStorage.getItem('token');  
         if (!token) {
           throw new Error('No token found');
         }
 
-      
         const response = await fetch('http://localhost:5001/api/rooms', {
           method: 'GET',
           headers: {
@@ -54,10 +52,10 @@ function Home() {
   }, []);  // Run once when component mounts
 
   useEffect(() => {
-    localStorage.setItem("rooms", JSON.stringify(data));
-  }, [rooms]);
-  
-
+    if (rooms.length > 0) {
+      localStorage.setItem("rooms", JSON.stringify(rooms));  // Use the correct state here
+    }
+  }, [rooms]);  // Trigger when rooms state changes
 
   const handlePaymentClick = (paymentDetails) => {
     setSelectedItem(paymentDetails);
@@ -68,7 +66,6 @@ function Home() {
       <Router>
         <Navbar />
         <Routes>
-        
           <Route
             path="/"
             element={<ProtectedRoute><HomePage rooms={rooms} handlePaymentClick={handlePaymentClick} /></ProtectedRoute>}
@@ -132,6 +129,5 @@ const HomePage = ({ rooms, handlePaymentClick }) => {
     </>
   );
 };
-
 
 export default Home;
