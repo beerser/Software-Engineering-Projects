@@ -11,6 +11,7 @@ import "../css/Admin.css";
 import CalculatorFee from "../components/Calcutaorfee";
 import Edit from "../assets/edit.svg";
 import Managepay from "./Managepay";
+import Availableroom from "../components/Availableroom";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
@@ -33,17 +34,7 @@ const Dashboard = ({ setRooms }) => {
     fetchRooms();
   }, [setRooms]);
 
-  const handleConfirm = async () => {
-    for (const room of pendingChanges) {
-      if (room.id) {
-        await supabase.from("rooms").update(room).eq("id", room.id);
-      } else {
-        await supabase.from("rooms").insert([room]);
-      }
-    }
-    alert("ข้อมูลถูกบันทึกลง Supabase แล้ว!");
-    setLocalRooms([...pendingChanges]);
-  };
+
 
   const exportCSV = () => {
     const csv = Papa.unparse(pendingChanges);
@@ -51,33 +42,7 @@ const Dashboard = ({ setRooms }) => {
     saveAs(blob, "rooms.csv");
   };
 
-  const addRoom = () => {
-    const newId = pendingChanges.length
-      ? Math.max(...pendingChanges.map((room) => room.id || 0)) + 1
-      : 1;
-    const newRoom = {
-      id: newId,
-      room_number: `Room ${newId}`,
-      price: 3000,
-      status: "available",
-      description: "New Room",
-      image_url: "https://via.placeholder.com/150",
-    };
 
-    setPendingChanges([...pendingChanges, newRoom]);
-  };
-
-  const updateRoom = (id, field, value) => {
-    setPendingChanges(
-      pendingChanges.map((room) =>
-        room.id === id ? { ...room, [field]: value } : room
-      )
-    );
-  };
-
-  const deleteRoom = (id) => {
-    setPendingChanges(pendingChanges.filter((room) => room.id !== id));
-  };
 
   const renderContent = () => {
     switch (activePage) {
@@ -145,13 +110,8 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div>
             <h2 className="texter">Manage room</h2>
-            <button
-              onClick={addRoom}
-              className="btn btn-success"
-              style={{ margin: "10px" }}
-            >
-              Add Room
-            </button>
+            <Availableroom/>
+
             <div className="available-room-card">
               <div className="room-list">
                 {pendingChanges.map((room) => (
@@ -191,13 +151,7 @@ const Dashboard = ({ setRooms }) => {
                 ))}
               </div>
             </div>
-            <button
-              onClick={handleConfirm}
-              className="btn btn-primary"
-              style={{ marginTop: "10px" }}
-            >
-              Confirm
-            </button>
+
           </div>
         );
       case "managePayment":
