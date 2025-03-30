@@ -20,7 +20,7 @@ const Cards = ({ obj, onPaymentClick }) => {
 
   return (
     <div className="scroll-container">
-      {obj.map((item, index) => {
+      {obj.filter(item => item.status === "available").map((item, index) => {
         return (
           <div
             key={index}
