@@ -31,47 +31,81 @@ const Availableroom = () => {
   // การเปลี่ยนแปลงข้อมูลในฟอร์ม
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(`Field changed: ${name} = ${value}`);
     setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // การจัดการเปลี่ยนค่า status ด้วย radio button
+  const handleStatusChange = (status) => {
+    console.log(`Status changed to: ${status}`);
+    setForm((prev) => ({ ...prev, status }));
   };
 
   // การบันทึกข้อมูลห้อง
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
-      console.log("Sending:", form); // ดูข้อมูลที่จะส่ง
-  
-      const res = await fetch("http://localhost:5001/api/admin/rooms", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify([form]),
-      });
-  
-      // เช็กสถานะของ response ก่อน parse JSON
-      if (!res.ok) {
-        const text = await res.text();  // แปลงเป็นข้อความหาก response ไม่ใช่ JSON
-        console.error("Error response:", text); // log แสดง error ที่ได้รับ
-        alert(`Save failed: ${res.status} ${text}`);
-        return;
+      console.log("Saving form data:", form); // Debug
+      
+      // แยกการจัดการระหว่างการเพิ่มห้องใหม่กับการอัปเดตห้องที่มีอยู่
+      if (editingRoom === "new") {
+        // POST request สำหรับห้องใหม่
+        const res = await fetch("http://localhost:5001/api/admin/rooms", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(form),
+        });
+        
+        if (!res.ok) {
+          const text = await res.text();
+          console.error("Error response:", text);
+          alert(`Create failed: ${res.status} ${text}`);
+          return;
+        }
+        
+        const result = await res.json();
+        console.log("Response from server:", result);
+        
+        // เพิ่มห้องใหม่เข้าไปในรายการ
+        const newRoom = result.data || form;
+        setRooms((prev) => [...prev, newRoom]);
+      } else {
+        // PUT request สำหรับการอัปเดตห้องที่มีอยู่
+        const res = await fetch("http://localhost:5001/api/admin/rooms", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify([form]),
+        });
+        
+        if (!res.ok) {
+          const text = await res.text();
+          console.error("Error response:", text);
+          alert(`Update failed: ${res.status} ${text}`);
+          return;
+        }
+        
+        const result = await res.json();
+        console.log("Response from server:", result);
+        
+        // อัปเดตห้องในรายการ
+        const updatedRoom = result.data?.[0] || form;
+        setRooms((prev) =>
+          prev.map((r) => (r._id === updatedRoom._id ? updatedRoom : r))
+        );
       }
-  
-      const result = await res.json();
-      console.log("Response:", result);
-  
-      // ถ้า OK แล้ว อัปเดต
-      const updatedRoom = result.data?.[0] || form;
-      setRooms((prev) =>
-        prev.map((r) => (r._id === updatedRoom._id ? updatedRoom : r))
-      );
+      
       setEditingRoom(null); // ปิดการแก้ไข
     } catch (err) {
       console.error("Error saving room:", err);
       alert("Save error occurred");
     }
   };
-
 
   return (
     <div
@@ -100,26 +134,46 @@ const Availableroom = () => {
             <>
               <input
                 name="room_number"
-                value={form.room_number}
+                value={form.room_number || ""}
                 onChange={handleChange}
                 style={{ width: "100%", marginBottom: "5px" }}
               />
               <input
                 name="price"
                 type="number"
-                value={form.price}
+                value={form.price || 0}
                 onChange={handleChange}
                 style={{ width: "100%", marginBottom: "5px" }}
               />
-              <select
-                name="status"
-                value={form.status}
-                onChange={handleChange}
-                style={{ width: "100%", marginBottom: "5px" }}
-              >
-                <option value="available">Available</option>
-                <option value="nonavailable">Not available</option>
-              </select>
+              
+              {/* แทนที่ select ด้วย radio button */}
+              <div style={{ marginBottom: "10px", textAlign: "left" }}>
+                <div>
+                  <input
+                    type="radio"
+                    id={`available-${room._id}`}
+                    name={`status-${room._id}`}
+                    checked={form.status === "available"}
+                    onChange={() => handleStatusChange("available")}
+                  />
+                  <label htmlFor={`available-${room._id}`} style={{ marginLeft: "5px", color: "white" }}>
+                    Available
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id={`nonavailable-${room._id}`}
+                    name={`status-${room._id}`}
+                    checked={form.status === "nonavailable"}
+                    onChange={() => handleStatusChange("nonavailable")}
+                  />
+                  <label htmlFor={`nonavailable-${room._id}`} style={{ marginLeft: "5px", color: "white" }}>
+                    Not available
+                  </label>
+                </div>
+              </div>
+              
               <button onClick={handleSave} className="savebt">
                 Save
               </button>
@@ -166,25 +220,54 @@ const Availableroom = () => {
           <input
             name="room_number"
             placeholder="Room No."
-            value={form.room_number}
+            value={form.room_number || ""}
             onChange={handleChange}
+            style={{ marginRight: "10px", marginBottom: "10px" }}
           />
           <input
             name="price"
             type="number"
             placeholder="Price"
-            value={form.price}
+            value={form.price || 0}
             onChange={handleChange}
+            style={{ marginRight: "10px", marginBottom: "10px" }}
           />
-          <select name="status" value={form.status} onChange={handleChange}>
-            <option value="available">Available</option>
-            <option value="nonavailable">Not available</option>
-          </select>
+          
+          {/* แทนที่ select ด้วย radio button */}
+          <div style={{ display: "inline-block", marginRight: "20px", marginBottom: "10px" }}>
+            <div style={{ fontWeight: "bold", marginBottom: "5px" }}>Status:</div>
+            <div>
+              <input
+                type="radio"
+                id="new-available"
+                name="new-status"
+                checked={form.status === "available"}
+                onChange={() => handleStatusChange("available")}
+              />
+              <label htmlFor="new-available" style={{ marginLeft: "5px" }}>
+                Available
+              </label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="new-nonavailable"
+                name="new-status"
+                checked={form.status === "nonavailable"}
+                onChange={() => handleStatusChange("nonavailable")}
+              />
+              <label htmlFor="new-nonavailable" style={{ marginLeft: "5px" }}>
+                Not available
+              </label>
+            </div>
+          </div>
+          
           <input
             name="description"
             placeholder="Description"
-            value={form.description}
+            value={form.description || ""}
             onChange={handleChange}
+            style={{ marginRight: "10px", marginBottom: "10px" }}
           />
           <button onClick={handleSave} className="savebt">Save</button>
         </div>
