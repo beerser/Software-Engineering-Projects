@@ -151,19 +151,21 @@
 }
 
 .userr {
-  margin-right: 41%;
+  margin-right: auto;
   color: #9C9292;
   font-weight: 700;
 }
 
 .userrr {
+  margin-right: auto;
   color: #9C9292;
   font-weight: 700;
 }
 
 .userrrr {
+  margin-right: auto;
   color: #000000;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .user-info {
