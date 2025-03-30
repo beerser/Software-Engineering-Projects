@@ -1,24 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 
 // Register the necessary components of Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const comechart = () => {
-  // ข้อมูลรายได้สำหรับแต่ละเดือนและปี
+const Comechart = () => {
+  const [incomeData, setIncomeData] = useState([]);  // กำหนด state สำหรับข้อมูลรายได้
+
+  // ดึงข้อมูลรายได้จาก API
+  useEffect(() => {
+    const fetchIncomeData = async () => {
+      try {
+        const res = await fetch("http://localhost:5001/api/income");  // ดึงข้อมูลจาก API
+        const data = await res.json();
+        console.log("Income data fetched:", data);  // ตรวจสอบข้อมูลที่ดึงมาจาก API
+        setIncomeData(data);  // อัปเดตข้อมูลที่ดึงมาใน state
+      } catch (err) {
+        console.error("Error fetching income data:", err);
+      }
+    };
+
+    fetchIncomeData();
+  }, []);
+
+  // ตรวจสอบว่ามีข้อมูลรายได้หรือไม่
+  if (incomeData.length === 0) {
+    return <div>Loading...</div>;  // แสดงข้อความ "Loading..." หากยังไม่ได้รับข้อมูล
+  }
+
+  // การคำนวณข้อมูลที่แสดงในกราฟ
   const data = {
-    labels: ["January", "February"],  // เดือน
+    labels: incomeData.map(item => item.month),  // ใช้ชื่อเดือนจากข้อมูลที่ดึงมา
     datasets: [
       {
         label: "Monthly Income",
-        data: [2000, 500],  // รายได้แต่ละเดือน
-        backgroundColor: "#4caf50", // สีสำหรับรายได้
-      },
-      {
-        label: "Yearly Income",
-        data: [2500, 600],  // รายได้ประจำปี
-        backgroundColor: "#00bcd4",  // สีสำหรับรายได้ประจำปี
+        data: incomeData.map(item => item.income),  // ใช้รายได้จากข้อมูลที่ดึงมา
+        backgroundColor: "#4caf50",  // สีสำหรับรายได้
       },
     ],
   };
@@ -31,4 +49,4 @@ const comechart = () => {
   );
 };
 
-export default comechart;
+export default Comechart;

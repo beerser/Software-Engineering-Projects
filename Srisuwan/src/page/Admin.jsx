@@ -12,6 +12,7 @@ import Edit from "../assets/edit.svg";
 import Managepay from "./Managepay";
 import Availableroom from "../components/Availableroom";
 import Confirm from "../components/Confirm";
+import Comechart from "../components/comechart";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
@@ -28,7 +29,7 @@ const Dashboard = ({ setRooms }) => {
         });
         const data = await res.json();
         setRooms(data);
-        setPendingChanges(data); 
+        setPendingChanges(data);
       } catch (err) {
         console.error("Error fetching rooms", err);
       }
@@ -78,8 +79,9 @@ const Dashboard = ({ setRooms }) => {
                 </h4>
                 <p>
                   {
-                    pendingChanges.filter((room) => room.status === "nonavailable")
-                      .length
+                    pendingChanges.filter(
+                      (room) => room.status === "nonavailable"
+                    ).length
                   }{" "}
                   Rooms
                 </p>
@@ -102,9 +104,13 @@ const Dashboard = ({ setRooms }) => {
               <div className="room-chart">
                 <RoomChart rooms={pendingChanges} />
               </div>
+              <div className="income-chart-container">
+                <Comechart/>
+              </div>
               <div className="room-calendar">
                 <RoomCalendar rooms={pendingChanges} />
               </div>
+
             </div>
           </div>
         );
@@ -114,46 +120,6 @@ const Dashboard = ({ setRooms }) => {
           <div>
             <h2 className="texter">Manage room</h2>
             <Availableroom />
-
-            <div className="available-room-card">
-              <div className="room-list">
-                {pendingChanges.map((room) => (
-                  <div key={room.id} className="room-item">
-                    <input
-                      type="text"
-                      value={room.room_number}
-                      onChange={(e) =>
-                        updateRoom(room.id, "room_number", e.target.value)
-                      }
-                      className="form-control"
-                    />
-                    <img
-                      src={room.image_url}
-                      alt={room.room_number}
-                      style={{
-                        width: "100%",
-                        height: "150px",
-                        objectFit: "cover",
-                      }}
-                    />
-                    <input
-                      type="text"
-                      value={room.description}
-                      onChange={(e) =>
-                        updateRoom(room.id, "description", e.target.value)
-                      }
-                      className="form-control"
-                    />
-                    <button
-                      onClick={() => deleteRoom(room.id)}
-                      className="btn btn-danger"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         );
       case "managePayment":

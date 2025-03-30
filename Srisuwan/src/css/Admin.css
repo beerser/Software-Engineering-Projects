@@ -98,18 +98,21 @@
 }
 
 .room-chart-calendar-container {
-  display: flex;
-  gap: 20px;
-  margin-top: 20px;
-  justify-content: center;
-}
-
-.room-chart, .room-calendar {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    display: flex; /* ใช้ flexbox เพื่อจัดเรียงภายใน */
+    justify-content: space-between; /* จัดให้มีช่องว่างระหว่างสองคอนเทนเนอร์ */
+    gap: 20px; /* เพิ่มระยะห่างระหว่าง Room Chart และ Room Calendar */
+  }
+  
+  .room-chart, .room-calendar {
+    flex: 1; /* ใช้ให้แต่ละบล็อกมีขนาดเท่ากัน */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .dashboard-container {
+    margin: 20px;
+  }
 
 
 .dashboard-summary button:hover {

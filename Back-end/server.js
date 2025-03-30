@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 5001;
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-
+const Income = require("./models/Income");
 
 app.use(express.json());
 
@@ -495,7 +495,19 @@ app.get('/uploads/:filename', (req, res) => {
 
 
 
+app.get("/api/income", async (req, res) => {
+  try {
 
+    const incomeData = await Income.aggregate([
+      { $match: {} }  // ดึงข้อมูลทั้งหมด
+    ]);
+    console.log("Income data:", incomeData) 
+    res.json(incomeData); 
+  } catch (err) {
+    console.error("Error fetching income data:", err);
+    res.status(500).send("Error fetching income data.");
+  }
+});
 
 
 
