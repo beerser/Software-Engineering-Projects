@@ -108,9 +108,7 @@ const Dashboard = ({ setRooms }) => {
               <div className="room-chart">
                 <RoomChart rooms={pendingChanges} />
               </div>
-              <div className="income-chart-container">
-                <Comechart />
-              </div>
+             
               <div className="room-calendar">
                 <RoomCalendar rooms={pendingChanges} />
               </div>

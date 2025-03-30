@@ -1,0 +1,76 @@
+/* RoomCalendar.css */
+.calendar-box {
+    width: 300px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  .calendar-box h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Calendar Overrides */
+  .react-calendar {
+    width: 100% !important;
+    border: none !important;
+    font-family: inherit;
+  }
+  
+  .react-calendar__tile {
+    height: 40px;
+    font-size: 13px;
+  }
+  
+  .booked {
+    background-color: #ffebee !important;
+    color: #e53935 !important;
+    border-radius: 4px;
+  }
+  
+  .free {
+    background-color: #e8f5e9 !important;
+    color: #43a047 !important;
+    border-radius: 4px;
+  }
+  
+  .react-calendar__tile--now {
+    background-color: #e3f2fd !important;
+    color: #1976d2 !important;
+  }
+  
+  .react-calendar__navigation button {
+    color: #333;
+  }
+  
+  /* Legend */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  
+  .booked-dot {
+    background-color: #ffebee;
+    border: 1px solid #e53935;
+  }
+  
+  .free-dot {
+    background-color: #e8f5e9;
+    border: 1px solid #43a047;
+  }

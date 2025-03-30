@@ -1,0 +1,130 @@
+/* เพิ่มในไฟล์ CSS ของคุณ */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.room-chart-container {
+  width: 80%;
+  max-width: 900px;
+  margin: 30px auto;
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  font-family: 'Poppins', sans-serif;
+}
+
+.room-chart-header {
+  margin-bottom: 20px;
+}
+
+.room-chart-title {
+  color: #2c3e50;
+  font-size: 24px;
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-weight: 600;
+}
+
+.room-chart-summary {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 24px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  min-width: 120px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.stat-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.stat-box.available {
+  border-top: 4px solid #2ecc71;
+}
+
+.stat-box.booked {
+  border-top: 4px solid #e74c3c;
+}
+
+.stat-box.total {
+  border-top: 4px solid #3498db;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.stat-box.available .stat-value {
+  color: #27ae60;
+}
+
+.stat-box.booked .stat-value {
+  color: #c0392b;
+}
+
+.stat-box.total .stat-value {
+  color: #2980b9;
+}
+
+.stat-label {
+  color: #7f8c8d;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.stat-percentage {
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 3px 8px;
+  border-radius: 10px;
+  margin-top: 8px;
+}
+
+.stat-box.available .stat-percentage {
+  background: rgba(46, 204, 113, 0.1);
+  color: #27ae60;
+}
+
+.stat-box.booked .stat-percentage {
+  background: rgba(231, 76, 60, 0.1);
+  color: #c0392b;
+}
+
+.chart-wrapper {
+  height: 350px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .room-chart-container {
+    width: 95%;
+    padding: 16px;
+  }
+  
+  .stat-box {
+    padding: 12px 18px;
+    min-width: 100px;
+  }
+  
+  .stat-value {
+    font-size: 24px;
+  }
+  
+  .chart-wrapper {
+    height: 300px;
+  }
+}
