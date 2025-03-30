@@ -140,6 +140,8 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div>
             <h3 className="texter">Manage Booking</h3>
+            <hr />
+            <h3 className="texter">Promptpay Booking</h3>
             <Managepay/>
           </div>
         );
