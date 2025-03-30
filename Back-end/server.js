@@ -218,13 +218,25 @@ app.get("/api/rooms", async (req, res) => {
 
 app.put("/api/admin/rooms", async (req, res) => {
   try {
-    const updatedRooms = req.body;  
+    console.log('Request Body:', req.body);  // ตรวจสอบข้อมูลที่ได้รับ
+    const updatedRooms = req.body;
 
     for (const room of updatedRooms) {
-      if (room._id) {ก
-        const updatedRoom = await Room.findByIdAndUpdate(room._id, { status: room.status }, { new: true });
+      if (room._id) {
+        const updatedRoom = await Room.findByIdAndUpdate(room._id, { 
+          status: room.status,
+          description: room.description, 
+          image_url: room.image_url,
+          price: room.price,
+          room_number: room.room_number,
+          servicefee: room.servicefee
+        }, { new: true });
+
+        if (!updatedRoom) {
+          console.log(`Room with id ${room._id} not found`);
+        }
       } else {
-        await Room.create(room); 
+        await Room.create(room);
       }
     }
 
@@ -234,6 +246,7 @@ app.put("/api/admin/rooms", async (req, res) => {
     res.status(500).json({ error: "Failed to update rooms" });
   }
 });
+
 
 
 

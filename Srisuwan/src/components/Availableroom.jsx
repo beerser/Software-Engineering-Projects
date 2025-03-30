@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../css/Available.css";
-
 const Availableroom = () => {
   const [rooms, setRooms] = useState([]);
   const [editingRoom, setEditingRoom] = useState(null);
@@ -32,20 +31,15 @@ const Availableroom = () => {
   // การเปลี่ยนแปลงข้อมูลในฟอร์ม
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => {
-      console.log("Updated status:", value); // ดูค่าที่เลือกจาก select
-      return { ...prev, [name]: value };
-    });
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
-  
 
   // การบันทึกข้อมูลห้อง
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
       console.log("Sending:", form); // ดูข้อมูลที่จะส่ง
-      console.log("Sending form with status:", form.status);
-
+  
       const res = await fetch("http://localhost:5001/api/admin/rooms", {
         method: "PUT",
         headers: {
@@ -54,18 +48,18 @@ const Availableroom = () => {
         },
         body: JSON.stringify([form]),
       });
-
+  
       // เช็กสถานะของ response ก่อน parse JSON
       if (!res.ok) {
-        const text = await res.text(); // แปลงเป็นข้อความหาก response ไม่ใช่ JSON
+        const text = await res.text();  // แปลงเป็นข้อความหาก response ไม่ใช่ JSON
         console.error("Error response:", text); // log แสดง error ที่ได้รับ
         alert(`Save failed: ${res.status} ${text}`);
         return;
       }
-
+  
       const result = await res.json();
       console.log("Response:", result);
-
+  
       // ถ้า OK แล้ว อัปเดต
       const updatedRoom = result.data?.[0] || form;
       setRooms((prev) =>
@@ -77,6 +71,7 @@ const Availableroom = () => {
       alert("Save error occurred");
     }
   };
+
 
   return (
     <div
@@ -90,10 +85,9 @@ const Availableroom = () => {
       {rooms.map((room) => (
         <div
           key={room._id}
-          onClick={() => handleEdit(room)}
+          onClick={() => handleEdit(room)} // คลิกที่ห้องเพื่อแก้ไข
           style={{
-            backgroundColor:
-              room.status === "nonavailable" ? "#BCBCBC" : "#2CDB5D",
+            backgroundColor: room.status === "nonavailable" ? "#BCBCBC" : "#2CDB5D",
             color: "#fff",
             padding: "20px",
             borderRadius: "10px",
@@ -167,13 +161,7 @@ const Availableroom = () => {
       </div>
 
       {editingRoom === "new" && (
-        <div
-          style={{
-            gridColumn: "1 / -1",
-            backgroundColor: "#f9f9f9",
-            padding: "1rem",
-          }}
-        >
+        <div style={{ gridColumn: "1 / -1", backgroundColor: "#f9f9f9", padding: "1rem" }}>
           <h3>Add New Room</h3>
           <input
             name="room_number"
@@ -188,13 +176,7 @@ const Availableroom = () => {
             value={form.price}
             onChange={handleChange}
           />
-          <select
-            name="status"
-            value={form.status}
-            onChange={handleChange}
-            style={{ width: "100%", marginBottom: "5px" }}
-            onClick={(e) => e.stopPropagation()}
-          >
+          <select name="status" value={form.status} onChange={handleChange}>
             <option value="available">Available</option>
             <option value="nonavailable">Not available</option>
           </select>
@@ -204,9 +186,7 @@ const Availableroom = () => {
             value={form.description}
             onChange={handleChange}
           />
-          <button onClick={handleSave} className="savebt">
-            Save
-          </button>
+          <button onClick={handleSave} className="savebt">Save</button>
         </div>
       )}
     </div>
