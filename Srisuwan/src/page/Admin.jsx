@@ -11,6 +11,7 @@ import CalculatorFee from "../components/Calcutaorfee";
 import Edit from "../assets/edit.svg";
 import Managepay from "./Managepay";
 import Availableroom from "../components/Availableroom";
+import Confirm from "../components/Confirm";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
@@ -24,6 +25,21 @@ const Dashboard = ({ setRooms }) => {
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     saveAs(blob, "rooms.csv");
   };
+
+  const [bookingDetails, setBookingDetails] = useState({
+    user: {
+      firstname: 'John',
+      lastname: 'Doe',
+      email: 'john.doe@example.com',
+      phoneNumber: '1234567890'
+    },
+    room: {
+      roomNumber: 'Room 101',
+      price: 2000,
+      imageUrl: 'https://example.com/room.jpg'
+    },
+    _id: 'bookingId123' // ID ของการจอง
+  });
 
   const renderContent = () => {
     switch (activePage) {
@@ -140,6 +156,8 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div>
             <h3 className="texter">Manage Booking</h3>
+            
+              <Confirm bookingDetails={bookingDetails} />
             <hr />
             <h3 className="texter">Promptpay Booking</h3>
             <Managepay/>

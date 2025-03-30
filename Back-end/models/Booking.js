@@ -10,4 +10,5 @@ const bookingSchema = new mongoose.Schema({
 });
 
 const Booking = mongoose.model('Booking', bookingSchema);  // สร้างโมเดล Booking
-module.exports = Booking;
+
+module.exports = Booking;  // ส่งออกโมเดลเพื่อใช้ในไฟล์อื่นๆ

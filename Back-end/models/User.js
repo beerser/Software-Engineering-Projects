@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: String,
   phoneNumber: String,
-  role: { type: String, default: 'user' }, // หรือ 'admin'
+  role: { type: String, default: 'user' }, 
 });
 
 // เข้ารหัส password ก่อนบันทึก

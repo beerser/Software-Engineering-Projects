@@ -366,16 +366,11 @@ app.post('/booking', upload.single('slip'), async (req, res) => {
   try {
     const { user_firstname, user_lastname, room_number } = req.body;
 
-    // ตรวจสอบข้อมูลที่ได้รับ
-    console.log('User Firstname:', user_firstname);
-    console.log('User Lastname:', user_lastname);
-    console.log('Room Number:', room_number);
-
-    // สร้างการจองใหม่ใน MongoDB
+  
     const booking = new Booking({
       user_firstname,
       user_lastname,
-      room_number,  // ใช้ room_number ที่เป็น string
+      room_number,  
       slip_filename: req.file.filename,
       payment_status: 'pending',
     });
@@ -392,18 +387,38 @@ app.post('/booking', upload.single('slip'), async (req, res) => {
 
 
 
-app.get('/booking/:id', async (req, res) => {
+// API สำหรับดึงข้อมูลการจองทั้งหมด
+app.get('/api/bookings', async (req, res) => {
   try {
-    const booking = await Booking.findById(req.params.id).populate('user_id').populate('room_id');
-    if (!booking) {
-      return res.status(404).send('ไม่พบการจองนี้');
+    const bookings = await Booking.find();  // ดึงข้อมูลการจองทั้งหมดจาก MongoDB
+
+    if (!bookings || bookings.length === 0) {
+      return res.status(404).send('ไม่พบข้อมูลการจอง');
     }
-    res.json(booking);
+
+    // ส่งข้อมูลทั้งหมดของการจอง (ไม่รวม _id)
+    const bookingData = bookings.map(booking => {
+      const { user_firstname, user_lastname, room_number, slip_filename, payment_status, created_at } = booking;
+      return {
+        user_firstname,
+        user_lastname,
+        room_number,
+        slip_filename,
+        payment_status,
+        created_at
+      };
+    });
+
+    res.status(200).json(bookingData);  // ส่งข้อมูลการจองทั้งหมด
   } catch (error) {
-    console.error('เกิดข้อผิดพลาดในการดึงข้อมูลการจอง:', error.message);
-    res.status(500).send('เกิดข้อผิดพลาด');
+    console.error(error);
+    res.status(500).send('เกิดข้อผิดพลาดในการดึงข้อมูลการจอง');
   }
 });
+
+
+
+
 
 
 app.put('/booking/:id/approve', async (req, res) => {
@@ -430,6 +445,45 @@ app.put('/booking/:id/approve', async (req, res) => {
   } catch (error) {
     console.error('เกิดข้อผิดพลาดในการอนุมัติการจอง:', error.message);
     res.status(500).send('เกิดข้อผิดพลาด');
+  }
+});
+
+
+app.post('/api/confirmBooking', async (req, res) => {
+  const { bookingId, status } = req.body;
+  try {
+    const booking = await Booking.findById(bookingId);
+    if (!booking) {
+      return res.status(404).send('ไม่พบการจอง');
+    }
+    booking.payment_status = status;  // อัปเดตสถานะการจอง
+    await booking.save();
+    res.status(200).send('การจองถูกยืนยันแล้ว');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('เกิดข้อผิดพลาดในการยืนยันการจอง');
+  }
+});
+
+app.post('/api/rejectBooking', async (req, res) => {
+  const { bookingId } = req.body;
+
+  if (!bookingId) {
+    return res.status(400).send('ไม่พบ bookingId');
+  }
+
+  try {
+    // ลบการจองจาก MongoDB
+    const result = await Booking.deleteOne({ _id: bookingId });  // ลบเอกสารที่ตรงกับ bookingId
+
+    if (result.deletedCount === 0) {
+      return res.status(404).send('ไม่พบการจองที่ต้องการลบ');
+    }
+
+    res.status(200).send('การจองถูกปฏิเสธและลบเรียบร้อยแล้ว');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('เกิดข้อผิดพลาดในการปฏิเสธการจอง');
   }
 });
 
