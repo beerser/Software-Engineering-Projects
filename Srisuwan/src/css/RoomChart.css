@@ -2,9 +2,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 .room-chart-container {
-  width: 80%;
-  max-width: 900px;
+  width: 600px;
+  max-width: 1000px;
   margin: 30px auto;
+  margin-left: 10%;
+  
   background: white;
   border-radius: 12px;
   padding: 24px;

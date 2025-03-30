@@ -73,7 +73,6 @@ const Dashboard = ({ setRooms }) => {
                   <strong>Income</strong>
                 </h4>
                 <div>
-                  {/* Replace <p> with <div> or use it properly to avoid block elements inside */}
                   <Monday /> Bath
                 </div>
               </div>
@@ -105,11 +104,11 @@ const Dashboard = ({ setRooms }) => {
             </div>
 
             <div className="room-chart-calendar-container">
-              <div className="room-chart">
+              <div className="">
                 <RoomChart rooms={pendingChanges} />
               </div>
              
-              <div className="room-calendar">
+              <div className="">
                 <RoomCalendar rooms={pendingChanges} />
               </div>
             </div>

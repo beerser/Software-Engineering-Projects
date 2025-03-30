@@ -4,6 +4,7 @@ const Managepay = () => {
   const [files, setFiles] = useState([]);
   const [reservations, setReservations] = useState([]);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [rooms, setRooms] = useState([]); // ประกาศ rooms
 
   // ฟังก์ชันดึงรายการไฟล์จากเซิร์ฟเวอร์
   const fetchFiles = async () => {
@@ -20,9 +21,28 @@ const Managepay = () => {
     }
   };
 
+  // ฟังก์ชันดึงข้อมูลการจอง
+  const fetchReservations = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/api/bookings');
+      if (response.ok) {
+        const data = await response.json();
+        // กรองข้อมูลที่สถานะเป็น "pending"
+        const pendingReservations = data.filter(reservation => reservation.payment_status.trim() === 'pending');
+        setReservations(pendingReservations); // เก็บข้อมูลการจองที่มีสถานะเป็น pending
+      } else {
+        console.error('ไม่สามารถดึงข้อมูลการจอง');
+      }
+    } catch (error) {
+      console.error('เกิดข้อผิดพลาดในการดึงข้อมูลการจอง:', error);
+    }
+  };
 
-
-useEffect(() => {
+  useEffect(() => {
+    fetchFiles();
+    fetchReservations();
+    
+    // ดึงข้อมูลห้อง
     const fetchRooms = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -37,32 +57,7 @@ useEffect(() => {
     };
 
     fetchRooms();
-  }, []);
-  
-
-
-
-
-  // ฟังก์ชันดึงข้อมูลการจอง
-  const fetchReservations = async () => {
-    try {
-      const response = await fetch('http://localhost:5001/api/bookings');
-      if (response.ok) {
-        const data = await response.json();
-        // กรองข้อมูลที่สถานะเป็น "pending"
-        const pendingReservations = data.filter(reservation => reservation.payment_status.trim() === 'pending');
-        setReservations(pendingReservations);// เก็บข้อมูลการจองที่มีสถานะเป็น pending
-      } else {
-        console.error('ไม่สามารถดึงข้อมูลการจอง');
-      }
-    } catch (error) {
-      console.error('เกิดข้อผิดพลาดในการดึงข้อมูลการจอง:', error);
-    }
-  };
-  useEffect(() => {
-    fetchFiles();
-    fetchReservations();
-  }, []);
+  }, []); // เรียกใช้ fetch ทั้งหมดใน useEffect เดียว
 
   const updateBookingStatus = async (user_firstname, user_lastname, room_number, slip_filename, status) => {
     try {
@@ -78,8 +73,7 @@ useEffect(() => {
           room_number, 
           slip_filename, 
           status,
-        }),  
-        
+        }),
       });
       
       if (response.ok) {
@@ -95,8 +89,6 @@ useEffect(() => {
       alert('เกิดข้อผิดพลาดในการอัปเดตสถานะ');
     }
   };
-  
-  
 
   // สร้างตัวเลือกสถานะการจอง
   const handleSelectBooking = (booking) => {
@@ -160,6 +152,5 @@ useEffect(() => {
     </div>
   );
 };
-
 
 export default Managepay;

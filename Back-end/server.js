@@ -505,6 +505,8 @@ app.get("/uploads/:filename", (req, res) => {
   res.sendFile(file);
 });
 
+
+
 app.get("/api/income", async (req, res) => {
   try {
     const incomeData = await Income.aggregate([
