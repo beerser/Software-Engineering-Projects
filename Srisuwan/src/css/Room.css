@@ -16,10 +16,15 @@
   font-weight: bold;
 }
 
+.detail-text{
+  color: black;
+  text-align: left;
+}
+
 .Detailed{
-  margin-top: 22%;
+  margin-top: 1%;
   margin-right: 0%;
-  margin-left: 4%;
+  margin-left: 3%;
 }
 
 .header p {
@@ -27,7 +32,7 @@
   color: #4b5563;
 }
 
-.details-container {
+.room-page {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -36,14 +41,29 @@
   margin-bottom: 1.5rem;
 }
 
-.image-container {
+.image-room-main {
   flex: 1;
-  min-width: 250px;
+  min-width: 25px;
+}
+
+.back-button-on-room-page{
+  width: auto;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #0084ff;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 45px;
+  margin-top: 30px;
+  display: block;
+  transition: background-color 0.3s ease, color 0.3s ease; /* เพิ่ม transition นุ่มๆ */
 }
 
 .room-image {
-  width: 77%;
-  height: 550%;
+  width: 80%;
+  height: 80%;
   margin-left: 30px;
   border-radius: 0.375rem;
 }
@@ -69,14 +89,19 @@
   opacity: 0.8;
 }
 
-.room-details {
+.room-details-on-page {
   flex: 1;
-  min-width: 250px;
-  margin-left: -120px;
+  min-width: 25px;
+  margin-right: 200px;
 }
 
-.room-details h2{
+.room-details-on-page h2{
   font-weight: bold;
+}
+
+.room-details-on-page p {
+  color: black;
+  text-align: left; /* ทำให้ข้อความชิดซ้าย */
 }
 
 .icon-container {
@@ -96,7 +121,7 @@
   height: 24px;
 }
 
-.confirm-button {
+.confirm-button-on-room-page {
   width: auto;
   padding: 8px 10px;
   border: none;
@@ -111,7 +136,7 @@
   display: block;
 }
 
-.confirm-button:hover {
+.confirm-button-on-room-page:hover {
   background-color: #006bb3;
 }
 
@@ -120,6 +145,37 @@
   flex-direction: column;
   min-height: 100vh;
   justify-content: flex-end;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* ทำให้คอนเทนเนอร์มีความสูงเต็มหน้าจอ */
+  background-color: #f9f9f9; /* สีพื้นหลังอ่อน */
+  text-align: center; /* จัดตำแหน่งข้อความให้ชิดกลาง */
+}
+
+.error-container p {
+  font-size: 18px;
+  color: red; /* ให้ข้อความสีแดงเพื่อให้เด่น */
+  margin-bottom: 20px;
+}
+
+.error-container .back-button {
+  padding: 10px 20px;
+  background-color: #0084ff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.error-container .back-button:hover {
+  background-color: #006bb3; /* เปลี่ยนสีปุ่มเมื่อ hover */
 }
 
 @media screen and (max-width: 1024px) {

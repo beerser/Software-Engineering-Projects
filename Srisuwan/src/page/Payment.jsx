@@ -37,10 +37,10 @@ const Payment = () => {
         <h4>Payment</h4>
 
 
-        <div className="detailss-container">
-          <h6>Address</h6>
+        <div className="detail-address-main">
+          <h6 className='header-address-text'>Address</h6>
           <div>
-            <p className='add'>7 Klong luang Soi, Phaholyothin Road, Knlog 1, Knlong Luang, Pathum Thani</p>
+            <p className='text-address'>7 Klong luang Soi, Phaholyothin Road, Knlog 1, Knlong Luang, Pathum Thani</p>
           </div>
         </div>
 
@@ -61,7 +61,7 @@ const Payment = () => {
 
 
 
-        <div className="details-container">
+        <div className="payment-methods-main">
         <QR item={item} />
         </div>
 

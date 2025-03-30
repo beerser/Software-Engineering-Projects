@@ -36,13 +36,13 @@ const Room = () => {
     <>
       <div className="room-container">
         <div className="header">
-          <button onClick={() => navigate("/")} className="back-button">
+          <button onClick={() => navigate("/")} className="back-button-on-room-page">
             Back
           </button>
         </div>
 
-        <div className="details-container">
-          <div className="image-container">
+        <div className="room-page">
+          <div className="image-room-main">
             <img
               src={item.imageUrl}
               alt={`Room ${item.roomNumber}`}
@@ -62,7 +62,7 @@ const Room = () => {
             </div>
           </div>
 
-          <div className="room-details">
+          <div className="room-details-on-page">
             <h2>{item.roomNumber}</h2>
             <p>{item.price} Baht</p>
             <hr />
@@ -85,15 +85,14 @@ const Room = () => {
         </div>
 
         <div className="Detailed">
-          <p>
-            <strong>Detail</strong>{" "}
-            {item.description || "No description available"}
-          </p>
-        </div>
-
-        <button className="confirm-button" onClick={handleBookRoom}>
-          Book a room
-        </button>
+  <p className="detail-text">
+    <strong>Detail</strong><br />
+    {item.description || "No description available"}
+    <button className="confirm-button-on-room-page" onClick={handleBookRoom}>
+      Book a room
+    </button>
+  </p>
+</div>
       </div>
 
       {selectedImage && (
@@ -116,9 +115,9 @@ const Room = () => {
           }}
         >
           <img
-             src={selectedImage}
-             style={{ maxWidth: "100%", maxHeight: "100%", borderRadius: "5px" }}
-             alt="preview"
+            src={selectedImage}
+            style={{ maxWidth: "100%", maxHeight: "100%", borderRadius: "5px" }}
+            alt="preview"
           />
         </div>
       )}

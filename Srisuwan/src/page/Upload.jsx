@@ -22,13 +22,11 @@ const Upload = () => {
       return;
     }
   
-    // ตรวจสอบว่า user มีข้อมูลหรือไม่
     if (!user || !user.firstname || !user.lastname) {
       setMessage('ไม่พบข้อมูลผู้ใช้');
       return;
     }
   
-    // ตรวจสอบว่า room_id เป็น ObjectId ที่ถูกต้อง
     if (!item.roomNumber) {
       setMessage('ไม่พบข้อมูลห้อง');
       return;
@@ -55,10 +53,9 @@ const Upload = () => {
       setMessage('เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์');
     }
   };
-  
-  
+
   return (
-    <div>
+    <div className="uploade-container">
       <form onSubmit={handleSubmit}>
         <label htmlFor="slip">เลือกสลีปเงินของคุณ:</label>
         <input type="file" id="slip" name="slip" accept="image/*, .pdf" required />

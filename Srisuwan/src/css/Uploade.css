@@ -1,0 +1,83 @@
+/* จัดให้ container อยู่กึ่งกลางของหน้า */
+.uploade-container {
+    display: flex;
+    justify-content: center; /* จัดกึ่งกลางในแนวนอน */
+    align-items: center; /* จัดกึ่งกลางในแนวตั้ง */
+    height: 100vh; /* ความสูงของ container เท่ากับความสูงของหน้าจอ */
+    margin: 0; /* ป้องกัน margin เริ่มต้น */
+}
+
+/* ฟอร์ม */
+form {
+    width: 100%;
+    max-width: 400px; /* ขนาดสูงสุดของฟอร์ม */
+    padding: 2rem;
+    background-color: #fff; /* พื้นหลังของฟอร์ม */
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* เงานุ่ม */
+    display: flex;
+    flex-direction: column; /* ให้ฟอร์มจัดเรียงในแนวตั้ง */
+    align-items: stretch; /* ให้ฟอร์มขยายให้เต็มความกว้าง */
+}
+
+/* การตั้งค่าของ label */
+label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/* การตั้งค่าของ input file */
+input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f9f9f9; /* พื้นหลังของ input */
+}
+
+/* การตั้งค่าของปุ่ม */
+button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #0084ff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* เปลี่ยนสีปุ่มเมื่อ hover */
+button:hover {
+    background-color: #006bb3;
+}
+
+/* การตั้งค่าของข้อความ */
+p {
+    font-size: 14px;
+    color: #4b5563;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+/* สีของข้อความเมื่อสำเร็จ */
+.message-success {
+    color: #28a745;
+}
+
+/* สีของข้อความเมื่อเกิดข้อผิดพลาด */
+.message-error {
+    color: #dc3545;
+}
+
+/* การตั้งค่าของข้อความผลลัพธ์ */
+.message {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+}

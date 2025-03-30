@@ -36,9 +36,9 @@ const QR = ({ item }) => {
 
   return (
     <div>
-      <div className='textx'>
-        <div className="payment-header">
-          <p className='Herd'>Payment Methods</p>
+      <div className='payment-page-text'>
+        <div className="payment-page-header">
+          <p>Payment Methods</p>
           <div className='bt'>
             <ul className="nav justify-content-end">
               <li className="nav-item1">
