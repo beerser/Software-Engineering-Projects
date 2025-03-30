@@ -1,8 +1,11 @@
 /* Roombooking.css */
-
 /* Layout สำหรับ sidebar และ content */
+
+
 .containere {
     display: flex !important;
+    box-shadow: #000000;
+    
   }
   
   .sidebare {
@@ -12,21 +15,38 @@
     height: 400px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     margin-top: 2%;
+    border-radius: 10px;
+    margin-left: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+
+    
+  }
+  .sidebare-item.active {
+    background-color: #EAEAEA;
+    color: #000000;
+    border-radius: 10px;
+    height: 40px;
+    padding: 10px 20px;
   }
   
   .main-contente {
     flex-grow: 1;
     padding: 20px;
     background-color: #fff;
+    
   }
   
   .sidebare ul {
     list-style: none;
     padding: 0;
+    
   }
   
   .sidebare-item {
     margin: 15px 0;
+    height: 40px;
+    padding: 10px 20px;
     cursor: pointer;
   }
   
@@ -41,6 +61,7 @@
     margin-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     width: 100%;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
 .userr{
     margin-right: 41%;
@@ -50,6 +71,7 @@
 .userrr{
   color: #9C9292;
   font-weight: 700;
+  
 }
 .userrrr{
   color: #000000;
@@ -58,6 +80,7 @@
   
   .user-info {
     display: flex;
+    
     flex-direction: column; 
   }
   
@@ -108,6 +131,7 @@
   }
   
   .info-item-user {
+    
     display: flex;
     flex-direction: column; 
     justify-content: flex-start;
@@ -116,7 +140,7 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     margin-bottom: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
   .info-item-rooms {
     display: flex;

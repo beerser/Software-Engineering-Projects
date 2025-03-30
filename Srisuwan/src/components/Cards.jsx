@@ -28,6 +28,7 @@ const Cards = ({ obj, onPaymentClick }) => {
         scrollbarWidth: "none",
         msOverflowStyle: "none",
         margin: "0 auto", // Center the content
+        
       }}
       className="scroll-container"
     >

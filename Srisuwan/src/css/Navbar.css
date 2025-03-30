@@ -6,6 +6,7 @@
     align-items: center;
     border-bottom: 1px solid #ccc;
     width: 100%;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
 .navbar-container {

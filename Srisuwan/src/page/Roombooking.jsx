@@ -15,6 +15,20 @@ const Roombooking = () => {
     phoneNumber: user ? user.phoneNumber : "",
   });
 
+ 
+  const items = document.querySelectorAll('.sidebare-item');
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      // เอา active ออกจากทุกอันก่อน
+      items.forEach(i => i.classList.remove('active'));
+      // ใส่ active ให้ตัวที่คลิก
+      item.classList.add('active');
+    });
+  });
+
+
+
   useEffect(() => {
     if (user) {
       setUserData({

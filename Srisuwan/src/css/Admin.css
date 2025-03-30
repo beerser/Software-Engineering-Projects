@@ -62,24 +62,23 @@
 }
 
 .dashboard-summary {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
 
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: right;
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+  .card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: right;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
 
 .card h4 {
   margin-bottom: 5px;
