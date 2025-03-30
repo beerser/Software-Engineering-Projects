@@ -17,6 +17,8 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const Income = require("./models/Income");
+const Money = require("./models/Money");
+
 
 app.use(express.json());
 
@@ -496,10 +498,14 @@ app.post("/api/rejectBooking", async (req, res) => {
   }
 });
 
+
+
 app.get("/uploads/:filename", (req, res) => {
   const file = path.join(__dirname, "uploads", req.params.filename);
   res.sendFile(file);
 });
+
+
 
 app.get("/api/income", async (req, res) => {
   try {
@@ -513,6 +519,44 @@ app.get("/api/income", async (req, res) => {
     res.status(500).send("Error fetching income data.");
   }
 });
+
+
+
+
+
+
+
+app.post("/api/money", async (req, res) => {
+  const { price } = req.body;
+
+
+    try {
+      // สร้างอินสแตนซ์ใหม่ของ Money เพื่อบันทึกข้อมูล
+      const newMoney = new Money({
+        price: price, // ส่งข้อมูล price ที่ได้จาก React
+      });
+  
+      // บันทึกข้อมูลลงใน MongoDB
+      await newMoney.save();
+  
+      res.status(201).json({
+        message: 'Total price saved successfully',
+        money: newMoney,
+      });
+    } catch (err) {
+      console.error("Error saving total price:", err);
+      res.status(500).json({ error: 'Failed to save total price' });
+    }
+  
+});
+
+
+
+
+
+
+
+
 
 app.listen(5001, () => {
   console.log("server running");

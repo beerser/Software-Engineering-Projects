@@ -13,6 +13,7 @@ import Managepay from "./Managepay";
 import Availableroom from "../components/Availableroom";
 import Confirm from "../components/Confirm";
 import Comechart from "../components/comechart";
+import Monday from "../components/Monday";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
@@ -71,46 +72,45 @@ const Dashboard = ({ setRooms }) => {
                 <h4>
                   <strong>Income</strong>
                 </h4>
-                <p>2000 Bath</p>
+                <div>
+                  <Monday /> Bath
+                </div>
               </div>
               <div className="card">
                 <h4>
                   <strong>Current tenants</strong>
                 </h4>
-                <p>
+                <div>
                   {
                     pendingChanges.filter(
                       (room) => room.status === "nonavailable"
                     ).length
                   }{" "}
                   Rooms
-                </p>
+                </div>
               </div>
               <div className="card">
                 <h4>
                   <strong>Remaining number of rooms</strong>
                 </h4>
-                <p>
+                <div>
                   {
                     pendingChanges.filter((room) => room.status === "available")
                       .length
                   }{" "}
                   Rooms
-                </p>
+                </div>
               </div>
             </div>
 
             <div className="room-chart-calendar-container">
-              <div className="room-chart">
+              <div className="">
                 <RoomChart rooms={pendingChanges} />
               </div>
-              <div className="income-chart-container">
-                <Comechart/>
-              </div>
-              <div className="room-calendar">
+             
+              <div className="">
                 <RoomCalendar rooms={pendingChanges} />
               </div>
-
             </div>
           </div>
         );
