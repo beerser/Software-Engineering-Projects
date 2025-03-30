@@ -6,7 +6,8 @@ const Cards = ({ obj, onPaymentClick }) => {
 
   const handleRentClick = (item) => {
     const paymentDetails = {
-      roomNumber: item.room_number, 
+      roomNumber: item.room_number,
+      description: item.description,
       price: item.price,
       imageUrl: item.image_url,
       timestamp: new Date().toLocaleString(),
