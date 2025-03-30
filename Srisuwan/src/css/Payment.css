@@ -20,7 +20,16 @@
     margin-left: 20px;
 }
 
+.priceCC {
+    color: #0084ff;
+    font-size: 20px;
+    margin-left: auto;
+    font-weight: bold;
+    margin-left: 85%;
+}
+
 .price {
+    margin-right: 10%;
     color: #555;
     font-size: 0.875rem;
     margin-left: auto;

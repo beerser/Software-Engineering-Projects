@@ -49,16 +49,17 @@ const Payment = () => {
             <img src={item.imageUrl} alt="" className='image-container' />
             <div className='text-container'>
               <p className='name_room'>{item.roomNumber}</p>
-              <p className='price'>{item.price}</p>
+              <p className='price'>{item.price} Bath</p>
             </div>
+            
+          </div>
+          <div className='text-ccontainer' >
+            <hr />
+            <p className='priceCC '>{item.price} Bath</p>
           </div>
         </div>
 
-        <div className="detailss-containerr">
-          <div className='text-container' >
-            <p className='priceC '>{item.price}</p>
-          </div>
-        </div>
+
 
         <div className="details-container">
         <QR item={item} />
