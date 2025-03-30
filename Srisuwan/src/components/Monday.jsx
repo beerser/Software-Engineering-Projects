@@ -63,10 +63,10 @@ const Monday = () => {
 
   return (
     <div>
-      <div style={{ textAlign: "center", fontWeight: "bold", marginTop: "20px" }}>
-        <p>{totalPrice}</p>
-      </div>
+    <div style={{ textAlign: "center", fontWeight: "bold", marginTop: "20px" }}>
+      <div>{totalPrice}</div> 
     </div>
+  </div>
   );
 };
 

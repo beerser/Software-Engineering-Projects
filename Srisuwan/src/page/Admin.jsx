@@ -72,32 +72,35 @@ const Dashboard = ({ setRooms }) => {
                 <h4>
                   <strong>Income</strong>
                 </h4>
-                <p><Monday/> Bath</p>
+                <div>
+                  {/* Replace <p> with <div> or use it properly to avoid block elements inside */}
+                  <Monday /> Bath
+                </div>
               </div>
               <div className="card">
                 <h4>
                   <strong>Current tenants</strong>
                 </h4>
-                <p>
+                <div>
                   {
                     pendingChanges.filter(
                       (room) => room.status === "nonavailable"
                     ).length
                   }{" "}
                   Rooms
-                </p>
+                </div>
               </div>
               <div className="card">
                 <h4>
                   <strong>Remaining number of rooms</strong>
                 </h4>
-                <p>
+                <div>
                   {
                     pendingChanges.filter((room) => room.status === "available")
                       .length
                   }{" "}
                   Rooms
-                </p>
+                </div>
               </div>
             </div>
 
@@ -106,12 +109,11 @@ const Dashboard = ({ setRooms }) => {
                 <RoomChart rooms={pendingChanges} />
               </div>
               <div className="income-chart-container">
-                <Comechart/>
+                <Comechart />
               </div>
               <div className="room-calendar">
                 <RoomCalendar rooms={pendingChanges} />
               </div>
-              
             </div>
           </div>
         );
