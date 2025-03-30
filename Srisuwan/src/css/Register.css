@@ -1,5 +1,3 @@
-
-  
   .register-form {
     max-width: 600px;
     margin: 50px auto;
@@ -68,6 +66,7 @@
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 15px;
   }
   
   .bluelike{
