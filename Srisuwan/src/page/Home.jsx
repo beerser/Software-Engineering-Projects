@@ -15,7 +15,7 @@ import Register from "./Register";
 import Footer from "../components/footer";
 import Neary from "../components/Neary";
 import Roombooking from "./Roombooking";
-
+import Upload from "./Upload";
 
 function Home() {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -84,6 +84,7 @@ function Home() {
             path="/admin"
             element={<ProtectedRoute><Admin rooms={rooms} setRooms={setRooms} /></ProtectedRoute>}
           />
+          <Route path="/upload" element={<Upload/>}/>
           <Route
             path="/information"
             element={<Roombooking/>}/>
