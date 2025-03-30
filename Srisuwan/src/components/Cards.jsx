@@ -11,6 +11,7 @@ const Cards = ({ obj, onPaymentClick }) => {
       price: item.price,
       imageUrl: item.image_url,
       description: item.description,
+      servicefee: item.servicefee,
       timestamp: new Date().toLocaleString(),
       bookingId: `BK${Math.random().toString(36).substr(2, 9)}`.toUpperCase()
     };

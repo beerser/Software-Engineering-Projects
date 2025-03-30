@@ -13,7 +13,7 @@ const Room = () => {
   const location = useLocation();
 
   const { item } = location.state || {};
-  console.log(item)
+  console.log(item);
   if (!item) {
     return (
       <div className="error-container">
@@ -36,7 +36,10 @@ const Room = () => {
     <>
       <div className="room-container">
         <div className="header">
-          <button onClick={() => navigate("/")} className="back-button-on-room-page">
+          <button
+            onClick={() => navigate("/")}
+            className="back-button-on-room-page"
+          >
             Back
           </button>
         </div>
@@ -85,14 +88,29 @@ const Room = () => {
         </div>
 
         <div className="Detailed">
-  <p className="detail-text">
-    <strong>Detail</strong><br />
-    {item.description || "No description available"}
-    <button className="confirm-button-on-room-page" onClick={handleBookRoom}>
-      Book a room
-    </button>
-  </p>
-</div>
+          <p className="detail-text">
+            <strong>Detail</strong>
+            <br />
+            {item.description || "No description available"}
+            <button
+              className="confirm-button-on-room-page"
+              onClick={handleBookRoom}
+            >
+              Book a room
+            </button>
+          </p>
+        </div>
+        <div className="room-info-on-room-page">
+          <div className="room-info-on-room-item">
+          <div>รายเดือน: <span className="room-info-on-room-item-2">{item.price} บาท/เดือน</span></div>
+          <hr />
+          <div>ค่าน้ำ:</div>
+          <hr />
+          <div>ค่าไฟ:</div>
+          <hr />
+          <div>ค่าบริการ:<span className="room-info-on-room-item-2">{item.servicefee} บาท/เดือน</span></div>
+          </div>
+        </div>
       </div>
 
       {selectedImage && (

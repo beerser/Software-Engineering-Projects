@@ -3,7 +3,7 @@ import Footer from "../components/footer";
 import "../css/Roombooking.css";
 import axios from "axios";
 import { useAuth } from "../components/AuthContext";
-
+import auImage from "../assets/au.jpg";
 const Roombooking = () => {
   const { user } = useAuth();
   const [reservations, setReservations] = useState([]);
@@ -15,17 +15,8 @@ const Roombooking = () => {
     email: user ? user.email : "",
     phoneNumber: user ? user.phoneNumber : "",
   });
-
-  const items = document.querySelectorAll(".sidebare-item");
-
-  items.forEach((item) => {
-    item.addEventListener("click", () => {
-      // เอา active ออกจากทุกอันก่อน
-      items.forEach((i) => i.classList.remove("active"));
-      // ใส่ active ให้ตัวที่คลิก
-      item.classList.add("active");
-    });
-  });
+  const [showModal, setShowModal] = useState(false);
+  const [nextPaymentDate, setNextPaymentDate] = useState(null); // State for next payment date
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -49,31 +40,23 @@ const Roombooking = () => {
     fetchReservations();
   }, [user]); // แค่โหลดข้อมูลครั้งเดียวเมื่อโหลดหน้า
 
-  useEffect(() => {
-    if (user) {
-      setUserData({
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-      });
-    }
-  }, [user]);
-
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
 
+
+
   const getPaymentStatusColor = (status) => {
     if (status === "pending") {
-      return { color: "red" }; 
+      return { color: "red" };
     } else if (status === "confirmed") {
-      return { color: "green" }; 
+      return { color: "green" };
     } else {
-      return { color: "gray" };  
+      return { color: "gray" };
     }
   };
+
   const handleSave = async () => {
     const token = localStorage.getItem("token");
 
@@ -112,6 +95,21 @@ const Roombooking = () => {
     setUserData({ ...userData, [name]: value });
   };
 
+  // ฟังก์ชันคำนวณวันที่ชำระเงินถัดไป
+  const calculateNextPaymentDate = (date) => {
+    const currentDate = new Date(date);
+    currentDate.setMonth(currentDate.getMonth() + 1); // เพิ่มเดือน 1
+    currentDate.setDate(1); // ตั้งวันเป็นวันที่ 1 ของเดือนถัดไป
+    return currentDate;
+  };
+
+  // เมื่อคลิกที่ "Next pay At"
+  const handleNextPaymentClick = (reservationDate) => {
+    const nextDate = calculateNextPaymentDate(reservationDate);
+    setNextPaymentDate(nextDate);
+    setShowModal(true); // เปิด Modal
+  };
+
   const renderContent = () => {
     switch (activePage) {
       case "allroomreservations":
@@ -125,11 +123,25 @@ const Roombooking = () => {
                 reservations.map((reservation) => (
                   <div key={reservation._id} className="info-item-users">
                     <p className="ur">Room Number: {reservation.room_number}</p>
-                    <p style={getPaymentStatusColor(reservation.payment_status)}>Payment Status: {reservation.payment_status}</p>
+                    <p
+                      style={getPaymentStatusColor(reservation.payment_status)}
+                    >
+                      Payment Status: {reservation.payment_status}
+                    </p>
                     <p className="ur">
                       Created At:{" "}
                       {new Date(reservation.created_at).toLocaleDateString()}
                     </p>
+                    <a
+                      className="urll"
+                      onClick={() => {
+                        handleNextPaymentClick(reservation.created_at);
+                        genQR();
+                      }}
+                    >
+                      Next pay At:{" "}
+                      {new Date(reservation.created_at).toLocaleDateString()}
+                    </a>
                   </div>
                 ))
               )}
@@ -162,7 +174,7 @@ const Roombooking = () => {
                     </div>
                   ) : (
                     <p>
-                      {userData.firstname} {userData.lastname}
+                      {user.firstname} {user.lastname}
                     </p>
                   )}
                 </div>
@@ -223,6 +235,15 @@ const Roombooking = () => {
 
         <main className="main-contente">{renderContent()}</main>
       </div>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+          <img src={auImage} alt="" />
+            <button onClick={() => setShowModal(false)}>Close</button>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </>

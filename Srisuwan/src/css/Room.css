@@ -165,6 +165,20 @@
   color: red; 
   margin-bottom: 20px;
 }
+.room-info-on-room-page{
+  background-color: #D2D2D2;
+  max-width: 20%;
+  margin-left: 77%;
+  border-radius: 10px;
+  height: 250px;
+}
+.room-info-on-room-item{
+  padding: 20px;
+}
+.room-info-on-room-item-2{
+  margin-right: auto;
+  margin-left: 20%;
+}
 
 .error-container .back-button {
   padding: 10px 20px;
