@@ -11,6 +11,8 @@ import CalculatorFee from "../components/Calcutaorfee";
 import Edit from "../assets/edit.svg";
 import Managepay from "./Managepay";
 import Availableroom from "../components/Availableroom";
+import Confirm from "../components/Confirm";
+import Comechart from "../components/comechart";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
@@ -18,12 +20,44 @@ const Dashboard = ({ setRooms }) => {
   const [activePage, setActivePage] = useState("dashboard");
   const navigate = useNavigate();
   const { user } = useAuth();
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch("http://localhost:5001/api/rooms", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        setRooms(data);
+        setPendingChanges(data);
+      } catch (err) {
+        console.error("Error fetching rooms", err);
+      }
+    };
+
+    fetchRooms();
+  }, []);
 
   const exportCSV = () => {
     const csv = Papa.unparse(pendingChanges);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     saveAs(blob, "rooms.csv");
   };
+
+  const [bookingDetails, setBookingDetails] = useState({
+    user: {
+      firstname: "John",
+      lastname: "Doe",
+      email: "john.doe@example.com",
+      phoneNumber: "1234567890",
+    },
+    room: {
+      roomNumber: "Room 101",
+      price: 2000,
+      imageUrl: "https://example.com/room.jpg",
+    },
+    _id: "bookingId123", // ID ของการจอง
+  });
 
   const renderContent = () => {
     switch (activePage) {
@@ -32,7 +66,6 @@ const Dashboard = ({ setRooms }) => {
           <div>
             <h2>Dashboard Overview</h2>
 
-           
             <div className="dashboard-summary">
               <div className="card">
                 <h4>
@@ -46,8 +79,9 @@ const Dashboard = ({ setRooms }) => {
                 </h4>
                 <p>
                   {
-                    pendingChanges.filter((room) => room.status === "booked")
-                      .length
+                    pendingChanges.filter(
+                      (room) => room.status === "nonavailable"
+                    ).length
                   }{" "}
                   Rooms
                 </p>
@@ -66,14 +100,17 @@ const Dashboard = ({ setRooms }) => {
               </div>
             </div>
 
-           
             <div className="room-chart-calendar-container">
               <div className="room-chart">
                 <RoomChart rooms={pendingChanges} />
               </div>
+              <div className="income-chart-container">
+                <Comechart/>
+              </div>
               <div className="room-calendar">
                 <RoomCalendar rooms={pendingChanges} />
               </div>
+
             </div>
           </div>
         );
@@ -82,48 +119,7 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div>
             <h2 className="texter">Manage room</h2>
-            <Availableroom/>
-
-            <div className="available-room-card">
-              <div className="room-list">
-                {pendingChanges.map((room) => (
-                  <div key={room.id} className="room-item">
-                    <input
-                      type="text"
-                      value={room.room_number}
-                      onChange={(e) =>
-                        updateRoom(room.id, "room_number", e.target.value)
-                      }
-                      className="form-control"
-                    />
-                    <img
-                      src={room.image_url}
-                      alt={room.room_number}
-                      style={{
-                        width: "100%",
-                        height: "150px",
-                        objectFit: "cover",
-                      }}
-                    />
-                    <input
-                      type="text"
-                      value={room.description}
-                      onChange={(e) =>
-                        updateRoom(room.id, "description", e.target.value)
-                      }
-                      className="form-control"
-                    />
-                    <button
-                      onClick={() => deleteRoom(room.id)}
-                      className="btn btn-danger"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
+            <Availableroom />
           </div>
         );
       case "managePayment":
@@ -140,9 +136,11 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div>
             <h3 className="texter">Manage Booking</h3>
+
+            <Confirm bookingDetails={bookingDetails} />
             <hr />
             <h3 className="texter">Promptpay Booking</h3>
-            <Managepay/>
+            <Managepay />
           </div>
         );
       default:
@@ -198,10 +196,7 @@ const Dashboard = ({ setRooms }) => {
             />
             Manage Booking
           </li>
-          <li
-            onClick={() => navigate("/")} 
-            style={{ cursor: "pointer" }}
-          >
+          <li onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
             <img
               src={Edit}
               alt="Edit Icon"

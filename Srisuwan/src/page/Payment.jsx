@@ -19,7 +19,10 @@ const Payment = () => {
         </button>
       </div>
     );
-  }
+  } 
+  const handleUploadClick = () => {
+    navigate("/upload", { state: { item: item } }); 
+  };
 
   return (
     <>
@@ -29,7 +32,7 @@ const Payment = () => {
           <button onClick={() => navigate("/room")} className="back-button">
             Back
           </button>
-          <button onClick={()=> navigate("/upload")} className="upload">Upload</button>
+          <button onClick={handleUploadClick} className="upload">Upload</button>
         </div>
         <h4>Payment</h4>
 

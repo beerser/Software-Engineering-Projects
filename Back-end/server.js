@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 5001;
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const Income = require("./models/Income");
 
 app.use(express.json());
 
@@ -115,6 +116,7 @@ app.post("/api/login", async (req, res) => {
       firstname: user.firstname, // ตรวจสอบว่าได้ดึงข้อมูลเหล่านี้มาหรือไม่
       lastname: user.lastname,
       phoneNumber: user.phoneNumber,
+      
     });
     res.json({
       message: "Login success",
@@ -123,6 +125,7 @@ app.post("/api/login", async (req, res) => {
       firstname: user.firstname,
       lastname: user.lastname,
       phoneNumber: user.phoneNumber,
+      
     });
   } catch (err) {
     res.status(500).json({ error: "Something went wrong" });
@@ -304,7 +307,10 @@ app.post("/generateQR", (req, res) => {
   });
 });
 
-app.use('/uploads', express.static('uploads'));
+
+
+app.use('/uploads', express.static('uploads'))
+;
 const uploadDir = 'uploads';
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -337,20 +343,172 @@ app.post('/upload', upload.single('slip'), (req, res) => {
     if (!req.file) {
       return res.status(400).send('ไม่พบไฟล์ที่อัปโหลด');
     }
-    res.send('ไฟล์ถูกอัปโหลดสำเร็จ!');
+    res.json({ message: 'ไฟล์ถูกอัปโหลดสำเร็จ!', filename: req.file.filename }); // ส่งชื่อไฟล์กลับไป
   } catch (error) {
     console.error('เกิดข้อผิดพลาดในการอัปโหลดไฟล์:', error.message);
     res.status(500).send('เกิดข้อผิดพลาดในการอัปโหลดไฟล์');
   }
 });
+
 app.get('/files', (req, res) => {
   fs.readdir('uploads', (err, files) => {
     if (err) {
       return res.status(500).send('ไม่สามารถอ่านโฟลเดอร์ uploads');
     }
-    res.json(files); // ส่งรายการไฟล์เป็น JSON
+    res.json(files);
   });
 });
+
+
+
+
+app.post('/booking', upload.single('slip'), async (req, res) => {
+  try {
+    const { user_firstname, user_lastname, room_number } = req.body;
+
+  
+    const booking = new Booking({
+      user_firstname,
+      user_lastname,
+      room_number,  
+      slip_filename: req.file.filename,
+      payment_status: 'pending',
+    });
+
+    await booking.save();
+    res.status(201).send('การจองสำเร็จ');
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาด:', error.message);
+    res.status(500).send('เกิดข้อผิดพลาดในการสร้างการจอง');
+  }
+});
+
+
+
+
+
+// API สำหรับดึงข้อมูลการจองทั้งหมด
+app.get('/api/bookings', async (req, res) => {
+  try {
+    const bookings = await Booking.find();  // ดึงข้อมูลการจองทั้งหมดจาก MongoDB
+
+    if (!bookings || bookings.length === 0) {
+      return res.status(404).send('ไม่พบข้อมูลการจอง');
+    }
+
+    // ส่งข้อมูลทั้งหมดของการจอง (ไม่รวม _id)
+    const bookingData = bookings.map(booking => {
+      const { user_firstname, user_lastname, room_number, slip_filename, payment_status, created_at } = booking;
+      return {
+        user_firstname,
+        user_lastname,
+        room_number,
+        slip_filename,
+        payment_status,
+        created_at
+      };
+    });
+
+    res.status(200).json(bookingData);  // ส่งข้อมูลการจองทั้งหมด
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('เกิดข้อผิดพลาดในการดึงข้อมูลการจอง');
+  }
+});
+
+
+
+
+
+
+app.put('/booking/:id/approve', async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) {
+      return res.status(404).send('ไม่พบการจองนี้');
+    }
+
+    if (booking.payment_status === 'approved') {
+      return res.status(400).send('การจองนี้ได้รับการอนุมัติแล้ว');
+    }
+
+   
+    booking.payment_status = 'approved';
+    await booking.save();
+
+  
+    const room = await Room.findById(booking.room_id);
+    room.status = 'booked';
+    await room.save();
+
+    res.send('การจองได้รับการอนุมัติแล้ว');
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดในการอนุมัติการจอง:', error.message);
+    res.status(500).send('เกิดข้อผิดพลาด');
+  }
+});
+
+
+app.post('/api/confirmBooking', async (req, res) => {
+  const { bookingId, status } = req.body;
+  try {
+    const booking = await Booking.findById(bookingId);
+    if (!booking) {
+      return res.status(404).send('ไม่พบการจอง');
+    }
+    booking.payment_status = status;  // อัปเดตสถานะการจอง
+    await booking.save();
+    res.status(200).send('การจองถูกยืนยันแล้ว');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('เกิดข้อผิดพลาดในการยืนยันการจอง');
+  }
+});
+
+app.post('/api/rejectBooking', async (req, res) => {
+  const { bookingId } = req.body;
+
+  if (!bookingId) {
+    return res.status(400).send('ไม่พบ bookingId');
+  }
+
+  try {
+    // ลบการจองจาก MongoDB
+    const result = await Booking.deleteOne({ _id: bookingId });  // ลบเอกสารที่ตรงกับ bookingId
+
+    if (result.deletedCount === 0) {
+      return res.status(404).send('ไม่พบการจองที่ต้องการลบ');
+    }
+
+    res.status(200).send('การจองถูกปฏิเสธและลบเรียบร้อยแล้ว');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('เกิดข้อผิดพลาดในการปฏิเสธการจอง');
+  }
+});
+
+app.get('/uploads/:filename', (req, res) => {
+  const file = path.join(__dirname, 'uploads', req.params.filename);
+  res.sendFile(file);
+});
+
+
+
+
+app.get("/api/income", async (req, res) => {
+  try {
+
+    const incomeData = await Income.aggregate([
+      { $match: {} }  // ดึงข้อมูลทั้งหมด
+    ]);
+    console.log("Income data:", incomeData) 
+    res.json(incomeData); 
+  } catch (err) {
+    console.error("Error fetching income data:", err);
+    res.status(500).send("Error fetching income data.");
+  }
+});
+
 
 
 
