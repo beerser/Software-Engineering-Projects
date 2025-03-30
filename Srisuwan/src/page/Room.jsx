@@ -22,6 +22,7 @@ const Room = () => {
         <button onClick={() => navigate("/")} className="back-button">
           Return to rooms
         </button>
+        
       </div>
     );
   }
@@ -38,6 +39,7 @@ const Room = () => {
         <button onClick={() => navigate("/")} className="back-button">
           Back
         </button>
+        
       </div>
 
       <div className="details-container">

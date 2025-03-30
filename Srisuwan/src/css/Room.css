@@ -20,6 +20,17 @@
   font-size: 1.25rem;
   color: #4b5563;
 }
+.upload{
+  margin-left: 79%;
+  margin-right: 4%;
+  margin-top: 20px;
+  display: block;
+  margin-bottom: 20px;
+  cursor: pointer;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+}
 
 .back-button {
   width: auto;

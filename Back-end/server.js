@@ -13,6 +13,9 @@ const Booking = require("./models/Booking");
 const { auth, isAdmin } = require("./middleware/auth");
 const Room = require("./models/Room");
 const PORT = process.env.PORT || 5001;
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 app.use(express.json());
 
@@ -71,6 +74,7 @@ app.post("/api/register", async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 });
+
 
 app.use((req, res, next) => {
   console.log(`📥 Request: ${req.method} ${req.url}`);
@@ -280,6 +284,49 @@ app.post("/generateQR", async (req, res) => {
     });
   }
 });
+
+const uploadDir = 'uploads';
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadDir); // เก็บไฟล์ในโฟลเดอร์ uploads
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // ตั้งชื่อไฟล์ใหม่
+  }
+});
+
+// กำหนดตัวกรองไฟล์
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+    if (!allowedTypes.includes(file.mimetype)) {
+      return cb(new Error('ไฟล์ที่อัปโหลดไม่ถูกต้อง'));
+    }
+    cb(null, true);
+  }
+});
+
+// กำหนดเส้นทาง POST /upload
+app.post('/upload', upload.single('slip'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send('ไม่พบไฟล์ที่อัปโหลด');
+    }
+    res.send('ไฟล์ถูกอัปโหลดสำเร็จ!');
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดในการอัปโหลดไฟล์:', error.message);
+    res.status(500).send('เกิดข้อผิดพลาดในการอัปโหลดไฟล์');
+  }
+});
+
+
+
+
 
 app.listen(5001, () => {
   console.log("server running");
