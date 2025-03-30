@@ -17,6 +17,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+
 app.use(express.json());
 
 app.use(cors());
@@ -115,6 +116,7 @@ app.post("/api/login", async (req, res) => {
       firstname: user.firstname, // ตรวจสอบว่าได้ดึงข้อมูลเหล่านี้มาหรือไม่
       lastname: user.lastname,
       phoneNumber: user.phoneNumber,
+      
     });
     res.json({
       message: "Login success",
@@ -123,6 +125,7 @@ app.post("/api/login", async (req, res) => {
       firstname: user.firstname,
       lastname: user.lastname,
       phoneNumber: user.phoneNumber,
+      
     });
   } catch (err) {
     res.status(500).json({ error: "Something went wrong" });
@@ -304,7 +307,10 @@ app.post("/generateQR", (req, res) => {
   });
 });
 
-app.use('/uploads', express.static('uploads'));
+
+
+app.use('/uploads', express.static('uploads'))
+;
 const uploadDir = 'uploads';
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -337,20 +343,106 @@ app.post('/upload', upload.single('slip'), (req, res) => {
     if (!req.file) {
       return res.status(400).send('ไม่พบไฟล์ที่อัปโหลด');
     }
-    res.send('ไฟล์ถูกอัปโหลดสำเร็จ!');
+    res.json({ message: 'ไฟล์ถูกอัปโหลดสำเร็จ!', filename: req.file.filename }); // ส่งชื่อไฟล์กลับไป
   } catch (error) {
     console.error('เกิดข้อผิดพลาดในการอัปโหลดไฟล์:', error.message);
     res.status(500).send('เกิดข้อผิดพลาดในการอัปโหลดไฟล์');
   }
 });
+
 app.get('/files', (req, res) => {
   fs.readdir('uploads', (err, files) => {
     if (err) {
       return res.status(500).send('ไม่สามารถอ่านโฟลเดอร์ uploads');
     }
-    res.json(files); // ส่งรายการไฟล์เป็น JSON
+    res.json(files);
   });
 });
+
+
+
+
+app.post('/booking', upload.single('slip'), async (req, res) => {
+  try {
+    const { user_firstname, user_lastname, room_number } = req.body;
+
+    // ตรวจสอบข้อมูลที่ได้รับ
+    console.log('User Firstname:', user_firstname);
+    console.log('User Lastname:', user_lastname);
+    console.log('Room Number:', room_number);
+
+    // สร้างการจองใหม่ใน MongoDB
+    const booking = new Booking({
+      user_firstname,
+      user_lastname,
+      room_number,  // ใช้ room_number ที่เป็น string
+      slip_filename: req.file.filename,
+      payment_status: 'pending',
+    });
+
+    await booking.save();
+    res.status(201).send('การจองสำเร็จ');
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาด:', error.message);
+    res.status(500).send('เกิดข้อผิดพลาดในการสร้างการจอง');
+  }
+});
+
+
+
+
+
+app.get('/booking/:id', async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id).populate('user_id').populate('room_id');
+    if (!booking) {
+      return res.status(404).send('ไม่พบการจองนี้');
+    }
+    res.json(booking);
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดในการดึงข้อมูลการจอง:', error.message);
+    res.status(500).send('เกิดข้อผิดพลาด');
+  }
+});
+
+
+app.put('/booking/:id/approve', async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) {
+      return res.status(404).send('ไม่พบการจองนี้');
+    }
+
+    if (booking.payment_status === 'approved') {
+      return res.status(400).send('การจองนี้ได้รับการอนุมัติแล้ว');
+    }
+
+   
+    booking.payment_status = 'approved';
+    await booking.save();
+
+  
+    const room = await Room.findById(booking.room_id);
+    room.status = 'booked';
+    await room.save();
+
+    res.send('การจองได้รับการอนุมัติแล้ว');
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดในการอนุมัติการจอง:', error.message);
+    res.status(500).send('เกิดข้อผิดพลาด');
+  }
+});
+
+app.get('/uploads/:filename', (req, res) => {
+  const file = path.join(__dirname, 'uploads', req.params.filename);
+  res.sendFile(file);
+});
+
+
+
+
+
+
 
 
 
