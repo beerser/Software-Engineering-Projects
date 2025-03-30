@@ -524,37 +524,28 @@ app.get("/api/income", async (req, res) => {
 
 
 
-app.put("/api/money", async (req, res) => {
+app.post("/api/money", async (req, res) => {
   const { price } = req.body;
 
-  try {
-    // ใช้ userId จาก token หรือ auth ที่คุณมี
-    const userId = req.user.id;  // สมมุติว่า token ถูกใช้เพื่อดึง userId
 
-    // หาผู้ใช้จากฐานข้อมูล
-    let money = await Money.findOne({ userId });
-
-    if (!money) {
-      return res.status(404).json({ error: "User not found" });
+    try {
+      // สร้างอินสแตนซ์ใหม่ของ Money เพื่อบันทึกข้อมูล
+      const newMoney = new Money({
+        price: price, // ส่งข้อมูล price ที่ได้จาก React
+      });
+  
+      // บันทึกข้อมูลลงใน MongoDB
+      await newMoney.save();
+  
+      res.status(201).json({
+        message: 'Total price saved successfully',
+        money: newMoney,
+      });
+    } catch (err) {
+      console.error("Error saving total price:", err);
+      res.status(500).json({ error: 'Failed to save total price' });
     }
-
-    // เพิ่มเงินเข้าไปในข้อมูลที่มีอยู่
-    money.balance += price;  // สมมุติว่า 'balance' คือฟิลด์เก็บเงิน
-
-    // บันทึกข้อมูลที่อัปเดต
-    await money.save();
-
-    res.json({
-      message: "Money added successfully",
-      money: {
-        userId: money.userId,
-        balance: money.balance,
-      },
-    });
-  } catch (error) {
-    console.error("Error updating money:", error);
-    res.status(500).json({ error: "Failed to update money information" });
-  }
+  
 });
 
 

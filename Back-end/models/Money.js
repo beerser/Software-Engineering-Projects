@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const moneySchema = new mongoose.Schema({
-  price: Number,
+  price: {
+    type: Number,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Money', moneySchema);
