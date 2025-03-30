@@ -8,13 +8,12 @@ import Footer from "../components/footer";
 
 const Room = () => {
   const [isBooked, setIsBooked] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ตรวจสอบว่า item มีค่าหรือไม่
-  const { item } = location.state || {}; // ถ้าไม่มีให้เป็น undefined
+  const { item } = location.state || {};
 
-  // ตรวจสอบ item และถ้าไม่มีให้แสดงข้อความ error
   if (!item) {
     return (
       <div className="error-container">
@@ -22,7 +21,6 @@ const Room = () => {
         <button onClick={() => navigate("/")} className="back-button">
           Return to rooms
         </button>
-        
       </div>
     );
   }
@@ -32,64 +30,100 @@ const Room = () => {
     navigate("/payment", { state: { item } });
   };
 
+  const thumbnails = [1, 2, 3, 4, 5].map((i) => item.imageUrl);
+
   return (
     <>
-    <div className="room-container">
-      <div className="header">
-        <button onClick={() => navigate("/")} className="back-button">
-          Back
+      <div className="room-container">
+        <div className="header">
+          <button onClick={() => navigate("/")} className="back-button">
+            Back
+          </button>
+        </div>
+
+        <div className="details-container">
+          <div className="image-container">
+            <img
+              src={item.imageUrl}
+              alt={`Room ${item.roomNumber}`}
+              className="room-image"
+            />
+            <div className="thumbnail-container">
+              {thumbnails.map((url, index) => (
+                <img
+                  key={index}
+                  src={url}
+                  alt={`Thumbnail ${index}`}
+                  className="thumbnail-image"
+                  onClick={() => setSelectedImage(url)}
+                  style={{ cursor: "pointer" }}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="room-details">
+            <h2>{item.roomNumber}</h2>
+            <p>{item.price} Baht</p>
+            <hr />
+
+            <div className="icon-container">
+              <div className="icon-item">
+                <img src={bedlogo} alt="Furniture" />
+                <p>Furniture - Wardrobe, Bed</p>
+              </div>
+              <div className="icon-item">
+                <img src={fanlogo} alt="Fan" />
+                <p>Fan</p>
+              </div>
+              <div className="icon-item">
+                <img src={bathroomlogo} alt="Bathroom" />
+                <p>Bathroom</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="Detailed">
+          <p>
+            <strong>Detail</strong>{" "}
+            {item.description || "No description available"}
+          </p>
+        </div>
+
+        <button className="confirm-button" onClick={handleBookRoom}>
+          Book a room
         </button>
-        
       </div>
 
-      <div className="details-container">
-        <div className="image-container">
+      {selectedImage && (
+        <div
+          className="modal-overlay"
+          onClick={() => setSelectedImage(null)}
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "50vw",
+            height: "50vh",
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+            borderRadius: "8px",
+          }}
+        >
           <img
-            src={item.imageUrl}
-            alt={`Room ${item.roomNumber}`}
-            className="room-image"
+             src={selectedImage}
+             style={{ maxWidth: "100%", maxHeight: "100%", borderRadius: "5px" }}
+             alt="preview"
           />
-          <div className="thumbnail-container">
-            {[1, 2, 3, 4, 5].map((index) => (
-              <img
-                key={index}
-                src={item.imageUrl}
-                alt={`Thumbnail ${index}`}
-                className="thumbnail-image"
-              />
-            ))}
-          </div>
         </div>
+      )}
 
-        <div className="room-details">
-          <h2>{item.roomNumber}</h2>
-          <p>{item.price} Baht</p>
-          <hr />
-          {/* ตรวจสอบค่า description */}
-          <p><strong>Description:</strong> {item.description || "No description available"}</p>
-          <hr />
-          <div className="icon-container">
-            <div className="icon-item">
-              <img src={bedlogo} alt="Furniture" />
-              <p>Furniture - Wardrobe, Bed</p>
-            </div>
-            <div className="icon-item">
-              <img src={fanlogo} alt="Fan" />
-              <p>Fan</p>
-            </div>
-            <div className="icon-item">
-              <img src={bathroomlogo} alt="Bathroom" />
-              <p>Bathroom</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <button className="confirm-button" onClick={handleBookRoom}>
-        Book a room
-      </button>
-    </div>
-    <Footer/>
+      <Footer />
     </>
   );
 };

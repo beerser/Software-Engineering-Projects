@@ -22,12 +22,12 @@ const Cards = ({ obj, onPaymentClick }) => {
       style={{
         display: "flex",
         gap: "1rem",
-        overflowX: "auto", // Allow horizontal scrolling
-        scrollSnapType: "x mandatory", // Ensure each card stops at its position
+        overflowX: "auto", 
+        scrollSnapType: "x mandatory", 
         padding: "1rem",
         scrollbarWidth: "none",
         msOverflowStyle: "none",
-        margin: "0 auto", // Center the content
+        margin: "0 auto", 
         
       }}
       className="scroll-container"
