@@ -228,7 +228,8 @@ const Availableroom = () => {
                 padding: "8px 15px", 
                 borderRadius: "4px", 
                 border: "1px solid #ddd",
-                backgroundColor: "#f5f5f5" 
+                backgroundColor: "#f5f5f5",
+                color:"red", 
               }}
             >
               Cancel
@@ -288,6 +289,7 @@ const Availableroom = () => {
             </p>
             <div style={{ fontSize: "0.9rem", marginTop: "5px" }}>
               ฿{room.price}
+              
             </div>
           </div>
         ))}

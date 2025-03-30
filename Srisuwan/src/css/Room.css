@@ -44,6 +44,8 @@
 .image-room-main {
   flex: 1;
   min-width: 25px;
+  width: 100%;
+  height: auto; 
 }
 
 .back-button-on-room-page{
@@ -70,16 +72,17 @@
 
 .thumbnail-container {
   display: flex;
-  gap: 1rem; /* ระยะห่างระหว่างรูปภาพ */
+  gap: 1rem;
   margin-top: 0.5rem;
   margin-left: 30px;
-  justify-content: flex-start; /* จัดชิดซ้าย */
+  justify-content: flex-start;
 }
 
 .thumbnail-image {
-  width: 92px;
-  height: 90px;
-  object-fit: cover;
+  width: 100%; /* ทำให้ภาพย่อขยายตามขนาดคอนเทนเนอร์ */
+  max-width: 70px; /* จำกัดขนาดสูงสุดที่ 70px */
+  height: auto; /* ปรับความสูงอัตโนมัติตามสัดส่วน */
+  object-fit: cover; /* คงสัดส่วนไม่ให้ภาพยืด */
   border-radius: 0.375rem;
   cursor: pointer;
   transition: opacity 0.2s;
@@ -152,14 +155,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* ทำให้คอนเทนเนอร์มีความสูงเต็มหน้าจอ */
-  background-color: #f9f9f9; /* สีพื้นหลังอ่อน */
-  text-align: center; /* จัดตำแหน่งข้อความให้ชิดกลาง */
+  height: 100vh; 
+  background-color: #f9f9f9; 
+  text-align: center; 
 }
 
 .error-container p {
   font-size: 18px;
-  color: red; /* ให้ข้อความสีแดงเพื่อให้เด่น */
+  color: red; 
   margin-bottom: 20px;
 }
 
@@ -175,7 +178,7 @@
 }
 
 .error-container .back-button:hover {
-  background-color: #006bb3; /* เปลี่ยนสีปุ่มเมื่อ hover */
+  background-color: #006bb3; 
 }
 
 @media screen and (max-width: 1024px) {
@@ -185,6 +188,7 @@
 }
 
 @media screen and (max-width: 768px) {
+  
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -197,12 +201,23 @@
   .upload {
     margin-left: auto;
   }
+
+  .thumbnail-image {
+    max-width: 50px; 
+  }
 }
 
 @media screen and (max-width: 480px) {
   .grid {
     grid-template-columns: repeat(1, 1fr);
   }
+
+  .thumbnail-image {
+    max-width: 40px; 
+  }
+
+
+
   .header {
     font-size: 18px;
     padding: 15px;
