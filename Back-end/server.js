@@ -218,14 +218,13 @@ app.get("/api/rooms", async (req, res) => {
 
 app.put("/api/admin/rooms", async (req, res) => {
   try {
-    const updatedRooms = req.body;
-    console.log("Got PUT request", updatedRooms);
+    const updatedRooms = req.body;  
 
     for (const room of updatedRooms) {
-      if (room._id) {
-        await Room.findByIdAndUpdate(room._id, room, { new: true });
+      if (room._id) {ก
+        const updatedRoom = await Room.findByIdAndUpdate(room._id, { status: room.status }, { new: true });
       } else {
-        await Room.create(room);
+        await Room.create(room); 
       }
     }
 
@@ -235,6 +234,7 @@ app.put("/api/admin/rooms", async (req, res) => {
     res.status(500).json({ error: "Failed to update rooms" });
   }
 });
+
 
 
 
