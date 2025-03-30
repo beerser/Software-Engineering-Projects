@@ -1,7 +1,7 @@
 /* Layout สำหรับ sidebar และ content */
 .containere {
   display: flex;
-  flex-wrap: wrap; /* ให้การ์ดไหลลงเป็นแถวเมื่อพื้นที่หมด */
+  flex-wrap: wrap;
   justify-content: flex-start;
   gap: 20px;
 }
@@ -10,7 +10,7 @@
   width: 250px;
   background-color: #f4f4f4;
   padding: 20px;
-  height: 62vh; /* ทำให้ sidebar สูงเต็มหน้าจอ */
+  height: 62vh;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   margin-top: 4%;
   margin-left: 2%;
@@ -19,10 +19,10 @@
 .main-contente {
   flex-grow: 1;
   padding: 20px;
-  height: 62vh; /* ทำให้ sidebar สูงเต็มหน้าจอ */
+  height: 62vh;
   margin-top: 2.6%;
   background-color: #fff;
-  box-sizing: border-box; /* ป้องกันการ overflow */
+  box-sizing: border-box;
   margin-right: 1%;
 }
 
@@ -36,16 +36,33 @@
   cursor: pointer;
 }
 
-.info-item-users {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+.info-item-users,
+.info-item-user,
+.info-item-rooms {
   padding: 15px;
   background-color: #f9f9f9;
   border-radius: 8px;
   margin-bottom: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.info-item-users {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   width: 100%;
+}
+
+.info-item-user,
+.info-item-rooms {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.info-item-rooms {
+  height: 400px;
 }
 
 .userr {
@@ -82,6 +99,10 @@
   width: auto;
 }
 
+.edit-btn:hover {
+  background-color: #f9f9f9 !important;
+}
+
 .cancel-btn {
   color: red;
   background-color: #f9f9f9 !important;
@@ -92,22 +113,19 @@
   border-radius: 10px;
 }
 
-.edit-btn:hover {
-  background-color: #f9f9f9 !important;
-}
-
-.btcontir {
+.btcontir,
+.bttcontir {
   display: flex;
   justify-content: space-between;
   gap: 10px;
+}
+
+.btcontir {
   margin-top: 40%;
   margin-left: 40% !important;
 }
 
 .bttcontir {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
   margin-left: 12% !important;
 }
 
@@ -116,45 +134,16 @@
   font-size: 16px;
 }
 
-.info-item-user {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.info-item-rooms {
-  display: flex;
-  height: 400px;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.info-item-user p {
-  margin: 5px 0;
-}
-
+.info-item-user p,
 p {
+  margin: 5px 0;
   font-size: 16px;
-  margin: 0;
 }
 
-/* Media Queries สำหรับปรับ layout ให้พอดีกับขนาดหน้าจอ */
-
+/* Media Queries */
 @media screen and (max-width: 1200px) {
   .sidebare {
-    width: 220px; /* ลดขนาดของ sidebar สำหรับหน้าจอขนาดกลาง */
+    width: 220px;
   }
 
   .main-contente {
@@ -169,18 +158,20 @@ p {
     margin-left: 10% !important;
   }
 
-  .info-item-users, .info-item-user, .info-item-rooms {
+  .info-item-users,
+  .info-item-user,
+  .info-item-rooms {
     padding: 10px;
   }
 }
 
 @media screen and (max-width: 768px) {
   .containere {
-    flex-direction: column; /* วาง sidebar และ content ลงแนวตั้งสำหรับมือถือหรือแท็บเล็ต */
+    flex-direction: column;
   }
 
   .sidebare {
-    width: 100%; /* ใช้พื้นที่ทั้งหมดสำหรับ sidebar */
+    width: 100%;
     height: auto;
   }
 
@@ -196,22 +187,18 @@ p {
     margin-left: 5% !important;
   }
 
-  .info-item-users, .info-item-user, .info-item-rooms {
-    padding: 10px;
-  }
-
   .edit-btn {
-    font-size: 10px; /* ลดขนาดปุ่มให้เล็กลง */
+    font-size: 10px;
   }
 }
 
 @media screen and (max-width: 480px) {
   .containere {
-    flex-direction: column; /* วาง sidebar และ content ลงแนวตั้ง */
+    flex-direction: column;
   }
 
   .sidebare {
-    width: 100%; /* ใช้พื้นที่ทั้งหมดสำหรับ sidebar */
+    width: 100%;
     height: auto;
   }
 
@@ -227,15 +214,17 @@ p {
     margin-left: 3% !important;
   }
 
-  .info-item-users, .info-item-user, .info-item-rooms {
+  .info-item-users,
+  .info-item-user,
+  .info-item-rooms {
     padding: 8px;
   }
 
   .edit-btn {
-    font-size: 9px; /* ลดขนาดปุ่มให้เล็กลง */
+    font-size: 9px;
   }
 
   p {
-    font-size: 14px; /* ลดขนาดตัวอักษร */
+    font-size: 14px;
   }
 }
