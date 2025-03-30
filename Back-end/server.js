@@ -200,6 +200,8 @@ app.post('/api/book-room', auth, async (req, res) => {
 });
 
 
+
+
 app.get("/api/rooms", async (req, res) => {
   try {
     const rooms = await Room.find(); // ดึงข้อมูลห้องจาก MongoDB
@@ -213,23 +215,41 @@ app.get("/api/rooms", async (req, res) => {
   }
 });
 
-app.put("/api/admin/update-rooms", auth, isAdmin, async (req, res) => {
+
+app.put("/api/admin/rooms", async (req, res) => {
   try {
+    console.log('Request Body:', req.body);  // ตรวจสอบข้อมูลที่ได้รับ
     const updatedRooms = req.body;
 
     for (const room of updatedRooms) {
       if (room._id) {
-        await Room.findByIdAndUpdate(room._id, room, { new: true });
+        const updatedRoom = await Room.findByIdAndUpdate(room._id, { 
+          status: room.status,
+          description: room.description, 
+          image_url: room.image_url,
+          price: room.price,
+          room_number: room.room_number,
+          servicefee: room.servicefee
+        }, { new: true });
+
+        if (!updatedRoom) {
+          console.log(`Room with id ${room._id} not found`);
+        }
       } else {
         await Room.create(room);
       }
     }
 
-    res.json({ message: "✅ Rooms updated successfully" });
+    res.json({ message: "Rooms updated successfully", data: updatedRooms });
   } catch (err) {
+    console.error("Error updating rooms:", err);
     res.status(500).json({ error: "Failed to update rooms" });
   }
 });
+
+
+
+
 
 // แก้ไขข้อมูลห้องทั้งหมด (admin เท่านั้น)
 app.put("/api/admin/update-rooms", auth, isAdmin, async (req, res) => {

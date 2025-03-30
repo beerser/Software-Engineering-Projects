@@ -25,12 +25,11 @@ const Managepay = () => {
 
   return (
     <div>
-      <h2>จัดการการชำระเงิน</h2>
 
       {/* แสดงรายการไฟล์ที่อัปโหลด */}
       {files.length > 0 ? (
         <div>
-          <h3>รายการไฟล์ที่อัปโหลด:</h3>
+         
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             {files.map((file, index) => {
               const fileUrl = `http://localhost:5001/uploads/${file}`;

@@ -19,29 +19,11 @@ const Dashboard = ({ setRooms }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchRooms = async () => {
-      const { data, error } = await supabase.from("rooms").select("*");
-      if (error) {
-        console.error("Error fetching rooms:", error);
-      } else {
-        setLocalRooms(data);
-        setPendingChanges(data);
-        setRooms(data);
-      }
-    };
-    fetchRooms();
-  }, [setRooms]);
-
-
-
   const exportCSV = () => {
     const csv = Papa.unparse(pendingChanges);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     saveAs(blob, "rooms.csv");
   };
-
-
 
   const renderContent = () => {
     switch (activePage) {
@@ -50,7 +32,7 @@ const Dashboard = ({ setRooms }) => {
           <div>
             <h2>Dashboard Overview</h2>
 
-            {/* การ์ดแสดงข้อมูลสำคัญ */}
+           
             <div className="dashboard-summary">
               <div className="card">
                 <h4>
@@ -85,9 +67,6 @@ const Dashboard = ({ setRooms }) => {
             </div>
 
            
-            
-
-            {/* ส่วนของ Room Chart และ Room Calendar */}
             <div className="room-chart-calendar-container">
               <div className="room-chart">
                 <RoomChart rooms={pendingChanges} />
@@ -161,6 +140,8 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div>
             <h3 className="texter">Manage Booking</h3>
+            <hr />
+            <h3 className="texter">Promptpay Booking</h3>
             <Managepay/>
           </div>
         );
