@@ -12,7 +12,10 @@ const Confirm = () => {
           throw new Error('ไม่สามารถดึงข้อมูลการจอง');
         }
         const data = await response.json();
-        setBookings(data);  // เก็บข้อมูลการจองทั้งหมดใน state
+        
+        // กรองการจองที่มีสถานะเป็น "pending"
+        const pendingBookings = data.filter((booking) => booking.payment_status === 'pending');
+        setBookings(pendingBookings);  // เก็บข้อมูลการจองที่มีสถานะ "pending" ใน state
       } catch (error) {
         setMessage('เกิดข้อผิดพลาดในการดึงข้อมูลการจอง');
       }
@@ -30,9 +33,9 @@ const Confirm = () => {
         <p>{message}</p>
       </div>
 
-      {/* แสดงข้อมูลการจองทั้งหมด */}
+      {/* แสดงข้อมูลการจองที่มีสถานะ "pending" */}
       {bookings.length === 0 ? (
-        <p>ไม่พบข้อมูลการจอง</p>
+        <p>ไม่พบข้อมูลการจองที่รอดำเนินการ</p>
       ) : (
         bookings.map((booking, index) => (
           <div key={index}>
@@ -48,6 +51,6 @@ const Confirm = () => {
       )}
     </div>
   );
-}
+};
 
 export default Confirm;

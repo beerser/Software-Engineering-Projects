@@ -27,8 +27,8 @@ const Managepay = () => {
       if (response.ok) {
         const data = await response.json();
         // กรองข้อมูลที่สถานะเป็น "pending"
-        const pendingReservations = data.filter(reservation => reservation.payment_status === 'pending');
-        setReservations(pendingReservations); // เก็บข้อมูลการจองที่มีสถานะเป็น pending
+        const pendingReservations = data.filter(reservation => reservation.payment_status.trim() === 'pending');
+        setReservations(pendingReservations);// เก็บข้อมูลการจองที่มีสถานะเป็น pending
       } else {
         console.error('ไม่สามารถดึงข้อมูลการจอง');
       }
