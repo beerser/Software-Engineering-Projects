@@ -65,12 +65,13 @@
 }
 .btn-edit,
 .btn-signout {
-    background-color: #f8f9fa;
-    border: 1px solid #ccc;
+    background-color: #ffffff;
+    border: 1px solid #f70000;
     padding: 0.5rem 1rem;
     cursor: pointer;
     font-size: 1rem;
     margin-right: 1rem;
+    color: #000;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
