@@ -67,3 +67,212 @@
       opacity: 1;
     }
   }
+  .srisuwan-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #121212;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .srisuwan-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .srisuwan-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .letter-animation {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin: 0 3px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+  }
+  
+  .letter-animation:nth-child(1) { animation-delay: 0.1s; }
+  .letter-animation:nth-child(2) { animation-delay: 0.2s; }
+  .letter-animation:nth-child(3) { animation-delay: 0.3s; }
+  .letter-animation:nth-child(4) { animation-delay: 0.4s; }
+  .letter-animation:nth-child(5) { animation-delay: 0.5s; }
+  .letter-animation:nth-child(6) { animation-delay: 0.6s; }
+  .letter-animation:nth-child(7) { animation-delay: 0.7s; }
+  .letter-animation:nth-child(8) { animation-delay: 0.8s; }
+  
+  .tagline {
+    font-size: 1.2rem;
+    color: #f0f0f0;
+    opacity: 0;
+    max-width: 80%;
+    margin-bottom: 50px;
+    animation: fadeIn 1s forwards;
+    animation-delay: 1.3s;
+  }
+  
+  /* Walking Person Animation */
+  .walking-container {
+    width: 300px;
+    height: 100px;
+    position: relative;
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    animation-delay: 2s;
+  }
+  
+  .walking-path {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 1px;
+  }
+  
+  .walking-person {
+    position: absolute;
+    bottom: 22px;
+    left: 0;
+    width: 20px;
+    height: 40px;
+    animation: walkingAnimation 6s linear infinite;
+    animation-delay: 2.5s;
+  }
+  
+  .person-head {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+  }
+  
+  .person-body {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 15px;
+    background-color: white;
+  }
+  
+  .person-leg {
+    position: absolute;
+    bottom: 0;
+    width: 3px;
+    height: 15px;
+    background-color: white;
+  }
+  
+  .person-leg.left {
+    left: 7px;
+    transform-origin: top;
+    animation: leftLegAnimation 0.5s infinite alternate;
+  }
+  
+  .person-leg.right {
+    right: 7px;
+    transform-origin: top;
+    animation: rightLegAnimation 0.5s infinite alternate;
+  }
+  
+  .person-arm {
+    position: absolute;
+    top: 12px;
+    width: 3px;
+    height: 10px;
+    background-color: white;
+    transform-origin: top;
+  }
+  
+  .person-arm.left {
+    left: 5px;
+    animation: leftArmAnimation 0.5s infinite alternate;
+  }
+  
+  .person-arm.right {
+    right: 5px;
+    animation: rightArmAnimation 0.5s infinite alternate;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes walkingAnimation {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: calc(100% - 20px);
+    }
+  }
+  
+  @keyframes leftLegAnimation {
+    from {
+      transform: rotate(-15deg);
+    }
+    to {
+      transform: rotate(15deg);
+    }
+  }
+  
+  @keyframes rightLegAnimation {
+    from {
+      transform: rotate(15deg);
+    }
+    to {
+      transform: rotate(-15deg);
+    }
+  }
+  
+  @keyframes leftArmAnimation {
+    from {
+      transform: rotate(25deg);
+    }
+    to {
+      transform: rotate(-25deg);
+    }
+  }
+  
+  @keyframes rightArmAnimation {
+    from {
+      transform: rotate(-25deg);
+    }
+    to {
+      transform: rotate(25deg);
+    }
+  }
