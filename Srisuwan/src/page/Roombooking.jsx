@@ -190,6 +190,7 @@ const Roombooking = () => {
               <div className="profile-card">
                 <div className="profile-item">
                   <h3 className="profile-label">Username</h3>
+                  <div className="username-main-card">
                   {isEditing ? (
                     <div className="edit-fields">
                       <input
@@ -209,7 +210,9 @@ const Roombooking = () => {
                         className="edit-input"
                       />
                     </div>
-                  ) : (
+                  ) : 
+
+                  (
                     <p className="profile-value">{user.firstname} {user.lastname}</p>
                   )}
                   <div className="action-buttons">
@@ -219,7 +222,7 @@ const Roombooking = () => {
                           Cancel
                         </button>
                         <button className="confirm-btn" onClick={handleSave}>
-                          Save Changes
+                          Save
                         </button>
                       </>
                     ) : (
@@ -227,6 +230,7 @@ const Roombooking = () => {
                         Edit Profile
                       </button>
                     )}
+                  </div>
                   </div>
                 </div>
 
