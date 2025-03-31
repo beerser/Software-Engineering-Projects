@@ -16,6 +16,7 @@ import Footer from "../components/footer";
 import Neary from "../components/Neary";
 import Roombooking from "./Roombooking";
 import Upload from "./Upload";
+import SrisuwanAnimation from "../components/SrisuwanAnimation";
 
 // สร้างคอมโพเนนต์ Preloader สำหรับหน้าโหลด
 const Preloader = () => {
@@ -34,16 +35,37 @@ function Home() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showSrisuwanAnimation, setShowSrisuwanAnimation] = useState(false);
+  const { user } = useAuth();
 
-  // จำลองการโหลดเว็บไซต์
   useEffect(() => {
-    // จำลองเวลาโหลดเว็บไซต์ประมาณ 2 วินาที
+    // Check if the user is logging in for the first time
+    const hasVisitedBefore = sessionStorage.getItem('hasVisitedBefore');
+    
+    if (!hasVisitedBefore && !user) {
+      // Show Srisuwan animation only on first visit and when not logged in
+      setShowSrisuwanAnimation(true);
+      sessionStorage.setItem('hasVisitedBefore', 'true');
+    } else {
+      // Skip animation and just show loading
+      setLoading(true);
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [user]);
+
+  const handleAnimationComplete = () => {
+    setShowSrisuwanAnimation(false);
+    setLoading(true);
+    
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000);
-
+    }, 100);
+    
     return () => clearTimeout(timer);
-  }, []);
+  };
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -85,7 +107,12 @@ function Home() {
     setSelectedItem(paymentDetails);
   };
 
-  // ถ้ากำลังโหลด แสดงหน้า Preloader
+  // แสดง Srisuwan Animation
+  if (showSrisuwanAnimation) {
+    return <SrisuwanAnimation onAnimationComplete={handleAnimationComplete} />;
+  }
+
+  // แสดง Preloader
   if (loading) {
     return <Preloader />;
   }
