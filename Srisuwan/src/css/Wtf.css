@@ -1,10 +1,12 @@
-.container {
-    max-width: 600px;
+.container-on-wtf-page {
+    margin-top: 12% !important;
+    width: fit-content;
     margin: auto;
     padding: 20px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    justify-content: center;
   }
   
   .title {
@@ -20,12 +22,12 @@
     color: #555;
   }
   
-  .form-container {
+  .form-container-on-wtf-page {
     display: flex;
     flex-direction: column;
   }
   
-  .form-group {
+  .form-group-on-wtf-page {
     margin-bottom: 15px;
   }
   
@@ -43,7 +45,7 @@
     border-radius: 4px;
   }
   
-  .booking-info {
+  .booking-info-on-wtf-page {
     background: #f0f8ff;
     padding: 10px;
     border-radius: 4px;

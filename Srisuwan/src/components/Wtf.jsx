@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import "../css/BookingInvoiceUpload.css";
+import "../css/Wtf.css";
 
 const BookingInvoiceUpload = () => {
   const { state } = useLocation();
@@ -145,13 +145,13 @@ const BookingInvoiceUpload = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container-on-wtf-page">
       <h2 className="title">อัปโหลดใบเสร็จค่าเช่า</h2>
 
       {isLoading && <div className="loading">กำลังโหลดข้อมูล...</div>}
 
-      <form onSubmit={handleSubmit} className="form-container">
-        <div className="form-group">
+      <form onSubmit={handleSubmit} className="form-container-on-wtf-page">
+        <div className="form-group-on-wtf-page">
           <label htmlFor="user-select">เลือกผู้ใช้</label>
           <select id="user-select" onChange={handleUserSelect} value={selectedUser?._id || ""} disabled={isLoading}>
             <option value="">-- เลือกผู้ใช้ --</option>
@@ -164,13 +164,13 @@ const BookingInvoiceUpload = () => {
         </div>
 
         {selectedBooking && (
-          <div className="booking-info">
+          <div className="booking-info-on-wtf-page">
             <p>ห้อง: {selectedUser?.roomNumber || '(ไม่ระบุ)'}</p>
             <p>สถานะการชำระเงิน: ยืนยันแล้ว</p>
           </div>
         )}
 
-        <div className="form-group">
+        <div className="form-group-on-wtf-page">
           <label htmlFor="file-input">เลือกรูปภาพใบเสร็จ</label>
           <input id="file-input" type="file" accept="image/*,application/pdf" onChange={handleFileChange} disabled={isLoading || !selectedUser} />
         </div>
