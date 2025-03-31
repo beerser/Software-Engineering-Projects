@@ -46,11 +46,24 @@ const BookingInvoiceUpload = () => {
       });
       
       console.log("Found booking:", userBooking);
+      
+      if (userBooking) {
+        // อัปเดตข้อมูลห้องให้กับ selectedUser
+        const roomNumber = userBooking.roomNumber || userBooking.room_number || 'Not specified';
+        console.log("Setting room number:", roomNumber);
+        
+        // อัปเดต selectedUser โดยเพิ่มข้อมูลห้อง
+        setSelectedUser(prev => ({
+          ...prev,
+          roomNumber: roomNumber
+        }));
+      }
+      
       setSelectedBooking(userBooking || null);
     } else {
       setSelectedBooking(null);
     }
-  }, [selectedUser, bookings]);
+  }, [selectedUser?._id, bookings]); // เปลี่ยนเป็น selectedUser._id เพื่อป้องกันการวนลูป
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -141,8 +154,6 @@ const BookingInvoiceUpload = () => {
     e.preventDefault();
     setIsLoading(true);
     setMessage('');
-    const formData = new FormData();
-    const file = e.target.elements.invoice.files[0];
     
     // ตรวจสอบไฟล์
     if (!imageFile) {
@@ -158,17 +169,26 @@ const BookingInvoiceUpload = () => {
       return;
     }
 
-    // ถ้าไม่พบข้อมูลการจอง ให้สร้างข้อมูลการจองใหม่โดยใช้ข้อมูลผู้ใช้ที่เลือก
-    let bookingData = selectedBooking;
+    const formData = new FormData();
     
-    // ถ้าไม่พบข้อมูลการจอง ให้อัปโหลดโดยใช้เฉพาะข้อมูลผู้ใช้
-  
+    // กำหนดค่าห้องจากการจองหรือจากข้อมูลผู้ใช้
+    const roomNumber = selectedBooking?.roomNumber || 
+                       selectedBooking?.room_number || 
+                       selectedUser.roomNumber || 
+                       'Not specified';
+    
+    console.log("Using room number for submission:", roomNumber);
+    
     formData.append('invoice', imageFile);
     formData.append('user_firstname', selectedUser.firstname);
     formData.append('user_lastname', selectedUser.lastname);
-    formData.append('room_number', selectedUser.roomNumber);
+    formData.append('room_number', roomNumber);
     
-
+    // Debug logs to verify the data being sent
+    console.log("Form data being sent:");
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value instanceof File ? value.name : value}`);
+    }
 
     try {
       const response = await fetch('http://localhost:5001/collection', {
@@ -178,14 +198,13 @@ const BookingInvoiceUpload = () => {
 
       if (response.ok) {
         showSuccessMessage('อัปโหลดไฟล์ใบเสร็จสำเร็จ!');
-
       } else {
         const errorText = await response.text();
         showErrorMessage(`เกิดข้อผิดพลาด: ${errorText}`);
       }
     } catch (error) {
+      console.error("Upload error:", error);
       showErrorMessage('เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์ โปรดลองใหม่อีกครั้ง');
-      
     } finally {
       setIsLoading(false);
     }
@@ -230,7 +249,7 @@ const BookingInvoiceUpload = () => {
             {selectedBooking ? (
               <>
                 <h3 className="font-medium text-blue-800 mb-2">ข้อมูลการจอง</h3>
-                <p>ห้อง: {selectedBooking.roomNumber || selectedBooking.room_number || '(ไม่ระบุ)'}</p>
+                <p>ห้อง: {selectedBooking.roomNumber || selectedBooking.room_number || selectedUser.roomNumber || '(ไม่ระบุ)'}</p>
                 <p>สถานะการชำระเงิน: {selectedBooking.payment_status === 'confirmed' ? 'ยืนยันแล้ว' : selectedBooking.payment_status}</p>
                 {selectedBooking.booking_date && (
                   <p>วันที่จอง: {new Date(selectedBooking.booking_date).toLocaleDateString('th-TH')}</p>
