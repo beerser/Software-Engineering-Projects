@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from "react-router-dom"; 
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"; 
 import { AuthProvider, useAuth } from "../components/AuthContext";
 import Navbar from "../components/Navbar";
 import Bannerbg from "../components/Bannerbg";
@@ -17,9 +17,33 @@ import Neary from "../components/Neary";
 import Roombooking from "./Roombooking";
 import Upload from "./Upload";
 
+// สร้างคอมโพเนนต์ Preloader สำหรับหน้าโหลด
+const Preloader = () => {
+  return (
+    <div className="preloader">
+      <div className="preloader-content">
+        <div className="spinner"></div>
+        <h2>กำลังโหลดเว็บไซต์</h2>
+        <p>โปรดรอสักครู่...</p>
+      </div>
+    </div>
+  );
+};
+
 function Home() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // จำลองการโหลดเว็บไซต์
+  useEffect(() => {
+    // จำลองเวลาโหลดเว็บไซต์ประมาณ 2 วินาที
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -60,6 +84,11 @@ function Home() {
   const handlePaymentClick = (paymentDetails) => {
     setSelectedItem(paymentDetails);
   };
+
+  // ถ้ากำลังโหลด แสดงหน้า Preloader
+  if (loading) {
+    return <Preloader />;
+  }
 
   return (
     <AuthProvider>
