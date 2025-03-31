@@ -257,7 +257,7 @@ const Managepay = () => {
                   </div>
                 )}
                 
-                <div className="action-buttons">
+                <div className="action-buttons-on-manage-pay-page">
                   <button 
                     className="confirm-button"
                     onClick={() => updateBookingStatus(

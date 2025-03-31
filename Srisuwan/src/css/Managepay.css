@@ -241,7 +241,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.action-buttons {
+.action-buttons-on-manage-pay-page {
   display: flex;
   gap: 10px;
   margin-top: 20px;
@@ -276,7 +276,7 @@
 }
 
 .all-uploads-section {
-  margin-top: 40px;
+  margin-top: 20px;
   padding-top: 10px;
 }
 
