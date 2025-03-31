@@ -1,3 +1,4 @@
+/* Original CSS ที่คุณมีอยู่เเล้ว */
 .navbar {
     background-color: #f8f9fa;
     padding: 1rem 2rem;
@@ -45,16 +46,22 @@
     display: flex;
     align-items: center;
 }
+
 .user-details a{
     color: #020202;
     text-decoration: none;
     margin-right: 1rem;
     font-size: medium;
 }
+
 .user-greeting {
     margin-right: 1rem;
     font-size: 1.125rem;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 700;
 }
+
 .user-detailac {
     background: #F3F3F3;
     width: 100%;  /* ใช้ความกว้างเต็ม */
@@ -63,6 +70,7 @@
     font-size: large;
     text-align: center;
 }
+
 .btn-edit,
 .btn-signout {
     background-color: #ffffff;
@@ -80,7 +88,7 @@
     margin-right: 0;
     color: #ff0303;
     border-radius: 10px;
-    border: 1px solid red   ;
+    border: 1px solid red;
     background-color: #ffffff;
 }
 
@@ -213,5 +221,161 @@
     .btn-signout {
         font-size: 0.75rem;
         padding: 0.25rem 0.5rem;
+    }
+}
+
+/* ส่วนที่เพิ่มใหม่สำหรับ Enhanced Modal */
+.enhanced-modal-content {
+    width: 300px;
+    border-radius: 16px;
+    margin: 7% 20px 0 auto;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
+.enhanced-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    background: #f0f0f0;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #555;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.enhanced-close:hover {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.profile-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    background: #f8f9fa;
+}
+
+.profile-title {
+    background: none;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.profile-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #4169e1;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-name {
+    font-weight: 600;
+}
+
+.profile-email {
+    font-size: 14px;
+    color: #666;
+}
+
+.profile-content {
+    padding: 15px 20px;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 8px;
+    margin: 8px 0;
+    border-radius: 8px;
+    background: #f8f9fa;
+    transition: background 0.2s;
+}
+
+.profile-link:hover {
+    background: #e9ecef;
+}
+
+.profile-link-icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.admin-button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background: #4169e1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.admin-button:hover {
+    background: #3157d5;
+}
+
+.enhanced-btn-signout {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: white;
+    color: #ff0303;
+    border: 1px solid #ff0303;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.enhanced-btn-signout:hover {
+    background-color: #fff0f0;
+}
+
+.logout-arrow {
+    margin-left: 8px;
+}
+
+/* Responsive for Enhanced Modal */
+@media screen and (max-width: 768px) {
+    .enhanced-modal-content {
+        width: 90%;
+        max-width: 300px;
+        margin: 10% auto;
     }
 }
