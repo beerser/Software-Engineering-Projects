@@ -3,10 +3,9 @@ import "../css/SrisuwanAnimation.css";
 
 const SrisuwanAnimation = ({ onAnimationComplete }) => {
   useEffect(() => {
-    
     const timer = setTimeout(() => {
       onAnimationComplete();
-    }, 10000);
+    }, 6000);
 
     return () => clearTimeout(timer);
   }, [onAnimationComplete]);
@@ -25,6 +24,19 @@ const SrisuwanAnimation = ({ onAnimationComplete }) => {
           <div className="letter-animation">n</div>
         </div>
         <div className="tagline">Thank you for choosing us. We are here to fully support and assist you.</div>
+        
+        
+        <div className="walking-container">
+          <div className="walking-person">
+            <div className="person-head"></div>
+            <div className="person-body"></div>
+            <div className="person-leg left"></div>
+            <div className="person-leg right"></div>
+            <div className="person-arm left"></div>
+            <div className="person-arm right"></div>
+          </div>
+          <div className="walking-path"></div>
+        </div>
       </div>
     </div>
   );
