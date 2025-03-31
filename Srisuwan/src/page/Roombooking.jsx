@@ -4,6 +4,7 @@ import "../css/Roombooking.css";
 import axios from "axios";
 import { useAuth } from "../components/AuthContext";
 import auImage from "../assets/au.jpg";
+
 const Roombooking = () => {
   const { user } = useAuth();
   const [reservations, setReservations] = useState([]);
@@ -16,45 +17,62 @@ const Roombooking = () => {
     phoneNumber: user ? user.phoneNumber : "",
   });
   const [showModal, setShowModal] = useState(false);
-  const [nextPaymentDate, setNextPaymentDate] = useState(null); // State for next payment date
+  const [nextPaymentDate, setNextPaymentDate] = useState(null);
+  const [qrCode, setQrCode] = useState(null);
 
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const res = await fetch("http://localhost:5001/api/bookings"); // เปลี่ยน URL ที่ดึงข้อมูลการจอง
+        const res = await fetch("http://localhost:5001/api/bookings");
         const data = await res.json();
-        console.log("Reservation Data:", data);
 
-        // กรองข้อมูลที่ payment_status คือ "pending"
+        // Filter reservations for current user
         const filteredReservations = data.filter(
           (reservation) =>
             reservation.user_firstname === user?.firstname &&
             reservation.user_lastname === user?.lastname
         );
-        setReservations(filteredReservations); // เก็บข้อมูลที่กรองแล้ว
+        setReservations(filteredReservations);
       } catch (error) {
         console.error("Error fetching reservations:", error);
       }
     };
 
-    fetchReservations();
-  }, [user]); // แค่โหลดข้อมูลครั้งเดียวเมื่อโหลดหน้า
+    if (user) {
+      fetchReservations();
+    }
+  }, [user]);
 
-  const handleEditClick = () => {
-    setIsEditing(true);
+  // Generate QR code placeholder function
+  const genQR = () => {
+    // This would typically call an API to generate a real QR code
+    setQrCode(auImage); // Using auImage as placeholder
   };
-
-
-
 
   const getPaymentStatusColor = (status) => {
     if (status === "pending") {
-      return { color: "red" };
+      return { color: "#f44336", fontWeight: "bold" };
     } else if (status === "confirmed") {
-      return { color: "green" };
+      return { color: "#4CAF50", fontWeight: "bold" };
     } else {
-      return { color: "gray" };
+      return { color: "#757575" };
     }
+  };
+
+  const getPaymentStatusBadge = (status) => {
+    let badgeClass = "status-badge ";
+    if (status === "pending") {
+      badgeClass += "pending";
+    } else if (status === "confirmed") {
+      badgeClass += "confirmed";
+    } else {
+      badgeClass += "other";
+    }
+    return badgeClass;
+  };
+
+  const handleEditClick = () => {
+    setIsEditing(true);
   };
 
   const handleSave = async () => {
@@ -88,6 +106,13 @@ const Roombooking = () => {
 
   const handleCancel = () => {
     setIsEditing(false);
+    // Reset user data to original values
+    setUserData({
+      firstname: user ? user.firstname : "",
+      lastname: user ? user.lastname : "",
+      email: user ? user.email : "",
+      phoneNumber: user ? user.phoneNumber : "",
+    });
   };
 
   const handleChange = (e) => {
@@ -95,53 +120,62 @@ const Roombooking = () => {
     setUserData({ ...userData, [name]: value });
   };
 
-  // ฟังก์ชันคำนวณวันที่ชำระเงินถัดไป
+  // Calculate next payment date
   const calculateNextPaymentDate = (date) => {
     const currentDate = new Date(date);
-    currentDate.setMonth(currentDate.getMonth() + 1); // เพิ่มเดือน 1
-    currentDate.setDate(1); // ตั้งวันเป็นวันที่ 1 ของเดือนถัดไป
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    currentDate.setDate(1);
     return currentDate;
   };
 
-  // เมื่อคลิกที่ "Next pay At"
+  // Handle next payment click
   const handleNextPaymentClick = (reservationDate) => {
     const nextDate = calculateNextPaymentDate(reservationDate);
     setNextPaymentDate(nextDate);
-    setShowModal(true); // เปิด Modal
+    genQR();
+    setShowModal(true);
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   const renderContent = () => {
     switch (activePage) {
       case "allroomreservations":
         return (
-          <section className="info-item-rooms">
-            <p>All Room Reservations</p>
-            <div>
+          <section className="info-section">
+            <h2 className="section-title">All Room Reservations</h2>
+            <div className="reservation-list">
               {reservations.length === 0 ? (
-                <p>No bookings found.</p>
+                <div className="no-reservations">
+                  <p>No bookings found. Book a room to see your reservations here.</p>
+                </div>
               ) : (
                 reservations.map((reservation) => (
-                  <div key={reservation._id} className="info-item-users">
-                    <p className="ur">Room Number: {reservation.room_number}</p>
-                    <p
-                      style={getPaymentStatusColor(reservation.payment_status)}
-                    >
-                      Payment Status: {reservation.payment_status}
-                    </p>
-                    <p className="ur">
-                      Created At:{" "}
-                      {new Date(reservation.created_at).toLocaleDateString()}
-                    </p>
-                    <a
-                      className="urll"
-                      onClick={() => {
-                        handleNextPaymentClick(reservation.created_at);
-                        genQR();
-                      }}
-                    >
-                      Next pay At:{" "}
-                      {new Date(reservation.created_at).toLocaleDateString()}
-                    </a>
+                  <div key={reservation._id} className="reservation-card">
+                    <div className="reservation-header">
+                      <h3 className="room-number">Room {reservation.room_number}</h3>
+                      <span className={getPaymentStatusBadge(reservation.payment_status)}>
+                        {reservation.payment_status}
+                      </span>
+                    </div>
+                    <div className="reservation-details">
+                      <div className="detail-item">
+                        <span className="detail-label">Booked On:</span>
+                        <span className="detail-value">{formatDate(reservation.created_at)}</span>
+                      </div>
+                      <div className="detail-item payment-link">
+                        <span className="detail-label">Next Payment:</span>
+                        <button 
+                          className="next-payment-btn"
+                          onClick={() => handleNextPaymentClick(reservation.created_at)}
+                        >
+                          {formatDate(calculateNextPaymentDate(reservation.created_at))}
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 ))
               )}
@@ -151,18 +185,20 @@ const Roombooking = () => {
       case "personalinformations":
         if (user) {
           return (
-            <section className="personal-info">
-              <div className="info-item-users">
-                <div className="user-info">
-                  <p className="userr">Username</p>
+            <section className="info-section">
+              <h2 className="section-title">Personal Information</h2>
+              <div className="profile-card">
+                <div className="profile-item">
+                  <h3 className="profile-label">Username</h3>
                   {isEditing ? (
-                    <div className="userrrr">
+                    <div className="edit-fields">
                       <input
                         type="text"
                         name="firstname"
                         value={userData.firstname || ""}
                         onChange={handleChange}
                         placeholder="First Name"
+                        className="edit-input"
                       />
                       <input
                         type="text"
@@ -170,43 +206,48 @@ const Roombooking = () => {
                         value={userData.lastname || ""}
                         onChange={handleChange}
                         placeholder="Last Name"
+                        className="edit-input"
                       />
                     </div>
                   ) : (
-                    <p>
-                      {user.firstname} {user.lastname}
-                    </p>
+                    <p className="profile-value">{user.firstname} {user.lastname}</p>
                   )}
-                </div>
-                <div className="bttcontir">
-                  {isEditing ? (
-                    <div className="btcontir">
-                      <button className="cancel-btn" onClick={handleCancel}>
-                        Cancel
+                  <div className="action-buttons">
+                    {isEditing ? (
+                      <>
+                        <button className="cancel-btn" onClick={handleCancel}>
+                          Cancel
+                        </button>
+                        <button className="confirm-btn" onClick={handleSave}>
+                          Save Changes
+                        </button>
+                      </>
+                    ) : (
+                      <button className="edit-btn" onClick={handleEditClick}>
+                        Edit Profile
                       </button>
-                      <button className="confirm-btn" onClick={handleSave}>
-                        Confirm
-                      </button>
-                    </div>
-                  ) : (
-                    <button className="edit-btn" onClick={handleEditClick}>
-                      Edit
-                    </button>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="info-item-user">
-                <p className="userrr">Email</p>
-                <p className="userrrr">{user.email}</p>
-              </div>
-              <div className="info-item-user">
-                <p className="userrr">Phone number</p>
-                <p className="userrrr">{user.phoneNumber}</p>
+
+                <div className="profile-item">
+                  <h3 className="profile-label">Email</h3>
+                  <p className="profile-value">{user.email}</p>
+                </div>
+
+                <div className="profile-item">
+                  <h3 className="profile-label">Phone Number</h3>
+                  <p className="profile-value">{user.phoneNumber}</p>
+                </div>
               </div>
             </section>
           );
         } else {
-          return <p>Loading...</p>;
+          return (
+            <div className="loading-container">
+              <p>Loading user information...</p>
+            </div>
+          );
         }
       default:
         return <p>Select a page from the menu.</p>;
@@ -215,32 +256,47 @@ const Roombooking = () => {
 
   return (
     <>
-      <div className="containere">
-        <aside className="sidebare">
-          <ul>
+      <div className="dashboard-container">
+        <aside className="dashboard-sidebar">
+          <div className="sidebar-header">
+            <h2>My Account</h2>
+          </div>
+          <ul className="sidebar-menu">
             <li
               onClick={() => setActivePage("allroomreservations")}
-              className="sidebare-item"
+              className={`sidebar-item ${activePage === "allroomreservations" ? "active" : ""}`}
             >
               All Room Reservations
             </li>
             <li
               onClick={() => setActivePage("personalinformations")}
-              className="sidebare-item"
+              className={`sidebar-item ${activePage === "personalinformations" ? "active" : ""}`}
             >
               Personal Information
             </li>
           </ul>
         </aside>
 
-        <main className="main-contente">{renderContent()}</main>
+        <main className="dashboard-content">{renderContent()}</main>
       </div>
 
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-          <img src={auImage} alt="" />
-            <button onClick={() => setShowModal(false)}>Close</button>
+            <div className="modal-header">
+              <h2>Payment QR Code</h2>
+              <button className="close-btn" onClick={() => setShowModal(false)}>×</button>
+            </div>
+            <div className="modal-body">
+              <p className="payment-date">Next payment due: {formatDate(nextPaymentDate)}</p>
+              <div className="qr-container">
+                <img src={qrCode || auImage} alt="Payment QR Code" className="qr-image" />
+              </div>
+              <p className="payment-instructions">Scan with your mobile banking app to complete payment</p>
+            </div>
+            <div className="modal-footer">
+              <button className="close-modal-btn" onClick={() => setShowModal(false)}>Close</button>
+            </div>
           </div>
         </div>
       )}
