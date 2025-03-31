@@ -164,13 +164,10 @@ const BookingInvoiceUpload = () => {
     formData.append('invoice', imageFile);
     formData.append('userId', selectedUser._id);
     
-    // ถ้ามีข้อมูลการจอง ให้เพิ่ม bookingId ด้วย
-    if (bookingData && bookingData._id) {
-      formData.append('bookingId', bookingData._id);
-    }
+
 
     try {
-      const response = await fetch('http://localhost:5001/api/booking/upload', {
+      const response = await fetch('http://localhost:5001/api/rentalInvoices/upload', {
         method: 'POST',
         body: formData,
       });
