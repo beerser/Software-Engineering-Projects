@@ -15,6 +15,7 @@ const Room = require("./models/Room");
 const PORT = process.env.PORT || 5001;
 const multer = require("multer");
 const path = require("path");
+const rentalInvoicesDir = "rentalInvoices";
 const fs = require("fs");
 const Income = require("./models/Income");
 const Money = require("./models/Money");
@@ -304,31 +305,46 @@ app.post("/generateQR", (req, res) => {
 });
 
 app.use("/uploads", express.static("uploads"));
-
-
 const uploadDir = "uploads";
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
-const rentalInvoicesDir = "rentalInvoices";
+
 if (!fs.existsSync(rentalInvoicesDir)) {
   fs.mkdirSync(rentalInvoicesDir);
 }
 
-// กำหนด storage สำหรับ multer
+
+const rentalInvoiceStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, rentalInvoicesDir); // เก็บไฟล์ในโฟลเดอร์ rentalInvoices
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // ตั้งชื่อไฟล์ใหม่ตามเวลา
+  },
+});
+
+const rentalInvoiceUpload = multer({
+  storage: rentalInvoiceStorage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
+    if (!allowedTypes.includes(file.mimetype)) {
+      return cb(new Error("ไฟล์ที่อัปโหลดไม่ถูกต้อง"));
+    }
+    cb(null, true);
+  },
+});
+
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    // เลือกโฟลเดอร์ที่ต้องการเก็บไฟล์
-    const folder = req.body.type === "rentalInvoice" ? rentalInvoicesDir : uploadDir; // ใช้ type เป็นตัวเลือก
-    cb(null, folder); // เก็บไฟล์ในโฟลเดอร์ที่เลือก
+    cb(null, uploadDir); // เก็บไฟล์ในโฟลเดอร์ uploads
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname)); // ตั้งชื่อไฟล์ใหม่
   },
 });
-
-
 
 // กำหนดตัวกรองไฟล์
 const upload = multer({
@@ -341,6 +357,36 @@ const upload = multer({
     cb(null, true);
   },
 });
+
+
+
+app.post("/api/rentalInvoices/upload", rentalInvoiceUpload.single("slip"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send("ไม่พบไฟล์ที่อัปโหลด");
+    }
+
+ 
+    const { userId } = req.body; 
+
+
+    const invoiceData = {
+      userId: userId,          
+      slip_filename: req.file.filename, 
+      payment_status: "confirmed",      
+    };
+
+    res.json({
+      message: "ไฟล์ถูกอัปโหลดสำเร็จ",
+      filename: req.file.filename,  
+      userId: userId,             
+    });
+  } catch (error) {
+    console.error("เกิดข้อผิดพลาดในการอัปโหลดไฟล์:", error.message);
+    res.status(500).send("เกิดข้อผิดพลาดในการอัปโหลดไฟล์");
+  }
+});
+
 
 // กำหนดเส้นทาง POST /upload
 app.post("/upload", upload.single("slip"), (req, res) => {
@@ -356,15 +402,6 @@ app.post("/upload", upload.single("slip"), (req, res) => {
 });
 
 
-app.get("/rentalInvoices", (req, res) => {
-  fs.readdir(rentalInvoicesDir, (err, files) => {
-    if (err) {
-      return res.status(500).send("ไม่สามารถอ่านโฟลเดอร์ rentalInvoices");
-    }
-    res.json(files);
-  });
-});
-
 
 app.get("/files", (req, res) => {
   fs.readdir("uploads", (err, files) => {
@@ -374,8 +411,6 @@ app.get("/files", (req, res) => {
     res.json(files);
   });
 });
-
-
 
 app.post("/booking", upload.single("slip"), async (req, res) => {
   try {

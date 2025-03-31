@@ -4,17 +4,22 @@ const BookingInvoiceUpload = () => {
   const [bookings, setBookings] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
+    setIsLoading(true);
     try {
       await Promise.all([fetchBookings(), fetchUsers()]);
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -46,13 +51,13 @@ const BookingInvoiceUpload = () => {
     }
   };
 
-  // ฟังก์ชันกรองผู้ใช้ที่มีการจองที่สถานะ "confirmed"
-  const getConfirmedUsers = () => {
-    return users.filter(user => 
-      bookings.some(booking =>
-        booking.user_firstname === user.firstname &&
-        booking.user_lastname === user.lastname &&
-        booking.payment_status === "confirmed"
+  const getUsersInConfirmedBookings = () => {
+    return users.filter(user =>
+      bookings.some(
+        booking =>
+          booking.user_firstname === user.firstname &&
+          booking.user_lastname === user.lastname &&
+          booking.payment_status === "confirmed"
       )
     );
   };
@@ -68,9 +73,56 @@ const BookingInvoiceUpload = () => {
     setSelectedUser(user);
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImageFile(file);
+    } else {
+      setImageFile(null);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedUser || !imageFile) {
+      setMessage("กรุณาเลือกผู้ใช้ และไฟล์รูปภาพ");
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append('slip', imageFile);
+    formData.append('userId', selectedUser._id);  // ส่ง userId ของผู้ใช้ที่เลือก
+  
+    try {
+      const response = await fetch('http://localhost:5001/api/rentalInvoices/upload', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        setMessage("ไฟล์ถูกอัปโหลดสำเร็จ!");
+        console.log("Uploaded file:", result.filename);
+      } else {
+        const errorText = await response.text();
+        setMessage(`เกิดข้อผิดพลาดในการอัปโหลดไฟล์: ${errorText}`);
+      }
+    } catch (error) {
+      setMessage("ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้");
+      console.error("Error uploading image:", error);
+    }
+  };
+  
+
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">แสดงข้อมูลผู้ใช้ที่มีการจองที่สถานะ "confirmed"</h2>
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">อัปโหลดใบเสร็จค่าเช่า</h2>
+
+      {isLoading && (
+        <div className="text-center my-4">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500"></div>
+          <p className="mt-2 text-gray-600">กำลังโหลดข้อมูล...</p>
+        </div>
+      )}
 
       {/* Select User - Filtered by Bookings with confirmed status */}
       <div className="mb-4">
@@ -80,9 +132,10 @@ const BookingInvoiceUpload = () => {
           onChange={handleUserSelect}
           value={selectedUser ? selectedUser._id : ""}
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          disabled={isLoading}
         >
           <option value="" key="user-default">-- เลือกผู้ใช้ --</option>
-          {getConfirmedUsers().map((user) => (
+          {getUsersInConfirmedBookings().map((user) => (
             <option key={`user-${user._id}`} value={user._id}>
               {user.firstname} {user.lastname}
             </option>
@@ -90,31 +143,31 @@ const BookingInvoiceUpload = () => {
         </select>
       </div>
 
-      {/* Show Selected User's Booking Info */}
-      {selectedUser && (
-        <div className="mb-4 p-4 bg-gray-50 rounded-md">
-          <h3 className="text-xl font-medium text-gray-700 mb-2">ข้อมูลการจองของผู้ใช้</h3>
-          {(() => {
-            const booking = bookings.find(
-              (booking) =>
-                booking.user_firstname === selectedUser.firstname &&
-                booking.user_lastname === selectedUser.lastname &&
-                booking.payment_status === "confirmed"
-            );
-            if (booking) {
-              return (
-                <>
-                  <p><strong>ชื่อ-นามสกุล:</strong> {selectedUser.firstname} {selectedUser.lastname}</p>
-                  <p><strong>หมายเลขห้อง:</strong> {booking.room_number}</p>
-                  <p><strong>วันที่เริ่มเช่า:</strong> {new Date(booking.created_at).toLocaleDateString('th-TH')}</p>
-                </>
-              );
-            } else {
-              return <p className="text-red-500">ไม่พบข้อมูลการจองที่ยืนยันแล้ว</p>;
-            }
-          })()}
-        </div>
-      )}
+      {/* File Upload */}
+      <div className="mb-4">
+        <label className="block text-lg font-medium text-gray-700 mb-2">เลือกรูปภาพใบเสร็จ</label>
+        <input
+          id="file-input"
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          disabled={isLoading || !selectedUser}
+        />
+      </div>
+
+      {/* Submit Button */}
+      <button
+        onClick={handleSubmit}
+        disabled={isLoading || !selectedUser || !imageFile}
+        className={`w-full py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+          isLoading || !selectedUser || !imageFile
+            ? "bg-gray-300 text-gray-500 cursor-not-allowed" 
+            : "bg-indigo-500 text-white hover:bg-indigo-600"
+        }`}
+      >
+        {isLoading ? 'กำลังอัปโหลด...' : 'อัปโหลดใบเสร็จ'}
+      </button>
 
       {/* Message */}
       {message && (
