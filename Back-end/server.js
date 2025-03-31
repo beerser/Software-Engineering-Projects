@@ -410,6 +410,43 @@ app.get("/files", (req, res) => {
   });
 });
 
+
+
+
+
+app.post("/api/booking/upload", upload.single('invoice'), async (req, res) => {
+  try {
+    const { bookingId } = req.body;  // รับ bookingId จาก body
+
+    if (!req.file) {
+      return res.status(400).send("ไม่พบไฟล์ใบเสร็จที่อัปโหลด");
+    }
+
+    // ค้นหาการจองจาก bookingId
+    const booking = await Booking.findById(bookingId);
+
+    if (!booking) {
+      return res.status(404).send("ไม่พบข้อมูลการจอง");
+    }
+
+    // อัปเดตชื่อไฟล์ใบเสร็จ
+    booking.invoice_filename = req.file.filename;
+
+    // บันทึกข้อมูลการจองที่อัปเดตแล้ว
+    await booking.save();
+
+    res.json({
+      message: "ไฟล์ใบเสร็จถูกอัปโหลดและบันทึกในข้อมูลการจองสำเร็จ",
+      invoice_filename: booking.invoice_filename,  // ส่งชื่อไฟล์ที่อัปเดตกลับไป
+    });
+  } catch (error) {
+    console.error("เกิดข้อผิดพลาดในการอัปโหลดไฟล์:", error.message);
+    res.status(500).send("เกิดข้อผิดพลาดในการอัปโหลดไฟล์");
+  }
+});
+
+
+
 app.post("/booking", upload.single("slip"), async (req, res) => {
   try {
     const { user_firstname, user_lastname, room_number } = req.body;
