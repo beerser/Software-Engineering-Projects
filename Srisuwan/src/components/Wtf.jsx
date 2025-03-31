@@ -273,7 +273,7 @@ const BookingInvoiceUpload = () => {
             id="file-input"
             type="file"
             name="invoice"
-            accept="image/*"
+            accept="image/*,application/pdf"
             onChange={handleFileChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
             disabled={isLoading || !selectedUser}
