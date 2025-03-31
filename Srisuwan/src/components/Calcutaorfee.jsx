@@ -54,7 +54,7 @@ const RoomFeeCalculator = () => {
   const generatePDF = () => {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
-    
+
     // Format the date to be more readable
     let formattedDate = "-";
     if (date) {
@@ -113,11 +113,11 @@ const RoomFeeCalculator = () => {
     // Draw table (manual approach, not using autoTable)
     doc.setFontSize(11);
     doc.setFont("helvetica", "normal");
-    
+
     // Column width
     const col1Width = 100;
     const col2Width = 70;
-    
+
     // Create item row
     const drawItem = (label, value) => {
       doc.setFont("helvetica", "normal");
@@ -125,7 +125,7 @@ const RoomFeeCalculator = () => {
       doc.text(value, margin + col1Width, y);
       y += 8;
     };
-    
+
     const drawSubItem = (label, value) => {
       doc.setFont("helvetica", "normal");
       doc.text(label, margin + 10, y);
@@ -135,7 +135,7 @@ const RoomFeeCalculator = () => {
 
     // Room charge
     drawItem("Room Charge", `${roomCharge || "0"} Baht`);
-    
+
     // Water fee
     drawItem("Water Fee", `${waterFee.toFixed(2)} Baht`);
     drawSubItem("- Initial Water Meter", `${initialWater || "0"} units`);
@@ -143,7 +143,7 @@ const RoomFeeCalculator = () => {
     const waterUnits = finalWater && initialWater ? Math.abs(Number(finalWater) - Number(initialWater)) : 0;
     drawSubItem("- Units Used", `${waterUnits} units`);
     drawSubItem("- Price per Unit", "20 Baht");
-    
+
     // Electricity fee
     drawItem("Electricity Fee", `${electricityFee.toFixed(2)} Baht`);
     drawSubItem("- Initial Electricity Meter", `${initialElectricity || "0"} units`);
@@ -151,7 +151,7 @@ const RoomFeeCalculator = () => {
     const electricityUnits = finalElectricity && initialElectricity ? Math.abs(Number(finalElectricity) - Number(initialElectricity)) : 0;
     drawSubItem("- Units Used", `${electricityUnits} units`);
     drawSubItem("- Price per Unit", "7 Baht");
-    
+
     // Service fee
     drawItem("Service Fee", `${serviceFee || "0"} Baht`);
 
@@ -219,7 +219,7 @@ const RoomFeeCalculator = () => {
   };
 
   return (
-    <div>
+    <div className="calculator-room-fee-card">
       <h2 className="k">Room Fee Calculator</h2>
 
       <div className="Roomtext">
@@ -249,7 +249,7 @@ const RoomFeeCalculator = () => {
         </select>
       </div>
 
-      <div>
+      <div className="date-on-calculator-page">
         <label>Date</label>
         <input
           type="month"
@@ -310,8 +310,9 @@ const RoomFeeCalculator = () => {
         <label>Total</label>
         <input type="number" value={total} readOnly />
       </div>
-
-      <button onClick={handleConfirm}>Confirm</button>
+      <div className="confirm-button-on-calculate-page">
+        <button onClick={handleConfirm}>Confirm</button>
+      </div>
     </div>
   );
 };
