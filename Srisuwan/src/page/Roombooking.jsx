@@ -3,7 +3,8 @@ import Footer from "../components/footer";
 import "../css/Roombooking.css";
 import axios from "axios";
 import { useAuth } from "../components/AuthContext";
-import auImage from "../assets/au.jpg";
+// ไม่จำเป็นต้องใช้ auImage อีกต่อไปถ้าเราใช้ QR code จาก API
+// import auImage from "../assets/au.jpg";
 
 const Roombooking = () => {
   const { user } = useAuth();
@@ -19,6 +20,8 @@ const Roombooking = () => {
   const [showModal, setShowModal] = useState(false);
   const [nextPaymentDate, setNextPaymentDate] = useState(null);
   const [qrCode, setQrCode] = useState(null);
+  const [isLoadingQR, setIsLoadingQR] = useState(false);
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -43,10 +46,44 @@ const Roombooking = () => {
     }
   }, [user]);
 
-  // Generate QR code placeholder function
-  const genQR = () => {
-    // This would typically call an API to generate a real QR code
-    setQrCode(auImage); // Using auImage as placeholder
+  // ฟังก์ชันสร้าง QR code จาก API
+  const genQR = async (reservationId, amount) => {
+    setIsLoadingQR(true);
+    try {
+      // สร้าง payload สำหรับส่งไปยัง API
+      const payload = {
+        reservationId: reservationId || "default",
+        amount: amount || 5000, // จำนวนเงินเริ่มต้น หากไม่มีการระบุ
+        description: `Room payment - ${user?.firstname} ${user?.lastname}`,
+      };
+
+      // เรียกใช้ API เพื่อสร้าง QR code
+      const response = await axios.post(
+        "http://localhost:5001/api/payments/generate-qr",
+        payload
+      );
+
+      // API ควรส่งข้อมูล URL ของรูปภาพ QR code กลับมา
+      if (response.data && response.data.qrCodeUrl) {
+        setQrCode(response.data.qrCodeUrl);
+        console.log("QR code generated:", response.data.qrCodeUrl);
+      } else {
+        console.error("Invalid QR code response:", response.data);
+        // ใช้ API สาธารณะเป็น fallback เพื่อสร้าง QR code ง่ายๆ
+        setQrCode(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=payment_${reservationId}_${amount}`);
+      }
+    } catch (error) {
+      console.error("Error generating QR code:", error);
+      // ใช้ API สาธารณะเป็น fallback เพื่อสร้าง QR code ง่ายๆ
+      setQrCode(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=fallback_payment`);
+    } finally {
+      setIsLoadingQR(false);
+    }
+  };
+
+  const showErrorMessage = (message) => {
+    console.error(message);
+    // คุณสามารถใช้ toast หรือ alert ตรงนี้
   };
 
   const getPaymentStatusColor = (status) => {
@@ -73,6 +110,20 @@ const Roombooking = () => {
 
   const handleEditClick = () => {
     setIsEditing(true);
+  };
+
+  const fetchnotification = async () => {
+    try {
+      const response = await fetch("http://localhost:5001/api/collection");
+      if (!response.ok) {
+        throw new Error("Unable to fetch bookings");
+      }
+      const data = await response.json();
+      setBookings(data);
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+      showErrorMessage("ไม่สามารถดึงข้อมูลการจองได้");
+    }
   };
 
   const handleSave = async () => {
@@ -106,7 +157,7 @@ const Roombooking = () => {
 
   const handleCancel = () => {
     setIsEditing(false);
-    // Reset user data to original values
+    // คืนค่าข้อมูลผู้ใช้เป็นค่าเดิม
     setUserData({
       firstname: user ? user.firstname : "",
       lastname: user ? user.lastname : "",
@@ -120,7 +171,7 @@ const Roombooking = () => {
     setUserData({ ...userData, [name]: value });
   };
 
-  // Calculate next payment date
+  // คำนวณวันที่ชำระเงินครั้งถัดไป
   const calculateNextPaymentDate = (date) => {
     const currentDate = new Date(date);
     currentDate.setMonth(currentDate.getMonth() + 1);
@@ -128,11 +179,15 @@ const Roombooking = () => {
     return currentDate;
   };
 
-  // Handle next payment click
-  const handleNextPaymentClick = (reservationDate) => {
-    const nextDate = calculateNextPaymentDate(reservationDate);
+  // จัดการคลิกปุ่มชำระเงินครั้งถัดไป
+  const handleNextPaymentClick = (reservation) => {
+    const nextDate = calculateNextPaymentDate(reservation.created_at);
     setNextPaymentDate(nextDate);
-    genQR();
+    
+    // เรียกใช้ API เพื่อสร้าง QR code สำหรับการชำระเงิน
+    // ส่ง ID ของการจองและจำนวนเงินไปด้วย (ถ้ามี)
+    genQR(reservation._id, reservation.room_price || 5000);
+    
     setShowModal(true);
   };
 
@@ -170,7 +225,7 @@ const Roombooking = () => {
                         <span className="detail-label">Next Payment:</span>
                         <button 
                           className="next-payment-btn"
-                          onClick={() => handleNextPaymentClick(reservation.created_at)}
+                          onClick={() => handleNextPaymentClick(reservation)}
                         >
                           {formatDate(calculateNextPaymentDate(reservation.created_at))}
                         </button>
@@ -211,7 +266,6 @@ const Roombooking = () => {
                       />
                     </div>
                   ) : 
-
                   (
                     <p className="profile-value">{user.firstname} {user.lastname}</p>
                   )}
@@ -253,6 +307,15 @@ const Roombooking = () => {
             </div>
           );
         }
+      case "notification":
+        return (
+          <section className="info-section">
+            <h2 className="section-title">Notifications</h2>
+            <div className="notification-list">
+              <p>No new notifications</p>
+            </div>
+          </section>
+        );
       default:
         return <p>notification</p>;
     }
@@ -290,22 +353,44 @@ const Roombooking = () => {
         <main className="dashboard-content">{renderContent()}</main>
       </div>
 
+      {/* QR Code Payment Modal */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
-              <h2>P Au Thong KILL</h2>
+              <h2>Payment Information</h2>
               <button className="close-btn" onClick={() => setShowModal(false)}>×</button>
             </div>
             <div className="modal-body">
               <p className="payment-date">Next payment due: {formatDate(nextPaymentDate)}</p>
               <div className="qr-container">
-                <img src={qrCode || auImage} alt="Payment QR Code" className="qr-image" />
+                {isLoadingQR ? (
+                  <div className="loading-qr">
+                    <p>กำลังโหลด QR code...</p>
+                  </div>
+                ) : qrCode ? (
+                  <img 
+                    src={qrCode} 
+                    alt="Payment QR Code" 
+                    className="qr-image" 
+                    style={{ 
+                      maxWidth: '250px', 
+                      height: 'auto', 
+                      display: 'block', 
+                      margin: '0 auto',
+                      border: '1px solid #ddd',
+                      borderRadius: '4px',
+                      padding: '5px'
+                    }} 
+                  />
+                ) : (
+                  <p>ไม่สามารถสร้าง QR code ได้ กรุณาลองอีกครั้ง</p>
+                )}
               </div>
-              <p className="payment-instructions">Scan with your mobile banking app to complete payment</p>
+              <p className="payment-instructions">สแกนด้วยแอพธนาคารของคุณเพื่อชำระเงิน</p>
             </div>
             <div className="modal-footer">
-              <button className="close-modal-btn" onClick={() => setShowModal(false)}>Close</button>
+              <button className="close-modal-btn" onClick={() => setShowModal(false)}>ปิด</button>
             </div>
           </div>
         </div>
