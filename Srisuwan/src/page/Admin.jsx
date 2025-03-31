@@ -66,7 +66,7 @@ const Dashboard = ({ setRooms }) => {
       case "dashboard":
         return (
           <div>
-            <h2>Dashboard Overview</h2>
+            <h2 className="text-header">Dashboard Overview</h2>
 
             <div className="dashboard-summary">
               <div className="card">
@@ -126,13 +126,15 @@ const Dashboard = ({ setRooms }) => {
       case "managePayment":
         return (
           <div className="payment-card">
-            <h2>Manage payment</h2>
-
-            <button onClick={exportCSV} className="btn btn-secondary">
-              Export CSV
-            </button>
-
+            <h2 className="text-header">Manage payment</h2>
             <CalculatorFee></CalculatorFee>
+            <div className="export-csv-main-on-calculate-page">
+              <p className="text-readme-for-export-csv">View all calculated room prices.</p>
+              <button onClick={exportCSV} className="export-csv-on-admin-page">
+                Export CSV
+              </button>
+            </div>
+
           </div>
         );
       case "manageBooking":
@@ -141,7 +143,7 @@ const Dashboard = ({ setRooms }) => {
             <h2 className="text-header">Manage Booking</h2>
 
             <Confirm bookingDetails={bookingDetails} />
-           
+
             <h2 className="text-header-promptpay-booking">Promptpay Booking</h2>
             <Managepay />
           </div>
