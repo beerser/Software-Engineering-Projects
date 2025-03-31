@@ -244,7 +244,7 @@ const Roombooking = () => {
       setError(null);
     } catch (error) {
       console.error("Error fetching notifications:", error);
-      setError("Unable to load your notifications. Please try again later.");
+      
     }
   };
 
