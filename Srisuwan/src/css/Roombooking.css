@@ -175,6 +175,7 @@
   cursor: pointer;
   font-weight: 500;
   transition: background-color 0.3s;
+  max-width: fit-content;
 }
 
 .next-payment-btn:hover {
