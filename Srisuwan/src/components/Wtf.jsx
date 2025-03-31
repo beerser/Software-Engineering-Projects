@@ -169,7 +169,7 @@ const BookingInvoiceUpload = () => {
   return (
     <div className="container-on-wtf-page">
       <div className="upload-card">
-        <h2 className="title">อัปโหลดใบเสร็จค่าเช่า</h2>
+        <h2 className="title">ส่งใบแจ้งหนี้ให้กับผู้เช่า</h2>
 
         {isLoading && (
           <div className="loading-spinner">
@@ -221,9 +221,10 @@ const BookingInvoiceUpload = () => {
             <label htmlFor="file-input" className="file-input-label">
               <div className="upload-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+
                 </svg>
               </div>
-              <span>เลือกรูปภาพใบเสร็จ</span>
+              <span>เลือกรูปภาพใบแจ้งหนี้</span>
             </label>
             <input
               id="file-input"
@@ -274,7 +275,7 @@ const BookingInvoiceUpload = () => {
                   <path d="M16 5h6v6" />
                   <path d="M8 12l8-8" />
                 </svg>
-                อัปโหลดใบเสร็จ
+                อัปโหลดใบแจ้งหนี้ให้กับผู้เช่า
               </>
             )}
           </button>
