@@ -14,9 +14,7 @@ import Availableroom from "../components/Availableroom";
 import Confirm from "../components/Confirm";
 import Comechart from "../components/comechart";
 import Monday from "../components/Monday";
-
-
-
+import Wtf from "../components/Wtf";
 
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
@@ -42,22 +40,11 @@ const Dashboard = ({ setRooms }) => {
     fetchRooms();
   }, []);
 
-
-
-
   const exportCSV = () => {
     const csv = Papa.unparse(pendingChanges);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     saveAs(blob, "rooms.csv");
-
-
   };
-  
-
-
-
-
-
 
   const [bookingDetails, setBookingDetails] = useState({
     user: {
@@ -121,7 +108,7 @@ const Dashboard = ({ setRooms }) => {
               <div className="">
                 <RoomChart rooms={pendingChanges} />
               </div>
-             
+
               <div className="">
                 <RoomCalendar rooms={pendingChanges} />
               </div>
@@ -140,11 +127,11 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div className="payment-card">
             <h2>Manage payment</h2>
-           
+
             <button onClick={exportCSV} className="btn btn-secondary">
               Export CSV
             </button>
-            
+
             <CalculatorFee></CalculatorFee>
           </div>
         );
@@ -157,6 +144,13 @@ const Dashboard = ({ setRooms }) => {
             <hr />
             <h2 className="text-header">Promptpay Booking</h2>
             <Managepay />
+          </div>
+        );
+      case "edituser":
+        return (
+          <div>
+            <h2 className="text-header">Edit User</h2>
+            <Wtf />
           </div>
         );
       default:
@@ -212,6 +206,18 @@ const Dashboard = ({ setRooms }) => {
             />
             Manage Booking
           </li>
+          <li
+            style={{ cursor: "pointer" }}
+            onClick={() => setActivePage("edituser")}
+          >
+            <img
+              src={Edit}
+              alt="Edit Icon"
+              style={{ width: "20px", marginRight: "10px" }}
+            />
+            Edit User
+          </li>
+
           <li onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
             <img
               src={Edit}

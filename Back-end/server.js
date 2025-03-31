@@ -343,6 +343,8 @@ app.post("/upload", upload.single("slip"), (req, res) => {
   }
 });
 
+
+
 app.get("/files", (req, res) => {
   fs.readdir("uploads", (err, files) => {
     if (err) {
