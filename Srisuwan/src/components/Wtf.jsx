@@ -141,7 +141,9 @@ const BookingInvoiceUpload = () => {
     e.preventDefault();
     setIsLoading(true);
     setMessage('');
-
+    const formData = new FormData();
+    const file = e.target.elements.invoice.files[0];
+    
     // ตรวจสอบไฟล์
     if (!imageFile) {
       showErrorMessage('กรุณาเลือกไฟล์ใบเสร็จก่อนส่ง');
@@ -160,29 +162,30 @@ const BookingInvoiceUpload = () => {
     let bookingData = selectedBooking;
     
     // ถ้าไม่พบข้อมูลการจอง ให้อัปโหลดโดยใช้เฉพาะข้อมูลผู้ใช้
-    const formData = new FormData();
+  
     formData.append('invoice', imageFile);
-    formData.append('userId', selectedUser._id);
+    formData.append('user_firstname', selectedUser.firstname);
+    formData.append('user_lastname', selectedUser.lastname);
+    formData.append('room_number', selectedUser.roomNumber);
     
 
 
     try {
-      const response = await fetch('http://localhost:5001/api/rentalInvoices/upload', {
+      const response = await fetch('http://localhost:5001/collection', {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
         showSuccessMessage('อัปโหลดไฟล์ใบเสร็จสำเร็จ!');
-        setImageFile(null);
-        document.getElementById('file-input').value = '';
+
       } else {
         const errorText = await response.text();
         showErrorMessage(`เกิดข้อผิดพลาด: ${errorText}`);
       }
     } catch (error) {
       showErrorMessage('เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์ โปรดลองใหม่อีกครั้ง');
-      console.error("Upload error:", error);
+      
     } finally {
       setIsLoading(false);
     }

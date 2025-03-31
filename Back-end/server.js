@@ -411,23 +411,31 @@ app.get("/filer", (req, res) => {
 
 
 
-app.post("/collection", rentalInvoiceUpload.single("invoice"), async(req,res)=>{
-  try{
-    const {user_firstname, user_lastname, room_number} = res.body;
+app.post("/collection", rentalInvoiceUpload.single("invoice"), async (req, res) => {
+  try {
+
+    const { user_firstname, user_lastname, room_number } = req.body;
+
+    if (!user_firstname || !user_lastname || !room_number || !req.file) {
+      return res.status(400).send("Missing required fields or file");
+    }
+
     const collection = new Collection({
       user_firstname,
       user_lastname,
       room_number,
-      invoice_filename: req.file.filename,
+      invoice_filename: req.file.filename, 
     });
+
     await collection.save();
     res.status(201).send("ส่งใบแจ้งยอดสำเร็จ");
 
-  } catch (error){
-    console.log("เกิดข้อผืดพลาด",error.message);
-    res.status(500).send("เกิดข้อผิดพลาดในการส่ง")
+  } catch (error) {
+    console.log("เกิดข้อผิดพลาด", error.message);
+    res.status(500).send("เกิดข้อผิดพลาดในการส่ง");
   }
 });
+
 
 
 app.get("/api/collection", async(req,res)=>{
