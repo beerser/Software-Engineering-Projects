@@ -3,8 +3,6 @@ import Footer from "../components/footer";
 import "../css/Roombooking.css";
 import axios from "axios";
 import { useAuth } from "../components/AuthContext";
-// ไม่จำเป็นต้องใช้ auImage อีกต่อไปถ้าเราใช้ QR code จาก API
-// import auImage from "../assets/au.jpg";
 
 const Roombooking = () => {
   const { user } = useAuth();
