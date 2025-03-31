@@ -13,6 +13,16 @@
   flex-wrap: wrap; /* รองรับให้ content อยู่ข้างกัน */
 }
 
+.notification-image {
+  width: 100%;  /* ทำให้รูปภาพไม่เกินขนาดของคอนเทนเนอร์ */
+  max-width: 300px;  /* ขนาดสูงสุดที่ต้องการ */
+  height: auto;  /* ให้ความสูงของภาพอัตโนมัติตามอัตราส่วน */
+  object-fit: contain; /* รูปจะไม่เสียรูปจากการขยายหรือย่อ */
+  
+  margin: 0 auto;  /* จัดกึ่งกลาง */
+}
+
+
 /* Sidebar styles */
 .dashboard-sidebar {
   width: 280px;  /* หรือปรับขนาด sidebar ตามต้องการ */

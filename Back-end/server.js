@@ -307,6 +307,8 @@ app.post("/generateQR", (req, res) => {
 });
 
 app.use("/uploads", express.static("uploads"));
+
+
 const uploadDir = "uploads";
 
 if (!fs.existsSync(uploadDir)) {
@@ -406,6 +408,8 @@ app.get("/filer", (req, res) => {
     res.json(files);
   });
 });
+
+app.use("/rentalInvoices", express.static("rentalInvoices"));
 
 
 
