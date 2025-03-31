@@ -68,9 +68,8 @@ const QR = ({ item }) => {
         <div className="terms-container">
           <p className='term'>
             Residents must complete the necessary procedures at the registered address 2-3 days before the due date.
-            If the deadline is exceeded, the reservation will be canceled, and it will be in accordance with the
-            <span className='Bu'>terms of service,</span>
-            <span className='Bu'>terms</span> of use, and <span className='Bu'> privacy policy</span>
+            If the deadline is exceeded, the reservation will be canceled, and it will be in accordance with the <span className='Bu'> terms of service,</span>
+            <span className='Bu'> terms</span> of use, and <span className='Bu'> privacy policy</span>
           </p>
           <button className='confirm-buttonn' onClick={genQR}>
             {isConfirmed ? 'Confirmed' : 'Confirm'}

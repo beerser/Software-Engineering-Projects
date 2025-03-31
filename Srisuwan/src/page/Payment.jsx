@@ -67,8 +67,15 @@ const Payment = () => {
 
           <div className='uploade-slip-payment-card'>
             <p className='warning-text-uploade'>‼️ Don’t forget to send your payment slip.</p>
-              <hr/>
-            <button onClick={handleUploadClick} className="upload">Upload payment receipt</button>
+            <hr />
+            <div className='main-upload-and-warning'>
+              <p>If it is verified that the
+                <span className='blue-text'> payment slip is not genuine </span>
+                or 
+                <span className='blue-text'> has been altered</span>
+                , we will cancel the check-in immediately</p>
+              <button onClick={handleUploadClick} className="upload">Upload payment receipt</button>
+            </div>
           </div>
 
         </div>
