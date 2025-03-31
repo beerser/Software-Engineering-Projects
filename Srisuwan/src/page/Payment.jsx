@@ -19,57 +19,63 @@ const Payment = () => {
         </button>
       </div>
     );
-  } 
+  }
   const handleUploadClick = () => {
-    navigate("/upload", { state: { item: item } }); 
+    navigate("/upload", { state: { item: item } });
   };
 
   return (
     <>
-    <div>
-      <div className="payment-container">
-        <div className="header">
-          <button onClick={() => navigate("/room")} className="back-button">
-            Back
-          </button>
-          <button onClick={handleUploadClick} className="upload">Upload</button>
-        </div>
-        <h4>Payment</h4>
+      <div>
+        <div className="payment-container">
+          <div className="header">
+            <button onClick={() => navigate("/room")} className="back-button">
+              Back
+            </button>
 
-
-        <div className="detail-address-main">
-          <h6 className='header-address-text'>Address</h6>
-          <div>
-            <p className='text-address'>7 Klong luang Soi, Phaholyothin Road, Knlog 1, Knlong Luang, Pathum Thani</p>
           </div>
-        </div>
+          <h4>Payment</h4>
 
-        <div className="detailss-containerrr">
-          <div className='text-container' >
-            <img src={item.imageUrl} alt="" className='image-container' />
-            <div className='text-container'>
-              <p className='name_room'>{item.roomNumber}</p>
-              <p className='price'>{item.price} Bath</p>
+
+          <div className="detail-address-main">
+            <h6 className='header-address-text'>Address</h6>
+            <div>
+              <p className='text-address'>7 Klong luang Soi, Phaholyothin Road, Knlog 1, Knlong Luang, Pathum Thani</p>
             </div>
-            
           </div>
-          <div className='text-ccontainer' >
-            <hr />
-            <p className='priceCC '>{item.price} Bath</p>
+
+          <div className="detailss-containerrr">
+            <div className='text-container' >
+              <img src={item.imageUrl} alt="" className='image-container' />
+              <div className='text-container'>
+                <p className='name_room'>{item.roomNumber}</p>
+                <p className='price'>{item.price} Bath</p>
+              </div>
+
+            </div>
+            <div className='text-ccontainer' >
+              <hr />
+              <p className='priceCC '>{item.price} Bath</p>
+            </div>
           </div>
+
+
+
+          <div className="payment-methods-main">
+            <QR item={item} />
+          </div>
+
+          <div className='uploade-slip-payment-card'>
+            <p className='warning-text-uploade'>‼️ Don’t forget to send your payment slip.</p>
+              <hr/>
+            <button onClick={handleUploadClick} className="upload">Upload payment receipt</button>
+          </div>
+
         </div>
-
-
-
-        <div className="payment-methods-main">
-        <QR item={item} />
-        </div>
-
       </div>
-    </div>
-    <Footer/>
+      <Footer />
     </>
-    
+
   );
 };
 

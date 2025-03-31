@@ -92,24 +92,51 @@
     margin-bottom: 0.2rem;
 }
 
+.uploade-slip-payment-card{
+    background-color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* เพิ่มเงานุ่ม */
+    padding: 3%;
+    border-radius: 0.5rem;
+}
+
+.warning-text-uploade{
+    margin-bottom: 20px;
+    background-color: white;
+    color: red;
+    font-weight: bold;
+}
+
 .upload {
-    width: auto;
-    padding: 8px 16px;
-    border: none;
+    padding: 10px 20px;
+    border: 2px solid #d1d1d1; /* เส้นขอบเทาเงิน */
     border-radius: 8px;
-    background-color: #0084ff;
-    color: white;
+    background-color: #f9f9f9; /* พื้นหลังขาว-เทาเงิน */
+    color: #333; /* ตัวอักษรสีเทาเข้ม */
     font-size: 14px;
+    font-weight: bold;
     cursor: pointer;
-    margin-left: 30px;
-    margin-top: 30px;
-    display: block;
-    transition: background-color 0.3s ease, color 0.3s ease; /* ทำให้เปลี่ยนสีดู smooth */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เงาอ่อน ๆ */
+}
+
+.upload::before {
+    content: "📤";
+    font-size: 16px;
 }
 
 .upload:hover {
-    background-color: #006bb3; /* เปลี่ยนเป็นน้ำเงินเข้มขึ้น */
-    color: #ffffff; /* คงสีขาวให้อ่านง่าย */
+    background-color: #e0e0e0; /* เทาเงินเมื่อ hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.upload:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .back-button {
