@@ -155,7 +155,7 @@ const ProfileEditForm = ({ userData, onSave, onCancel, onChange }) => (
       placeholder="Last Name"
       className="edit-input"
     />
-    <div className="action-buttons">
+    <div className="action-buttons-submit-on-room-booking">
       <button className="cancel-btn" onClick={onCancel}>Cancel</button>
       <button className="confirm-btn" onClick={onSave}>Save</button>
     </div>
@@ -427,7 +427,7 @@ const Roombooking = () => {
                   <p className="profile-value">
                     {user.firstname} {user.lastname}
                   </p>
-                  <div className="action-buttons">
+                  <div className="action-buttons-edit-on-room-booking">
                     <button className="edit-btn" onClick={handleEditProfile}>
                       Edit Profile
                     </button>
