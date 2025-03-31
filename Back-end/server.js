@@ -420,6 +420,10 @@ app.post("/collection", rentalInvoiceUpload.single("invoice"), async (req, res) 
       return res.status(400).send("Missing required fields or file");
     }
 
+    console.log("Received Data:", req.body); 
+    console.log("File Info:", req.file);
+
+
     const collection = new Collection({
       user_firstname,
       user_lastname,
@@ -428,6 +432,7 @@ app.post("/collection", rentalInvoiceUpload.single("invoice"), async (req, res) 
     });
 
     await collection.save();
+    console.log("Data saved successfully to database!"); 
     res.status(201).send("ส่งใบแจ้งยอดสำเร็จ");
 
   } catch (error) {
