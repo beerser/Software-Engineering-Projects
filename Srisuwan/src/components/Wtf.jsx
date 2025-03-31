@@ -89,9 +89,9 @@ const BookingInvoiceUpload = () => {
     }
   
     const formData = new FormData();
-    formData.append('slip', imageFile);
+    formData.append('rentalInvoice', imageFile);  // เปลี่ยนจาก 'slip' เป็น 'rentalInvoice'
     formData.append('userId', selectedUser._id);  // ส่ง userId ของผู้ใช้ที่เลือก
-  
+    
     try {
       const response = await fetch('http://localhost:5001/api/rentalInvoices/upload', {
         method: 'POST',
@@ -100,8 +100,9 @@ const BookingInvoiceUpload = () => {
   
       if (response.ok) {
         const result = await response.json();
-        setMessage("ไฟล์ถูกอัปโหลดสำเร็จ!");
+        setMessage("ไฟล์ใบเสร็จถูกอัปโหลดสำเร็จ!");
         console.log("Uploaded file:", result.filename);
+        // ตอนนี้ข้อมูลการจองจะถูกอัปเดตในฐานข้อมูลด้วยชื่อไฟล์ที่ถูกอัปโหลด
       } else {
         const errorText = await response.text();
         setMessage(`เกิดข้อผิดพลาดในการอัปโหลดไฟล์: ${errorText}`);
@@ -111,6 +112,7 @@ const BookingInvoiceUpload = () => {
       console.error("Error uploading image:", error);
     }
   };
+  
   
 
   return (

@@ -310,15 +310,13 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
-
 if (!fs.existsSync(rentalInvoicesDir)) {
   fs.mkdirSync(rentalInvoicesDir);
 }
 
-
 const rentalInvoiceStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, rentalInvoicesDir); // เก็บไฟล์ในโฟลเดอร์ rentalInvoices
+    cb(null, rentalInvoicesDir); 
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname)); // ตั้งชื่อไฟล์ใหม่ตามเวลา
@@ -360,7 +358,7 @@ const upload = multer({
 
 
 
-app.post("/api/rentalInvoices/upload", rentalInvoiceUpload.single("slip"), async (req, res) => {
+app.post("/api/rentalInvoices/upload", rentalInvoiceUpload.single("rentalInvoice"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("ไม่พบไฟล์ที่อัปโหลด");
