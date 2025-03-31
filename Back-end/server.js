@@ -304,19 +304,31 @@ app.post("/generateQR", (req, res) => {
 });
 
 app.use("/uploads", express.static("uploads"));
+
+
 const uploadDir = "uploads";
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
+const rentalInvoicesDir = "rentalInvoices";
+if (!fs.existsSync(rentalInvoicesDir)) {
+  fs.mkdirSync(rentalInvoicesDir);
+}
+
+// กำหนด storage สำหรับ multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadDir); // เก็บไฟล์ในโฟลเดอร์ uploads
+    // เลือกโฟลเดอร์ที่ต้องการเก็บไฟล์
+    const folder = req.body.type === "rentalInvoice" ? rentalInvoicesDir : uploadDir; // ใช้ type เป็นตัวเลือก
+    cb(null, folder); // เก็บไฟล์ในโฟลเดอร์ที่เลือก
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname)); // ตั้งชื่อไฟล์ใหม่
   },
 });
+
+
 
 // กำหนดตัวกรองไฟล์
 const upload = multer({
@@ -344,6 +356,15 @@ app.post("/upload", upload.single("slip"), (req, res) => {
 });
 
 
+app.get("/rentalInvoices", (req, res) => {
+  fs.readdir(rentalInvoicesDir, (err, files) => {
+    if (err) {
+      return res.status(500).send("ไม่สามารถอ่านโฟลเดอร์ rentalInvoices");
+    }
+    res.json(files);
+  });
+});
+
 
 app.get("/files", (req, res) => {
   fs.readdir("uploads", (err, files) => {
@@ -353,6 +374,8 @@ app.get("/files", (req, res) => {
     res.json(files);
   });
 });
+
+
 
 app.post("/booking", upload.single("slip"), async (req, res) => {
   try {

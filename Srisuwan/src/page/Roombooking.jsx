@@ -250,7 +250,7 @@ const Roombooking = () => {
           );
         }
       default:
-        return <p>Select a page from the menu.</p>;
+        return <p>notification</p>;
     }
   };
 
@@ -273,6 +273,12 @@ const Roombooking = () => {
               className={`sidebar-item ${activePage === "personalinformations" ? "active" : ""}`}
             >
               Personal Information
+            </li>
+            <li
+              onClick={() => setActivePage("notification")}
+              className={`sidebar-item ${activePage === "notification" ? "active" : ""}`}
+            >
+              Notification
             </li>
           </ul>
         </aside>
