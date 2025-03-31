@@ -19,6 +19,8 @@ const rentalInvoicesDir = "rentalInvoices";
 const fs = require("fs");
 const Income = require("./models/Income");
 const Money = require("./models/Money");
+const Collection = require("./models/Collection");
+const { concat } = require("lodash");
 
 
 app.use(express.json());
@@ -306,6 +308,7 @@ app.post("/generateQR", (req, res) => {
 
 app.use("/uploads", express.static("uploads"));
 const uploadDir = "uploads";
+
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
@@ -319,7 +322,7 @@ const rentalInvoiceStorage = multer.diskStorage({
     cb(null, rentalInvoicesDir); 
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); // ตั้งชื่อไฟล์ใหม่ตามเวลา
+    cb(null, Date.now() + path.extname(file.originalname)); 
   },
 });
 
@@ -358,27 +361,12 @@ const upload = multer({
 
 
 
-app.post("/api/rentalInvoices/upload", rentalInvoiceUpload.single("rentalInvoice"), async (req, res) => {
+app.post("/api/rentalInvoices", rentalInvoiceUpload.single("rentalInvoice"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("ไม่พบไฟล์ที่อัปโหลด");
     }
-
- 
-    const { userId } = req.body; 
-
-
-    const invoiceData = {
-      userId: userId,          
-      slip_filename: req.file.filename, 
-      payment_status: "confirmed",      
-    };
-
-    res.json({
-      message: "ไฟล์ถูกอัปโหลดสำเร็จ",
-      filename: req.file.filename,  
-      userId: userId,             
-    });
+    res.json({ message: "ไฟล์ถูกอัปโหลดสำเร็จ!", filename: req.file.filename }); // ส่งชื่อไฟล์กลับไป
   } catch (error) {
     console.error("เกิดข้อผิดพลาดในการอัปโหลดไฟล์:", error.message);
     res.status(500).send("เกิดข้อผิดพลาดในการอัปโหลดไฟล์");
@@ -410,11 +398,64 @@ app.get("/files", (req, res) => {
   });
 });
 
+app.get("/filer", (req, res) => {
+  fs.readdir("rentalInvoices", (err, files) => {
+    if (err) {
+      return res.status(500).send("ไม่สามารถอ่านโฟลเดอร์ uploads");
+    }
+    res.json(files);
+  });
+});
 
 
 
 
 
+app.post("/collection", rentalInvoiceUpload.single("invoice"), async(req,res)=>{
+  try{
+    const {user_firstname, user_lastname, room_number} = res.body;
+    const collection = new Collection({
+      user_firstname,
+      user_lastname,
+      room_number,
+      invoice_filename: req.file.filename,
+    });
+    await collection.save();
+    res.status(201).send("ส่งใบแจ้งยอดสำเร็จ");
+
+  } catch (error){
+    console.log("เกิดข้อผืดพลาด",error.message);
+    res.status(500).send("เกิดข้อผิดพลาดในการส่ง")
+  }
+});
+
+
+app.get("/api/collection", async(req,res)=>{
+  try{
+    const collection = await Collection.find();
+
+    if(!collection || collection.length == 0){
+      return res.status(404).send("ไม่พบข้อมูล");
+    }
+
+    const collectionData = collection.map((collection)=>{
+      const{
+        user_firstname,
+        user_lastname,
+        room_number,
+        invoice_filename,
+      } = collection;
+      return{
+        user_firstname,
+        user_lastname,
+        room_number,
+        invoice_filename,
+      };
+    });
+    res.status(200).json(collectionData); 
+  } catch(error){    console.error(error);
+    res.status(500).send("เกิดข้อผิดพลาดในการดึงข้อมูล");}
+});
 
 
 
