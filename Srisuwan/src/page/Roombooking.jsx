@@ -156,7 +156,7 @@ const Roombooking = () => {
                 reservations.map((reservation) => (
                   <div key={reservation._id} className="reservation-card">
                     <div className="reservation-header">
-                      <h3 className="room-number">Room {reservation.room_number}</h3>
+                      <h3 className="room-number">{reservation.room_number}</h3>
                       <span className={getPaymentStatusBadge(reservation.payment_status)}>
                         {reservation.payment_status}
                       </span>
@@ -284,7 +284,7 @@ const Roombooking = () => {
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
-              <h2>Payment QR Code</h2>
+              <h2>P Au Thong KILL</h2>
               <button className="close-btn" onClick={() => setShowModal(false)}>×</button>
             </div>
             <div className="modal-body">

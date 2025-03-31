@@ -3,22 +3,22 @@
 .dashboard-container {
   display: flex;
   min-height: 80vh;
-  max-width: 1200px;
+  max-width: 1200px;  /* เพิ่มขนาดสูงสุดที่คุณต้องการ */
   margin: 2rem auto;
   border-radius: 12px;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   background-color: #f8f9fa;
+  flex-wrap: wrap; /* รองรับให้ content อยู่ข้างกัน */
 }
 
 /* Sidebar styles */
 .dashboard-sidebar {
-  width: 280px;
+  width: 280px;  /* หรือปรับขนาด sidebar ตามต้องการ */
   background-color: #1a237e;
   color: white;
   padding: 2rem 0;
 }
-
 .sidebar-header {
   padding: 0 1.5rem 1.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -70,6 +70,7 @@
   padding: 2rem;
   overflow-y: auto;
   background-color: white;
+  max-width: 100%;  /* ทำให้ main content ขยายเต็มที่ */
 }
 
 /* Section styles */
