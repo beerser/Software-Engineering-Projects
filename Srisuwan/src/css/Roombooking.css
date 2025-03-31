@@ -201,6 +201,10 @@
   
 }
 
+.username-main-card{
+  display: flex;
+}
+
 .profile-item {
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
@@ -244,7 +248,10 @@
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin-top: 1rem;
+  max-width: fit-content;
+  margin-left: auto;
+  margin-top: -15px;
+  max-height: 45px;
 }
 
 .edit-btn, .confirm-btn, .cancel-btn {
