@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import "../css/Wtf.css";
 
 const BookingInvoiceUpload = () => {
   const { state } = useLocation();
@@ -11,12 +10,13 @@ const BookingInvoiceUpload = () => {
   const [imageFile, setImageFile] = useState(null);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [messageType, setMessageType] = useState('');
+  const [messageType, setMessageType] = useState(''); // 'success' or 'error'
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  // Debug log เพื่อดูข้อมูล
   useEffect(() => {
     if (bookings.length > 0 && users.length > 0) {
       console.log("Bookings:", bookings);
@@ -25,19 +25,45 @@ const BookingInvoiceUpload = () => {
   }, [bookings, users]);
 
   useEffect(() => {
+    // เมื่อเลือกผู้ใช้ ให้ค้นหาการจองของผู้ใช้นั้นที่สถานะเป็น confirmed
     if (selectedUser) {
-      const userBooking = bookings.find(booking => 
-        (booking.user_id === selectedUser._id || 
-        (booking.user_firstname === selectedUser.firstname && 
-        booking.user_lastname === selectedUser.lastname)) &&
-        booking.payment_status === "confirmed"
-      );
-
+      console.log("Selected user:", selectedUser);
+      
+      // ค้นหาการจองที่ตรงกับผู้ใช้นี้ - ตรวจสอบทั้ง user_id และชื่อ-นามสกุล
+      const userBooking = bookings.find(booking => {
+        // ตรวจสอบโดยใช้ user_id ถ้ามี
+        if (booking.user_id && booking.user_id === selectedUser._id) {
+          return booking.payment_status === "confirmed";
+        }
+        
+        // ตรวจสอบโดยใช้ชื่อและนามสกุล
+        const firstnameMatch = booking.user_firstname === selectedUser.firstname || 
+                               booking.first_name === selectedUser.firstname;
+        const lastnameMatch = booking.user_lastname === selectedUser.lastname || 
+                              booking.last_name === selectedUser.lastname;
+        
+        return firstnameMatch && lastnameMatch && booking.payment_status === "confirmed";
+      });
+      
+      console.log("Found booking:", userBooking);
+      
+      if (userBooking) {
+        // อัปเดตข้อมูลห้องให้กับ selectedUser
+        const roomNumber = userBooking.roomNumber || userBooking.room_number || 'Not specified';
+        console.log("Setting room number:", roomNumber);
+        
+        // อัปเดต selectedUser โดยเพิ่มข้อมูลห้อง
+        setSelectedUser(prev => ({
+          ...prev,
+          roomNumber: roomNumber
+        }));
+      }
+      
       setSelectedBooking(userBooking || null);
     } else {
       setSelectedBooking(null);
     }
-  }, [selectedUser?._id, bookings]);
+  }, [selectedUser?._id, bookings]); // เปลี่ยนเป็น selectedUser._id เพื่อป้องกันการวนลูป
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -53,7 +79,9 @@ const BookingInvoiceUpload = () => {
   const fetchBookings = async () => {
     try {
       const response = await fetch("http://localhost:5001/api/bookings");
-      if (!response.ok) throw new Error("Unable to fetch bookings");
+      if (!response.ok) {
+        throw new Error("Unable to fetch bookings");
+      }
       const data = await response.json();
       setBookings(data);
     } catch (error) {
@@ -65,7 +93,9 @@ const BookingInvoiceUpload = () => {
   const fetchUsers = async () => {
     try {
       const response = await fetch("http://localhost:5001/api/user");
-      if (!response.ok) throw new Error("Unable to fetch users");
+      if (!response.ok) {
+        throw new Error("Unable to fetch users");
+      }
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -74,13 +104,40 @@ const BookingInvoiceUpload = () => {
     }
   };
 
+  const getUsersInConfirmedBookings = () => {
+    // หาผู้ใช้ที่มีการจองที่ยืนยันแล้ว
+    return users.filter(user =>
+      bookings.some(booking => {
+        // ตรวจสอบโดยใช้ user_id ถ้ามี
+        if (booking.user_id && booking.user_id === user._id) {
+          return booking.payment_status === "confirmed";
+        }
+        
+        // ตรวจสอบโดยใช้ชื่อและนามสกุล
+        const firstnameMatch = booking.user_firstname === user.firstname || 
+                              booking.first_name === user.firstname;
+        const lastnameMatch = booking.user_lastname === user.lastname || 
+                              booking.last_name === user.lastname;
+        
+        return firstnameMatch && lastnameMatch && booking.payment_status === "confirmed";
+      })
+    );
+  };
+
   const handleUserSelect = (e) => {
     const userId = e.target.value;
-    setSelectedUser(users.find(user => user._id === userId) || null);
+    if (!userId) {
+      setSelectedUser(null);
+      return;
+    }
+
+    const user = users.find(u => u._id === userId);
+    setSelectedUser(user);
   };
 
   const handleFileChange = (event) => {
-    setImageFile(event.target.files[0] || null);
+    const file = event.target.files[0];
+    setImageFile(file || null);
   };
 
   const showSuccessMessage = (msg) => {
@@ -97,24 +154,41 @@ const BookingInvoiceUpload = () => {
     e.preventDefault();
     setIsLoading(true);
     setMessage('');
-
+    
+    // ตรวจสอบไฟล์
     if (!imageFile) {
       showErrorMessage('กรุณาเลือกไฟล์ใบเสร็จก่อนส่ง');
       setIsLoading(false);
       return;
     }
 
-    if (!selectedUser) {
+    // ตรวจสอบผู้ใช้
+    if (!selectedUser || !selectedUser.firstname || !selectedUser.lastname) {
       showErrorMessage('ไม่พบข้อมูลผู้ใช้ โปรดเลือกผู้ใช้ก่อน');
       setIsLoading(false);
       return;
     }
 
     const formData = new FormData();
+    
+    // กำหนดค่าห้องจากการจองหรือจากข้อมูลผู้ใช้
+    const roomNumber = selectedBooking?.roomNumber || 
+                       selectedBooking?.room_number || 
+                       selectedUser.roomNumber || 
+                       'Not specified';
+    
+    console.log("Using room number for submission:", roomNumber);
+    
     formData.append('invoice', imageFile);
     formData.append('user_firstname', selectedUser.firstname);
     formData.append('user_lastname', selectedUser.lastname);
-    formData.append('room_number', selectedBooking?.roomNumber || 'Not specified');
+    formData.append('room_number', roomNumber);
+    
+    // Debug logs to verify the data being sent
+    console.log("Form data being sent:");
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value instanceof File ? value.name : value}`);
+    }
 
     try {
       const response = await fetch('http://localhost:5001/collection', {
@@ -125,7 +199,8 @@ const BookingInvoiceUpload = () => {
       if (response.ok) {
         showSuccessMessage('อัปโหลดไฟล์ใบเสร็จสำเร็จ!');
       } else {
-        showErrorMessage(`เกิดข้อผิดพลาด: ${await response.text()}`);
+        const errorText = await response.text();
+        showErrorMessage(`เกิดข้อผิดพลาด: ${errorText}`);
       }
     } catch (error) {
       console.error("Upload error:", error);
@@ -136,42 +211,93 @@ const BookingInvoiceUpload = () => {
   };
 
   return (
-    <div className="container">
-      <h2 className="title">อัปโหลดใบเสร็จค่าเช่า</h2>
+    <div className="container mx-auto p-4">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6">อัปโหลดใบเสร็จค่าเช่า</h2>
 
       {isLoading && (
-        <div className="loading-container">
-          <div className="loading-spinner"></div>
-          <p>กำลังโหลดข้อมูล...</p>
+        <div className="text-center my-4">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500"></div>
+          <p className="mt-2 text-gray-600">กำลังโหลดข้อมูล...</p>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="form-container">
-        <div className="form-group">
-          <label htmlFor="user-select">เลือกผู้ใช้</label>
-          <select id="user-select" onChange={handleUserSelect} value={selectedUser?._id || ""}>
-            <option value="">-- เลือกผู้ใช้ --</option>
-            {users.map(user => (
-              <option key={user._id} value={user._id}>
+      <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
+        {/* เลือกผู้ใช้ */}
+        <div className="mb-4">
+          <label htmlFor="user-select" className="block text-lg font-medium text-gray-700 mb-2">
+            เลือกผู้ใช้ที่จะอัพโหลดใบเสร็จ
+          </label>
+          <select
+            id="user-select"
+            onChange={handleUserSelect}
+            value={selectedUser ? selectedUser._id : ""}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            disabled={isLoading}
+          >
+            <option value="" key="user-default">-- เลือกผู้ใช้ --</option>
+            {getUsersInConfirmedBookings().map((user) => (
+              <option key={`user-${user._id}`} value={user._id}>
                 {user.firstname} {user.lastname}
               </option>
             ))}
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="file-input">เลือกรูปภาพใบเสร็จ</label>
-          <input id="file-input" type="file" accept="image/*" onChange={handleFileChange} />
+        {/* แสดงข้อมูลการจอง (ถ้ามี) */}
+        {selectedUser && (
+          <div className="p-4 bg-blue-50 rounded-md border border-blue-200 mb-4">
+            {selectedBooking ? (
+              <>
+                <h3 className="font-medium text-blue-800 mb-2">ข้อมูลการจอง</h3>
+                <p>ห้อง: {selectedBooking.roomNumber || selectedBooking.room_number || selectedUser.roomNumber || '(ไม่ระบุ)'}</p>
+                <p>สถานะการชำระเงิน: {selectedBooking.payment_status === 'confirmed' ? 'ยืนยันแล้ว' : selectedBooking.payment_status}</p>
+                {selectedBooking.booking_date && (
+                  <p>วันที่จอง: {new Date(selectedBooking.booking_date).toLocaleDateString('th-TH')}</p>
+                )}
+              </>
+            ) : (
+              <div className="text-amber-700">
+                <p className="font-medium">ไม่พบข้อมูลการจองที่ยืนยันสำหรับผู้ใช้นี้</p>
+                <p className="text-sm">ระบบจะบันทึกใบเสร็จให้กับผู้ใช้นี้โดยตรง</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* อัปโหลดไฟล์ */}
+        <div className="mb-4">
+          <label htmlFor="file-input" className="block text-lg font-medium text-gray-700 mb-2">
+            เลือกรูปภาพใบเสร็จ
+          </label>
+          <input
+            id="file-input"
+            type="file"
+            name="invoice"
+            accept="image/*,application/pdf"
+            onChange={handleFileChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            disabled={isLoading || !selectedUser}
+          />
         </div>
 
-        <button type="submit" disabled={!selectedUser || !imageFile || isLoading}>
+        {/* ปุ่มส่ง */}
+        <button
+          type="submit"
+          disabled={isLoading || !selectedUser || !imageFile}
+          className={`w-full py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium ${
+            isLoading || !selectedUser || !imageFile
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-indigo-500 text-white hover:bg-indigo-600"
+          }`}
+        >
           {isLoading ? 'กำลังอัปโหลด...' : 'อัปโหลดใบเสร็จ'}
         </button>
       </form>
 
+      {/* ข้อความแจ้งเตือน */}
       {message && (
-        <div className={`message ${messageType}`}>
-          <p>{message}</p>
+        <div className={`mt-6 p-4 rounded-md ${messageType === 'success' ? "bg-green-100 text-green-700 border border-green-400" : "bg-red-100 text-red-700 border border-red-400"}`}>
+          <p className="text-center text-lg">{message}</p>
         </div>
       )}
     </div>
