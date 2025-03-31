@@ -27,8 +27,15 @@ export const AuthProvider = ({ children }) => {
 
   // ฟังก์ชันการออกจากระบบ
   const logout = () => {
-    localStorage.removeItem("user");
-    setUser(null); // ล้างข้อมูลผู้ใช้
+    
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  
+    
+    
+    setUser(null);
+    
+
   };
 
   return (

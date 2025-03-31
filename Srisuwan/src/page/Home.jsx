@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from "react-router-dom"; 
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"; 
 import { AuthProvider, useAuth } from "../components/AuthContext";
 import Navbar from "../components/Navbar";
 import Bannerbg from "../components/Bannerbg";
@@ -16,10 +16,56 @@ import Footer from "../components/footer";
 import Neary from "../components/Neary";
 import Roombooking from "./Roombooking";
 import Upload from "./Upload";
+import SrisuwanAnimation from "../components/SrisuwanAnimation";
+
+// สร้างคอมโพเนนต์ Preloader สำหรับหน้าโหลด
+const Preloader = () => {
+  return (
+    <div className="preloader">
+      <div className="preloader-content">
+        <div className="spinner"></div>
+        <h2>กำลังโหลดเว็บไซต์</h2>
+        <p>โปรดรอสักครู่...</p>
+      </div>
+    </div>
+  );
+};
 
 function Home() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showSrisuwanAnimation, setShowSrisuwanAnimation] = useState(false);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    // Check if the user is logging in for the first time
+    const hasVisitedBefore = sessionStorage.getItem('hasVisitedBefore');
+    
+    if (!hasVisitedBefore && !user) {
+      // Show Srisuwan animation only on first visit and when not logged in
+      setShowSrisuwanAnimation(true);
+      sessionStorage.setItem('hasVisitedBefore', 'true');
+    } else {
+      // Skip animation and just show loading
+      setLoading(true);
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [user]);
+
+  const handleAnimationComplete = () => {
+    setShowSrisuwanAnimation(false);
+    setLoading(true);
+    
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  };
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -60,6 +106,16 @@ function Home() {
   const handlePaymentClick = (paymentDetails) => {
     setSelectedItem(paymentDetails);
   };
+
+  // แสดง Srisuwan Animation
+  if (showSrisuwanAnimation) {
+    return <SrisuwanAnimation onAnimationComplete={handleAnimationComplete} />;
+  }
+
+  // แสดง Preloader
+  if (loading) {
+    return <Preloader />;
+  }
 
   return (
     <AuthProvider>
