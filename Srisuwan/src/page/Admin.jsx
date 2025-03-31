@@ -15,6 +15,9 @@ import Confirm from "../components/Confirm";
 import Comechart from "../components/comechart";
 import Monday from "../components/Monday";
 
+
+
+
 const Dashboard = ({ setRooms }) => {
   const [localRooms, setLocalRooms] = useState([]);
   const [pendingChanges, setPendingChanges] = useState([]);
@@ -39,11 +42,22 @@ const Dashboard = ({ setRooms }) => {
     fetchRooms();
   }, []);
 
+
+
+
   const exportCSV = () => {
     const csv = Papa.unparse(pendingChanges);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     saveAs(blob, "rooms.csv");
+
+
   };
+  
+
+
+
+
+
 
   const [bookingDetails, setBookingDetails] = useState({
     user: {
@@ -126,9 +140,11 @@ const Dashboard = ({ setRooms }) => {
         return (
           <div className="payment-card">
             <h2>Manage payment</h2>
+           
             <button onClick={exportCSV} className="btn btn-secondary">
               Export CSV
             </button>
+            
             <CalculatorFee></CalculatorFee>
           </div>
         );

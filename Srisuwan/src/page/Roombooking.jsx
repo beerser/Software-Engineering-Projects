@@ -256,7 +256,7 @@ const Roombooking = () => {
 
   return (
     <>
-      <div className="dashboard-container">
+      <div className="dashboard-containerr">
         <aside className="dashboard-sidebar">
           <div className="sidebar-header">
             <h2>My Account</h2>
