@@ -410,6 +410,14 @@ app.get("/files", (req, res) => {
   });
 });
 
+
+
+
+
+
+
+
+
 app.post("/booking", upload.single("slip"), async (req, res) => {
   try {
     const { user_firstname, user_lastname, room_number } = req.body;
