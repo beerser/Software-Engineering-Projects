@@ -1,82 +1,327 @@
+/* Wtf.css */
+
 .container-on-wtf-page {
-    margin-top: 12% !important;
-    width: fit-content;
-    margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 85vh;
+  padding: 20px;
+  background-color: #f7f9fc;
+}
+
+.upload-card {
+  width: 100%;
+  max-width: 600px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  transition: all 0.3s ease;
+}
+
+.title {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 600;
+  border-bottom: 2px solid #f1f1f1;
+  padding-bottom: 15px;
+}
+
+.form-container-on-wtf-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.form-group-on-wtf-page {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group-on-wtf-page label {
+  font-weight: 500;
+  color: #4a5568;
+  font-size: 1rem;
+}
+
+.select-input {
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+  background-color: white;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.select-input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.file-upload-group {
+  position: relative;
+}
+
+.file-input-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 15px;
+  border: 2px dashed #cbd5e0;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  transition: all 0.2s;
+  color: #4a5568;
+}
+
+.file-input-label:hover {
+  border-color: #4299e1;
+  background-color: #ebf8ff;
+}
+
+.file-input-hidden {
+  opacity: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+}
+
+.upload-icon {
+  width: 24px;
+  height: 24px;
+  color: #4a5568;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  margin-top: 8px;
+  background-color: #edf2f7;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.file-name {
+  font-weight: 500;
+  color: #2d3748;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 70%;
+}
+
+.file-size {
+  color: #718096;
+}
+
+.image-preview {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  object-fit: contain;
+}
+
+.booking-info-card {
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 10px;
+  border-left: 4px solid #4299e1;
+}
+
+.booking-info-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.booking-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.booking-item:last-child {
+  border-bottom: none;
+}
+
+.booking-detail {
+  display: flex;
+  margin-bottom: 6px;
+}
+
+.detail-label {
+  min-width: 150px;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.detail-value {
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.status-confirmed {
+  color: #38a169;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.status-confirmed::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #38a169;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background-color: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 10px;
+}
+
+.submit-btn:hover:not(.disabled) {
+  background-color: #3182ce;
+  transform: translateY(-1px);
+}
+
+.submit-btn.disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.btn-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.message-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 8px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.message-box.success {
+  background-color: #f0fff4;
+  border-left: 4px solid #38a169;
+  color: #2f855a;
+}
+
+.message-box.error {
+  background-color: #fff5f5;
+  border-left: 4px solid #e53e3e;
+  color: #c53030;
+}
+
+.message-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.message-text {
+  font-size: 0.95rem;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(66, 153, 225, 0.2);
+  border-radius: 50%;
+  border-top-color: #4299e1;
+  animation: spin 1s ease-in-out infinite;
+}
+
+.spinner-small {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .upload-card {
     padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   }
   
-  .title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .loading {
-    text-align: center;
-    font-size: 16px;
-    color: #555;
-  }
-  
-  .form-container-on-wtf-page {
-    display: flex;
+  .booking-detail {
     flex-direction: column;
   }
   
-  .form-group-on-wtf-page {
-    margin-bottom: 15px;
+  .detail-label {
+    margin-bottom: 4px;
   }
-  
-  label {
-    font-size: 16px;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  select, input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .booking-info-on-wtf-page {
-    background: #f0f8ff;
-    padding: 30px;
-    border-radius: 4px;
-    max-height: 120px;
-  }
-  
-  .submit-btn {
-    background: #4a90e2;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .submit-btn:disabled {
-    background: #ccc;
-  }
-  
-  .message {
-    margin-top: 15px;
-    padding: 10px;
-    border-radius: 4px;
-  }
-  
-  .success {
-    background: #d4edda;
-    color: #155724;
-  }
-  
-  .error {
-    background: #f8d7da;
-    color: #721c24;
-  }
+}
