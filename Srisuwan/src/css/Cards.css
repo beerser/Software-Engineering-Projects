@@ -1,20 +1,37 @@
 .scroll-container {
   display: flex;
   gap: 1rem;
-  overflow-x: auto; /* Allow horizontal scrolling */
-  scroll-snap-type: x mandatory; /* Ensure each card stops at its position */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
   padding: 1rem;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* ซ่อน scrollbar ใน Firefox */
+  -ms-overflow-style: none; /* ซ่อน scrollbar ใน IE/Edge */
   margin: 0 auto;
   margin-bottom: 50px;
   margin-left: 30px;
-  justify-content: flex-start; /* ชิดซ้าย */
+  justify-content: flex-start;
+  position: relative; /* ป้องกัน box-shadow ถูกตัด */
 }
 
-/* ซ่อน scrollbar บน Chrome, Safari */
 .scroll-container::-webkit-scrollbar {
-  display: none;
+  display: none; /* ซ่อน scrollbar ใน Chrome และ Safari */
+}
+
+/* ป้องกัน box-shadow ถูกตัดเมื่อ scroll */
+.scroll-item {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.scroll-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .card {

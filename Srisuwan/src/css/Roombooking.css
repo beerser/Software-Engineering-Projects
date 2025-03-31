@@ -5,6 +5,7 @@
   min-height: 80vh;
   max-width: 1200px;  /* เพิ่มขนาดสูงสุดที่คุณต้องการ */
   margin: 2rem auto;
+  margin-top: 65px;
   border-radius: 12px;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -15,7 +16,7 @@
 /* Sidebar styles */
 .dashboard-sidebar {
   width: 280px;  /* หรือปรับขนาด sidebar ตามต้องการ */
-  background-color: #1a237e;
+  background-color: #333;
   color: white;
   padding: 2rem 0;
 }
@@ -61,7 +62,7 @@
   top: 0;
   bottom: 0;
   width: 4px;
-  background-color: #ff4081;
+  background-color: #ffffff;
 }
 
 /* Main content area */
@@ -75,7 +76,7 @@
 
 /* Section styles */
 .section-title {
-  color: #1a237e;
+  color: black;
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
@@ -84,6 +85,7 @@
 
 .info-section {
   margin-bottom: 2rem;
+  width: 850px;
 }
 
 /* Reservation cards */
@@ -118,7 +120,7 @@
 .room-number {
   font-size: 1.3rem;
   margin: 0;
-  color: #1a237e;
+  color: #000000;
 }
 
 .status-badge {
@@ -191,10 +193,12 @@
 
 /* Profile styles */
 .profile-card {
+  width: 853px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   padding: 2rem;
+  
 }
 
 .profile-item {
@@ -253,12 +257,20 @@
 }
 
 .edit-btn {
-  background-color: #1a237e;
+  background-color: #0084ff;
   color: white;
+  border: none;  /* ลบเส้นขอบ */
+  padding: 10px 20px;  /* เพิ่มระยะห่างให้ปุ่ม */
+  border-radius: 8px;  /* มุมปุ่มโค้ง */
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;  /* ทำให้การเปลี่ยนแปลงดูนุ่มนวล */
 }
 
 .edit-btn:hover {
-  background-color: #3949ab;
+  background-color: #006bb3;  /* เปลี่ยนสีพื้นหลัง */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);  /* เพิ่มเงาเมื่อ hover */
+  transform: translateY(-2px);  /* ปรับให้ปุ่มยกขึ้นเล็กน้อย */
 }
 
 .confirm-btn {

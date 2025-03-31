@@ -141,8 +141,8 @@ const Dashboard = ({ setRooms }) => {
             <h2 className="text-header">Manage Booking</h2>
 
             <Confirm bookingDetails={bookingDetails} />
-            <hr />
-            <h2 className="text-header">Promptpay Booking</h2>
+           
+            <h2 className="text-header-promptpay-booking">Promptpay Booking</h2>
             <Managepay />
           </div>
         );

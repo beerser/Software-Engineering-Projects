@@ -1,14 +1,20 @@
 /* Upload.css */
 
 .upload-container {
-    max-width: 500px;
-    margin: 30px auto;
-    padding: 25px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    font-family: 'Prompt', sans-serif;
-  }
+  max-width: 500px;
+  width: 100%;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Prompt', sans-serif;
+
+  /* จัดให้อยู่กึ่งกลาง */
+  position: absolute;
+  top: 53.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
   
   .upload-container h2 {
     font-size: 24px;
@@ -259,7 +265,7 @@
   }
   
   .back-link {
-    background: none;
+    background: transparent;
     border: none;
     color: #4a6bff;
     font-size: 14px;
@@ -267,23 +273,31 @@
     padding: 5px;
     text-decoration: none;
     display: inline-block;
-    transition: color 0.3s;
-  }
-  
-  .back-link:hover {
+    transition: color 0.3s ease;
+    outline: none; /* ป้องกันเส้นขอบตอนคลิก */
+}
+
+.back-link:hover {
     color: #3451db;
-    text-decoration: underline;
-  }
+    background: transparent; /* ยืนยันว่าไม่มีพื้นหลัง */
+}
   
-  .error-container {
-    max-width: 500px;
-    margin: 50px auto;
-    padding: 30px;
-    background-color: #fff8f8;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
+.error-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-height: fit-content;
+  
+  /* Positioning to center it */
+  position: absolute;
+  top: 50%; /* ตั้งระยะจากด้านบน */
+  left: 50%; /* ตั้งระยะจากด้านซ้าย */
+  transform: translate(-50%, -50%); /* เลื่อนออกจากตำแหน่งเพื่อให้ตรงกลาง */
+}
   
   .error-container h2 {
     color: #e53e3e;

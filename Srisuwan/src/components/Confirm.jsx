@@ -27,8 +27,8 @@ const Confirm = () => {
   }, []); // เรียกใช้เพียงครั้งเดียวเมื่อโหลดหน้า
 
   return (
-    <div>
-      <h2>ข้อมูลการจองทั้งหมด</h2>
+    <div className="manage-booking-main">
+      <h2 className="text-header-on-manage-booking">ข้อมูลการจองทั้งหมด</h2>
 
       {/* แสดงข้อความสถานะ */}
       <div>
