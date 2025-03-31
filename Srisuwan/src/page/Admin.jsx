@@ -129,10 +129,10 @@ const Dashboard = ({ setRooms }) => {
             <h2 className="text-header">Manage payment</h2>
             <CalculatorFee></CalculatorFee>
             <div className="export-csv-main-on-calculate-page">
-              <p className="text-readme-for-export-csv">View all calculated room prices.</p>
               <button onClick={exportCSV} className="export-csv-on-admin-page">
                 Export CSV
               </button>
+              <p className="text-readme-for-export-csv">View all calculated room prices.</p>
             </div>
 
           </div>
