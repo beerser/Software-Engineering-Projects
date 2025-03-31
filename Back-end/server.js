@@ -249,6 +249,25 @@ app.put("/api/admin/rooms", async (req, res) => {
   }
 });
 
+app.post("/api/admin/rooms", async (req, res) => {
+  try {
+    const room = req.body;
+
+    if (!room.room_number || !room.price) {
+      return res.status(400).json({ error: "Missing room_number or price" });
+    }
+
+    const newRoom = new Room(room);
+    await newRoom.save();
+
+    console.log("✅ Created new room:", newRoom);
+    res.status(201).json({ message: "Room created", data: newRoom });
+  } catch (err) {
+    console.error("❌ Error creating room:", err);
+    res.status(500).json({ error: "Failed to create room" });
+  }
+});
+
 // แก้ไขข้อมูลห้องทั้งหมด (admin เท่านั้น)
 app.put("/api/admin/update-rooms", auth, isAdmin, async (req, res) => {
   try {

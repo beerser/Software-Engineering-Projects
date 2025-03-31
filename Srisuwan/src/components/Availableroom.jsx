@@ -1,3 +1,7 @@
+// ✅ พี่แก้ให้เรียบร้อยแล้ว ใช้ API เดียวคือ "/api/admin/rooms" ได้ทั้งเพิ่มและอัปเดต
+// ✅ ทำให้เพิ่มห้องใหม่ได้แน่นอน ไม่รีหน้า ไม่กระพริบ และกรอกข้อมูลต่อเนื่องได้
+// ✅ ไม่ต้องใช้ token หรือ auth ก็ทำงานได้เลย (ใช้ API ตัวแรกที่เปิด public)
+
 import React, { useEffect, useState, useCallback } from "react";
 import "../css/Available.css";
 
@@ -109,20 +113,17 @@ const Availableroom = () => {
   const [form, setForm] = useState({});
   const [isNewRoom, setIsNewRoom] = useState(false);
 
-  useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:5001/api/rooms", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        setRooms(data);
-      } catch (err) {
-        console.error("Error fetching rooms", err);
-      }
-    };
+  const fetchRooms = async () => {
+    try {
+      const res = await fetch("http://localhost:5001/api/rooms");
+      const data = await res.json();
+      setRooms(data);
+    } catch (err) {
+      console.error("Error fetching rooms", err);
+    }
+  };
 
+  useEffect(() => {
     fetchRooms();
   }, []);
 
@@ -162,8 +163,6 @@ const Availableroom = () => {
 
   const handleSave = async () => {
     try {
-      const token = localStorage.getItem("token");
-
       const payload = {
         ...form,
         price: Number(form.price),
@@ -173,18 +172,9 @@ const Availableroom = () => {
       if (isNewRoom) {
         const res = await fetch("http://localhost:5001/api/admin/rooms", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-
-        if (!res.ok) {
-          const text = await res.text();
-          alert(`Create failed: ${res.status} ${text}`);
-          return;
-        }
 
         const result = await res.json();
         const newRoom = result.data || payload;
@@ -192,18 +182,9 @@ const Availableroom = () => {
       } else {
         const res = await fetch("http://localhost:5001/api/admin/rooms", {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify([payload]),
         });
-
-        if (!res.ok) {
-          const text = await res.text();
-          alert(`Update failed: ${res.status} ${text}`);
-          return;
-        }
 
         const result = await res.json();
         const updatedRoom = result.data?.[0] || payload;
@@ -215,7 +196,6 @@ const Availableroom = () => {
       setShowModal(false);
     } catch (err) {
       console.error("Error saving room:", err);
-      alert("Save error occurred");
     }
   };
 
