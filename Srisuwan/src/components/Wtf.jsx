@@ -38,13 +38,15 @@ const Wtf = () => {
     fetchUsers();
   }, []);
 
+  // Function to get user name from firstname and lastname
   const getUserName = (firstname, lastname) => {
     const user = users.find(
       (user) => user.firstname === firstname && user.lastname === lastname
     );
-    return user ? `${user.firstname} ${user.lastname}` : "User not found";
+    return user ? user : null;
   };
 
+  // Function to handle booking select
   const handleBookingSelect = (booking) => {
     setSelectedBooking(booking);
   };
@@ -62,15 +64,24 @@ const Wtf = () => {
       return;
     }
 
+    const user = getUserName(selectedBooking.user_firstname, selectedBooking.user_lastname);
+
+    if (!user) {
+      setMessage("No user found for the selected booking.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append('image', imageFile);
     formData.append('bookingId', selectedBooking._id);
 
+    // Assuming you have an endpoint to send the file to the user
     try {
-      const response = await fetch('http://localhost:5001/api/upload', {
+      const response = await fetch('http://localhost:5001/api/upload-image', {
         method: 'POST',
         body: formData,
       });
+
       if (response.ok) {
         setMessage("Image uploaded successfully!");
       } else {
@@ -101,7 +112,7 @@ const Wtf = () => {
             const userName = getUserName(booking.user_firstname, booking.user_lastname);
             return (
               <option key={booking._id} value={booking._id}>
-                {`${userName} - ${booking.room_number}`}
+                {`${userName ? userName.firstname + " " + userName.lastname : "User not found"} - ${booking.room_number}`}
               </option>
             );
           })}
