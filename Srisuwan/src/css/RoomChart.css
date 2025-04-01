@@ -52,6 +52,7 @@
 }
 
 .stat-box.available {
+  background-color: #ebffef !important;
   border-top: 4px solid #2ecc71;
 }
 
