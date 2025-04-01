@@ -1,147 +1,57 @@
-// ✅ พี่แก้ให้เรียบร้อยแล้ว ใช้ API เดียวคือ "/api/admin/rooms" ได้ทั้งเพิ่มและอัปเดต
-// ✅ ทำให้เพิ่มห้องใหม่ได้แน่นอน ไม่รีหน้า ไม่กระพริบ และกรอกข้อมูลต่อเนื่องได้
-// ✅ ไม่ต้องใช้ token หรือ auth ก็ทำงานได้เลย (ใช้ API ตัวแรกที่เปิด public)
-
 import React, { useEffect, useState, useCallback } from "react";
 import "../css/Available.css";
 
 const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom }) => {
   return (
-    <div className="modal-overlay" style={{
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      zIndex: 1000
-    }}>
-      <div className="modal-content" style={{
-        backgroundColor: "white",
-        padding: "20px",
-        borderRadius: "10px",
-        width: "90%",
-        maxWidth: "500px",
-        maxHeight: "80vh",
-        overflow: "auto"
-      }}>
+    <div className="modal-overlay">
+      <div className="modal-content">
         <h3>{isNewRoom ? "Add New Room" : "Edit Room"}</h3>
 
-        <div style={{ marginBottom: "15px" }}>
+        <div className="input-group">
           <label>Room Number:</label>
-          <input
-            name="room_number"
-            value={form.room_number}
-            onChange={onChange}
-            style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }}
-          />
+          <input name="room_number" value={form.room_number} onChange={onChange} />
         </div>
 
-        <div style={{ marginBottom: "15px" }}>
+        <div className="input-group">
           <label>Price:</label>
-          <input
-            name="price"
-            type="text"
-            inputMode="numeric"
-            value={form.price}
-            onChange={onChange}
-            style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }}
-          />
+          <input name="price" type="text" inputMode="numeric" value={form.price} onChange={onChange} />
         </div>
 
-        <div style={{ marginBottom: "15px" }}>
+        <div className="input-group">
           <label>Status:</label>
           <div>
-            <input
-              type="radio"
-              id="modal-available"
-              name="modal-status"
-              checked={form.status === "available"}
-              onChange={() => onStatusChange("available")}
-            />
+            <input type="radio" id="modal-available" name="modal-status" checked={form.status === "available"} onChange={() => onStatusChange("available")} />
             <label htmlFor="modal-available">Available</label>
           </div>
           <div>
-            <input
-              type="radio"
-              id="modal-nonavailable"
-              name="modal-status"
-              checked={form.status === "nonavailable"}
-              onChange={() => onStatusChange("nonavailable")}
-            />
+            <input type="radio" id="modal-nonavailable" name="modal-status" checked={form.status === "nonavailable"} onChange={() => onStatusChange("nonavailable")} />
             <label htmlFor="modal-nonavailable">Not available</label>
           </div>
         </div>
 
-        <div style={{ marginBottom: "15px" }}>
+        <div className="input-group">
           <label>Description:</label>
-          <input
-            name="description"
-            value={form.description}
-            onChange={onChange}
-            style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }}
-          />
+          <input name="description" value={form.description} onChange={onChange} />
         </div>
 
-        {/* ✅ Room Images (URL) */}
-<div style={{ marginBottom: "15px" }}>
-  <label>Room Images (Paste up to 5 URLs):</label>
-  {[...Array(5)].map((_, index) => (
-    <div key={index} style={{ marginBottom: "8px" }}>
-      <input
-        name={`image_urls_${index}`}
-        placeholder={`Image URL ${index + 1}`}
-        value={form[`image_urls_${index}`] || ""}
-        onChange={(e) =>
-          onChange({
-            target: {
-              name: `image_urls_${index}`,
-              value: e.target.value,
-            },
-          })
-        }
-        style={{
-          width: "100%",
-          padding: "8px",
-          borderRadius: "4px",
-          border: "1px solid #ddd",
-        }}
-      />
-      {form[`image_urls_${index}`] && (
-        <img
-          src={form[`image_urls_${index}`]}
-          alt={`Preview ${index + 1}`}
-          style={{
-            width: "100%",
-            height: "auto",
-            marginTop: "5px",
-            borderRadius: "6px",
-            border: "1px solid #eee",
-          }}
-        />
-      )}
-    </div>
-  ))}
-</div>
+        <div className="input-group">
+          <label>Room Images (Paste up to 5 URLs):</label>
+          {[...Array(5)].map((_, index) => (
+            <div key={index} className="image-input">
+              <input name={`image_urls_${index}`} placeholder={`Image URL ${index + 1}`} value={form[`image_urls_${index}`] || ""} onChange={(e) => onChange({ target: { name: `image_urls_${index}`, value: e.target.value } })} />
+              {form[`image_urls_${index}`] && <img src={form[`image_urls_${index}`]} alt={`Preview ${index + 1}`} className="preview-image" />}
+            </div>
+          ))}
+        </div>
 
-        <div style={{ marginBottom: "15px" }}>
+        <div className="input-group">
           <label>Service Fee:</label>
-          <input
-            name="servicefee"
-            type="text"
-            inputMode="numeric"
-            value={form.servicefee}
-            onChange={onChange}
-            style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }}
-          />
+          <input name="servicefee" type="text" inputMode="numeric" value={form.servicefee} onChange={onChange} />
         </div>
 
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "20px" }}>
-          <button onClick={onCancel} style={{ padding: "8px 15px", borderRadius: "4px", border: "1px solid #ddd", backgroundColor: "#f5f5f5", color: "red" }}>Cancel</button>
-          <button onClick={onSave} className="savebt" style={{ padding: "8px 15px", borderRadius: "4px", border: "none", backgroundColor: "#2CDB5D", color: "white" }}>Save</button>
+        <div className="modal-buttons">
+          <button onClick={onCancel} className="cancel-button">Cancel</button>
+          <button onClick={onSave} className="save-button">Save</button>
         </div>
       </div>
     </div>
@@ -176,27 +86,14 @@ const Availableroom = () => {
       status: room.status || "available",
       description: room.description || "",
       servicefee: String(room.servicefee || ""),
-      ...Object.fromEntries(
-        (room.image_urls || []).map((url, index) => [`image_urls_${index}`, url])
-      )
+      ...Object.fromEntries((room.image_urls || []).map((url, index) => [`image_urls_${index}`, url]))
     });
     setIsNewRoom(false);
     setShowModal(true);
   };
 
   const handleAddNew = () => {
-    setForm({
-      room_number: "",
-      price: "",
-      status: "available",
-      description: "",
-      servicefee: "",
-      image_urls_0: "",
-      image_urls_1: "",
-      image_urls_2: "",
-      image_urls_3: "",
-      image_urls_4: "",
-    });
+    setForm({ room_number: "", price: "", status: "available", description: "", servicefee: "", image_urls_0: "", image_urls_1: "", image_urls_2: "", image_urls_3: "", image_urls_4: "" });
     setIsNewRoom(true);
     setShowModal(true);
   };
@@ -212,40 +109,19 @@ const Availableroom = () => {
 
   const handleSave = async () => {
     try {
-      const image_urls = Array.from({ length: 5 }, (_, i) => form[`image_urls_${i}`])
-      .filter(url => url?.trim() !== "");
-      const payload = {
-        room_number: form.room_number,
-        price: Number(form.price),
-        status: form.status,
-        description: form.description,
-        servicefee: Number(form.servicefee),
-        image_urls, // ✅ ใช้ image_urls ที่เราสร้าง
-      };
-  
+      const image_urls = Array.from({ length: 5 }, (_, i) => form[`image_urls_${i}`]).filter(url => url?.trim() !== "");
+      const payload = { room_number: form.room_number, price: Number(form.price), status: form.status, description: form.description, servicefee: Number(form.servicefee), image_urls };
 
       if (isNewRoom) {
-        const res = await fetch("http://localhost:5001/api/admin/rooms", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
+        const res = await fetch("http://localhost:5001/api/admin/rooms", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
         const result = await res.json();
         const newRoom = result.data || payload;
         setRooms((prev) => [...prev, newRoom]);
       } else {
-        const res = await fetch("http://localhost:5001/api/admin/rooms", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify([payload]),
-        });
-
+        const res = await fetch("http://localhost:5001/api/admin/rooms", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify([payload]) });
         const result = await res.json();
         const updatedRoom = result.data?.[0] || payload;
-        setRooms((prev) =>
-          prev.map((r) => (r._id === updatedRoom._id ? updatedRoom : r))
-        );
+        setRooms((prev) => prev.map((r) => (r._id === updatedRoom._id ? updatedRoom : r)));
       }
 
       setShowModal(false);
@@ -256,65 +132,22 @@ const Availableroom = () => {
 
   return (
     <>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "1rem", padding: "2rem" }}>
+      <div className="room-grid">
         {rooms.map((room) => (
-          <div
-            key={room._id}
-            onClick={() => handleEdit(room)}
-            style={{
-              backgroundColor: room.status === "nonavailable" ? "#BCBCBC" : "#2CDB5D",
-              color: "#fff",
-              padding: "20px",
-              borderRadius: "10px",
-              textAlign: "center",
-              fontWeight: "bold",
-              cursor: "pointer",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              minHeight: "100px"
-            }}
-          >
-            <div style={{ fontSize: "1.2rem" }}>{room.room_number}</div>
-            <p style={{ fontSize: "0.85rem", fontWeight: "normal", margin: "10px 0 0" }}>
-              {room.status === "nonavailable" ? "(There are customers)" : "(Available)"}
-            </p>
-            <div style={{ fontSize: "0.9rem", marginTop: "5px" }}>
-              ฿{room.price}
-            </div>
+          <div key={room._id} onClick={() => handleEdit(room)} className={`room-card ${room.status === "nonavailable" ? "nonavailable" : "available"}`}>
+            <div>{room.room_number}</div>
+            <p>{room.status === "nonavailable" ? "(There are customers)" : "(Available)"}</p>
+            <div>฿{room.price}</div>
           </div>
         ))}
 
-        <div
-          onClick={handleAddNew}
-          style={{
-            border: "1px dashed #ccc",
-            padding: "20px",
-            borderRadius: "10px",
-            textAlign: "center",
-            color: "#666",
-            cursor: "pointer",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            minHeight: "100px"
-          }}
-        >
-          <div style={{ fontSize: "24px", marginBottom: "5px" }}>+</div>
+        <div onClick={handleAddNew} className="add-room">
+          <div>+</div>
           <div>New room</div>
         </div>
       </div>
 
-      {showModal && (
-        <RoomModal
-          form={form}
-          onChange={handleChange}
-          onStatusChange={handleStatusChange}
-          onSave={handleSave}
-          onCancel={() => setShowModal(false)}
-          isNewRoom={isNewRoom}
-        />
-      )}
+      {showModal && <RoomModal form={form} onChange={handleChange} onStatusChange={handleStatusChange} onSave={handleSave} onCancel={() => setShowModal(false)} isNewRoom={isNewRoom} />}
     </>
   );
 };
