@@ -42,7 +42,7 @@ const Cards = ({ obj, onPaymentClick }) => {
                 className="btn btn-primary"
                 onClick={() => handleRentClick(item)}
               >
-                เช่า
+                Rent a room
               </button>
             </div>
           </div>
