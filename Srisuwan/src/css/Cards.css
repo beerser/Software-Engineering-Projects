@@ -8,7 +8,6 @@
   -ms-overflow-style: none; /* ซ่อน scrollbar ใน IE/Edge */
   margin: 0 auto;
   margin-bottom: 50px;
-  margin-left: 30px;
   justify-content: flex-start;
   position: relative; /* ป้องกัน box-shadow ถูกตัด */
 }
@@ -35,7 +34,10 @@
 }
 
 .card {
-  width: 10rem; /* ลดขนาดความกว้างของการ์ด */
+ 
+  min-width: 220px; /* กำหนดความกว้างขั้นต่ำให้การ์ด */
+  max-width: 220px; /* กำหนดความกว้างสูงสุดให้การ์ด */
+  flex: 1 0 250px; /* กำหนดความยืดหยุ่นให้การ์ด */
   padding: 10px;
   scroll-snap-align: start; /* Snapping to each card when scrolling */
   border-radius: 15px;
