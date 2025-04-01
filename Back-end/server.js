@@ -249,6 +249,17 @@ app.put("/api/admin/rooms", async (req, res) => {
   }
 });
 
+app.delete("/api/admin/rooms/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Room.findByIdAndDelete(id);
+    res.json({ message: "Room deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting room:", err);
+    res.status(500).json({ error: "Failed to delete room" });
+  }
+});
+
 app.post("/api/admin/rooms", async (req, res) => {
   try {
     const room = req.body;

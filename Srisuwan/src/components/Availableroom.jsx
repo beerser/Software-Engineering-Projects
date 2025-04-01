@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../css/Available.css";
 
-const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom }) => {
+const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, onDelete, isNewRoom }) => {
   return (
     <div className="modal-overlay">
       <div className="model-content-on-avaliable-admin-page">
@@ -28,11 +28,7 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom
               checked={form.status === "available"} 
               onChange={() => onStatusChange("available")} 
             />
-            <label 
-              htmlFor="modal-available"
-              className="status-text-on-avaliable-admin-page"
-                >Available
-            </label>
+            <label htmlFor="modal-available" className="status-text-on-avaliable-admin-page">Available</label>
           </div>
           <div className="select-status-display-flex">
             <input 
@@ -43,11 +39,7 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom
               checked={form.status === "nonavailable"} 
               onChange={() => onStatusChange("nonavailable")} 
             />
-            <label 
-              className="status-text-on-avaliable-admin-page"
-              htmlFor="modal-nonavailable"
-                >Not available
-            </label>
+            <label className="status-text-on-avaliable-admin-page" htmlFor="modal-nonavailable">Not available</label>
           </div>
         </div>
 
@@ -72,8 +64,20 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom
         </div>
 
         <div className="modal-buttons">
-          <button onClick={onCancel} className="cancel-button">Cancel</button>
-          <button onClick={onSave} className="save-button">Save</button>
+          <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
+            {!isNewRoom && (
+              <button
+                onClick={onDelete}
+                style={{ backgroundColor: "#e74c3c", color: "white", padding: "8px 16px", border: "none", borderRadius: "5px", cursor: "pointer" }}
+              >
+                Delete Room
+              </button>
+            )}
+            <div style={{ marginLeft: "auto", display: "flex", gap: "10px" }}>
+              <button onClick={onCancel} className="cancel-button">Cancel</button>
+              <button onClick={onSave} className="save-button">Save</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -129,9 +133,28 @@ const Availableroom = () => {
     setForm((prev) => ({ ...prev, status }));
   }, []);
 
+  const handleDelete = async () => {
+    if (!form._id) return;
+    const confirmDelete = window.confirm("Are you sure you want to delete this room?");
+    if (!confirmDelete) return;
+
+    try {
+      const res = await fetch(`http://localhost:5001/api/admin/rooms/${form._id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setRooms((prev) => prev.filter((r) => r._id !== form._id));
+        setShowModal(false);
+      } else {
+        alert("Failed to delete room.");
+      }
+    } catch (err) {
+      console.error("Error deleting room:", err);
+    }
+  };
+
   const handleSave = async () => {
     try {
-      // ✅ เช็คห้าม room_number ซ้ำ กรณีเพิ่มใหม่
       if (isNewRoom) {
         const duplicate = rooms.find((r) => r.room_number === form.room_number);
         if (duplicate) {
@@ -139,10 +162,9 @@ const Availableroom = () => {
           return;
         }
       }
-  
+
       const image_urls = Array.from({ length: 5 }, (_, i) => form[`image_urls_${i}`]).filter(url => url?.trim() !== "");
-  
-      // ✅ เตรียมข้อมูลที่ต้องส่ง
+
       const payload = {
         room_number: form.room_number,
         price: Number(form.price),
@@ -151,9 +173,8 @@ const Availableroom = () => {
         servicefee: Number(form.servicefee),
         image_urls,
       };
-  
+
       if (isNewRoom) {
-        // ✅ POST สำหรับสร้างใหม่
         const res = await fetch("http://localhost:5001/api/admin/rooms", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -163,22 +184,17 @@ const Availableroom = () => {
         const newRoom = result.data || payload;
         setRooms((prev) => [...prev, newRoom]);
       } else {
-        // ✅ PUT สำหรับอัปเดต → ต้องแนบ _id
         const updatedPayload = { ...payload, _id: form._id };
-  
         const res = await fetch("http://localhost:5001/api/admin/rooms", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify([updatedPayload]), // ส่งเป็น array
+          body: JSON.stringify([updatedPayload]),
         });
         const result = await res.json();
         const updatedRoom = result.data?.[0] || updatedPayload;
-  
-        setRooms((prev) =>
-          prev.map((r) => (r._id === updatedRoom._id ? updatedRoom : r))
-        );
+        setRooms((prev) => prev.map((r) => (r._id === updatedRoom._id ? updatedRoom : r)));
       }
-  
+
       setShowModal(false);
     } catch (err) {
       console.error("Error saving room:", err);
@@ -202,7 +218,17 @@ const Availableroom = () => {
         </div>
       </div>
 
-      {showModal && <RoomModal form={form} onChange={handleChange} onStatusChange={handleStatusChange} onSave={handleSave} onCancel={() => setShowModal(false)} isNewRoom={isNewRoom} />}
+      {showModal && (
+        <RoomModal
+          form={form}
+          onChange={handleChange}
+          onStatusChange={handleStatusChange}
+          onSave={handleSave}
+          onCancel={() => setShowModal(false)}
+          onDelete={handleDelete}
+          isNewRoom={isNewRoom}
+        />
+      )}
     </>
   );
 };
