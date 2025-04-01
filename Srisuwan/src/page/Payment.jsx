@@ -46,7 +46,7 @@ const Payment = () => {
 
           <div className="detailss-containerrr">
             <div className='text-container' >
-              <img src={item.imageUrl} alt="" className='image-container' />
+            <img src={item.image_urls?.[0]} alt={`Room ${item.roomNumber}`} className='image-container' />
               <div className='text-container'>
                 <p className='name_room'>{item.roomNumber}</p>
                 <p className='price'>{item.price} Bath</p>
