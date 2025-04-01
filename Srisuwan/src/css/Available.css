@@ -84,13 +84,14 @@
     color: #fff;
   }
 
-  .new-room-on-avaliable-admin-page{
+  .new-room-on-avaliable-admin-page {
     padding: 32px;
     border-radius: 10px;
-    background-color: #2CDB5D;
+    color: gray;
     text-align: center;
-    font-weight: bold;
+    font-weight: 500;
     cursor: pointer;
+    border: 2px dashed rgba(128, 128, 128, 0.5);
   }
 
   .select-status-display-flex{
