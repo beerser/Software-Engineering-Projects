@@ -62,7 +62,7 @@ const Availableroom = () => {
     try {
       const token = localStorage.getItem("token");
       console.log("Saving form data:", form); // Debug
-      
+
       // แยกการจัดการระหว่างการเพิ่มห้องใหม่กับการอัปเดตห้องที่มีอยู่
       if (isNewRoom) {
         // POST request สำหรับห้องใหม่
@@ -74,17 +74,17 @@ const Availableroom = () => {
           },
           body: JSON.stringify(form),
         });
-        
+
         if (!res.ok) {
           const text = await res.text();
           console.error("Error response:", text);
           alert(`Create failed: ${res.status} ${text}`);
           return;
         }
-        
+
         const result = await res.json();
         console.log("Response from server:", result);
-        
+
         // เพิ่มห้องใหม่เข้าไปในรายการ
         const newRoom = result.data || form;
         setRooms((prev) => [...prev, newRoom]);
@@ -98,24 +98,24 @@ const Availableroom = () => {
           },
           body: JSON.stringify([form]),
         });
-        
+
         if (!res.ok) {
           const text = await res.text();
           console.error("Error response:", text);
           alert(`Update failed: ${res.status} ${text}`);
           return;
         }
-        
+
         const result = await res.json();
         console.log("Response from server:", result);
-        
+
         // อัปเดตห้องในรายการ
         const updatedRoom = result.data?.[0] || form;
         setRooms((prev) =>
           prev.map((r) => (r._id === updatedRoom._id ? updatedRoom : r))
         );
       }
-      
+
       setShowModal(false); // ปิด modal หลังการบันทึก
     } catch (err) {
       console.error("Error saving room:", err);
@@ -150,7 +150,7 @@ const Availableroom = () => {
           overflow: "auto"
         }}>
           <h3>{isNewRoom ? "Add New Room" : "Edit Room"}</h3>
-          
+
           <div style={{ marginBottom: "15px" }}>
             <label style={{ display: "block", marginBottom: "5px" }}>Room Number:</label>
             <input
@@ -160,7 +160,7 @@ const Availableroom = () => {
               style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }}
             />
           </div>
-          
+
           <div style={{ marginBottom: "15px" }}>
             <label style={{ display: "block", marginBottom: "5px" }}>Price:</label>
             <input
@@ -171,35 +171,43 @@ const Availableroom = () => {
               style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }}
             />
           </div>
-          
+
           <div style={{ marginBottom: "15px" }}>
             <label style={{ display: "block", marginBottom: "5px" }}>Status:</label>
-            <div>
+            <div className="main-avaliable-on-avaliable-page">
               <input
+                className="input-layout-on-avaliable-page"
                 type="radio"
                 id="modal-available"
                 name="modal-status"
                 checked={form.status === "available"}
                 onChange={() => handleStatusChange("available")}
               />
-              <label htmlFor="modal-available" style={{ marginLeft: "5px" }}>
-                Available
+              <label 
+                htmlFor="modal-available" style={{ marginLeft: "5px" }}
+                className="text-status-layout-on-avaliable-page"
+                >
+                  Available
               </label>
             </div>
-            <div>
+            <div className="main-avaliable-on-not-avaliable-page">
               <input
+                className="input-layout-on-avaliable-page"
                 type="radio"
                 id="modal-nonavailable"
                 name="modal-status"
                 checked={form.status === "nonavailable"}
                 onChange={() => handleStatusChange("nonavailable")}
               />
-              <label htmlFor="modal-nonavailable" style={{ marginLeft: "5px" }}>
-                Not available
+              <label 
+                className="text-status-layout-on-avaliable-page"
+                htmlFor="modal-nonavailable" style={{ marginLeft: "5px" }}
+                >
+                  Not available
               </label>
             </div>
           </div>
-          
+
           <div style={{ marginBottom: "15px" }}>
             <label style={{ display: "block", marginBottom: "5px" }}>Description:</label>
             <input
@@ -209,7 +217,7 @@ const Availableroom = () => {
               style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }}
             />
           </div>
-          
+
           <div style={{ marginBottom: "15px" }}>
             <label style={{ display: "block", marginBottom: "5px" }}>Service Fee:</label>
             <input
@@ -220,29 +228,29 @@ const Availableroom = () => {
               style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }}
             />
           </div>
-          
+
           <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "20px" }}>
-            <button 
-              onClick={() => setShowModal(false)} 
-              style={{ 
-                padding: "8px 15px", 
-                borderRadius: "4px", 
+            <button
+              onClick={() => setShowModal(false)}
+              style={{
+                padding: "8px 15px",
+                borderRadius: "4px",
                 border: "1px solid #ddd",
                 backgroundColor: "#f5f5f5",
-                color:"red", 
+                color: "red",
               }}
             >
               Cancel
             </button>
-            <button 
-              onClick={handleSave} 
+            <button
+              onClick={handleSave}
               className="savebt"
-              style={{ 
-                padding: "8px 15px", 
-                borderRadius: "4px", 
+              style={{
+                padding: "8px 15px",
+                borderRadius: "4px",
                 border: "none",
-                backgroundColor: "#2CDB5D", 
-                color: "white" 
+                backgroundColor: "#2CDB5D",
+                color: "white"
               }}
             >
               Save
@@ -289,7 +297,7 @@ const Availableroom = () => {
             </p>
             <div style={{ fontSize: "0.9rem", marginTop: "5px" }}>
               ฿{room.price}
-              
+
             </div>
           </div>
         ))}
@@ -313,7 +321,7 @@ const Availableroom = () => {
           <div>New room</div>
         </div>
       </div>
-      
+
       <RoomModal />
     </>
   );
