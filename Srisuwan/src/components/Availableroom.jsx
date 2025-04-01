@@ -1,6 +1,17 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../css/Available.css";
 
+
+const imageOptions = [
+  "https://i.ibb.co/8LqJjJgz/1-rooms-and-suites.jpg",
+  "https://i.ibb.co/GQz1CN35/2-rooms-and-suites.webp",
+  "https://i.ibb.co/Spt0pkp/Standard1609-2.webp",
+  "https://i.ibb.co/8gRSJk25/Superior1609-2.webp",
+  "https://i.ibb.co/JFpmdKvx/types-hotel-rooms.jpg"
+];
+
+
+
 const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, onDelete, isNewRoom }) => {
   return (
     <div className="modal-overlay">
@@ -39,7 +50,7 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, onDelete,
               checked={form.status === "nonavailable"} 
               onChange={() => onStatusChange("nonavailable")} 
             />
-            <label className="status-text-on-avaliable-admin-page" htmlFor="modal-nonavailable">Not available</label>
+            <label htmlFor="modal-nonavailable" className="status-text-on-avaliable-admin-page">Not available</label>
           </div>
         </div>
 
@@ -48,12 +59,29 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, onDelete,
           <input name="description" value={form.description} onChange={onChange} />
         </div>
 
+        {/* Section สำหรับเลือก 5 รูป */}
         <div className="input-group-on-avaliable-admin-page">
-          <label>Room Images (Paste up to 5 URLs):</label>
+          <label>Room Images (Select up to 5):</label>
           {[...Array(5)].map((_, index) => (
             <div key={index} className="image-input">
-              <input name={`image_urls_${index}`} placeholder={`Image URL ${index + 1}`} value={form[`image_urls_${index}`] || ""} onChange={(e) => onChange({ target: { name: `image_urls_${index}`, value: e.target.value } })} />
-              {form[`image_urls_${index}`] && <img src={form[`image_urls_${index}`]} alt={`Preview ${index + 1}`} className="preview-image" />}
+              <select 
+                name={`image_urls_${index}`} 
+                value={form[`image_urls_${index}`]} 
+                onChange={onChange}
+              >
+                {imageOptions.map((url, imgIndex) => (
+                  <option key={imgIndex} value={url}>
+                    Image {imgIndex + 1}
+                  </option>
+                ))}
+              </select>
+              {form[`image_urls_${index}`] && (
+                <img 
+                  src={form[`image_urls_${index}`]} 
+                  alt={`Preview ${index + 1}`} 
+                  className="preview-image" 
+                />
+              )}
             </div>
           ))}
         </div>
@@ -64,25 +92,28 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, onDelete,
         </div>
 
         <div className="modal-buttons">
-          <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
-            {!isNewRoom && (
-              <button
-                onClick={onDelete}
-                style={{ backgroundColor: "#e74c3c", color: "white", padding: "8px 16px", border: "none", borderRadius: "5px", cursor: "pointer" }}
-              >
-                Delete Room
-              </button>
-            )}
-            <div style={{ marginLeft: "auto", display: "flex", gap: "10px" }}>
-              <button onClick={onCancel} className="cancel-button">Cancel</button>
-              <button onClick={onSave} className="save-button">Save</button>
-            </div>
-          </div>
+          {/* ปุ่ม Delete ถ้าไม่ใช่ห้องใหม่ */}
+          {!isNewRoom && (
+            <button 
+              onClick={onDelete} 
+              style={{ backgroundColor: "#e74c3c", color: "white", padding: "8px 16px", border: "none", borderRadius: "5px", cursor: "pointer" }}
+            >
+              Delete Room
+            </button>
+          )}
+          <button onClick={onCancel} className="cancel-button">Cancel</button>
+          <button onClick={onSave} className="save-button">Save</button>
         </div>
       </div>
     </div>
   );
 };
+
+
+
+
+
+
 
 const Availableroom = () => {
   const [rooms, setRooms] = useState([]);
