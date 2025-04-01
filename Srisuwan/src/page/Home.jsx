@@ -139,6 +139,8 @@ function Home() {
           <Route
             path="/information"
             element={<Roombooking/>}/>
+         
+          <Route path="/information/:pageName" element={<Roombooking />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -72,32 +72,7 @@
     text-align: center;
 }
 
-.btn-edit,
-.btn-signout {
-    background-color: #ffffff;
-    border: 1px solid #f70000;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-right: 1rem;
-    color: #000;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
 
-.btn-signout {
-    margin-top: 400px;
-    margin-right: 0;
-    color: #ff0303;
-    border-radius: 10px;
-    border: 1px solid red;
-    background-color: #ffffff;
-}
-
-.btn-edit:hover,
-.btn-signout:hover {
-    background-color: #e0e0e0;
-    transform: scale(1.05);
-}
 
 /* Modal Background */
 .modal {

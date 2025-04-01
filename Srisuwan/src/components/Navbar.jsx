@@ -27,6 +27,11 @@ const Navbar = () => {
     setIsModalOpen(false);
   };
 
+  const navigateToPage = (path) => {
+    navigate(path);
+    closeModal();
+  };
+
   if (isRegisterPage) return null; // Early return for the register page
 
   return (
@@ -89,7 +94,7 @@ const Navbar = () => {
                       }}
                     >
                       <div className="flex justify-between items-center mb-4">
-                        <h3 
+                        <h3
                           style={{
                             fontSize: "20px",
                             fontWeight: "600",
@@ -116,14 +121,18 @@ const Navbar = () => {
                             borderRadius: "50%",
                             backgroundColor: "#f5f5f5",
                           }}
-                          onMouseOver={(e) => e.target.style.backgroundColor = "#eaeaea"}
-                          onMouseOut={(e) => e.target.style.backgroundColor = "#f5f5f5"}
+                          onMouseOver={(e) =>
+                            (e.target.style.backgroundColor = "#eaeaea")
+                          }
+                          onMouseOut={(e) =>
+                            (e.target.style.backgroundColor = "#f5f5f5")
+                          }
                         >
                           &times;
                         </span>
                       </div>
-                      
-                      <div 
+
+                      <div
                         style={{
                           display: "flex",
                           alignItems: "center",
@@ -133,7 +142,7 @@ const Navbar = () => {
                           borderRadius: "12px",
                         }}
                       >
-                        <div 
+                        <div
                           style={{
                             width: "48px",
                             height: "48px",
@@ -148,19 +157,27 @@ const Navbar = () => {
                             marginRight: "12px",
                           }}
                         >
-                          {user.firstname ? user.firstname.charAt(0).toUpperCase() : "U"}
+                          {user.firstname
+                            ? user.firstname.charAt(0).toUpperCase()
+                            : "U"}
                         </div>
                         <div>
-                          <div style={{fontWeight: "600", fontSize: "16px", color: "#333"}}>
+                          <div
+                            style={{
+                              fontWeight: "600",
+                              fontSize: "16px",
+                              color: "#333",
+                            }}
+                          >
                             {user.firstname} {user.lastname || ""}
                           </div>
-                          <div style={{fontSize: "14px", color: "#666"}}>
+                          <div style={{ fontSize: "14px", color: "#666" }}>
                             {user.email || "User"}
                           </div>
                         </div>
                       </div>
 
-                      <div 
+                      <div
                         style={{
                           borderTop: "1px solid #eaeaea",
                           borderBottom: "1px solid #eaeaea",
@@ -169,8 +186,11 @@ const Navbar = () => {
                         }}
                       >
                         <div className="user-details">
-                          <a 
-                            href="/information" 
+                          <div
+                            onClick={() => {
+                              navigate("/information/allroomreservations");
+                              closeModal();
+                            }}
                             style={{
                               display: "block",
                               padding: "12px",
@@ -181,14 +201,22 @@ const Navbar = () => {
                               fontWeight: "500",
                               transition: "background-color 0.2s",
                               backgroundColor: "#f8f9fa",
+                              cursor: "pointer",
                             }}
-                            onMouseOver={(e) => e.target.style.backgroundColor = "#eaeaea"}
-                            onMouseOut={(e) => e.target.style.backgroundColor = "#f8f9fa"}
+                            onMouseOver={(e) =>
+                              (e.target.style.backgroundColor = "#eaeaea")
+                            }
+                            onMouseOut={(e) =>
+                              (e.target.style.backgroundColor = "#f8f9fa")
+                            }
                           >
                             🏨 All room reservations
-                          </a>
-                          <a 
-                            href="/information" 
+                          </div>
+                          <div
+                            onClick={() => {
+                              navigate("/information/personalinformations");
+                              closeModal();
+                            }}
                             style={{
                               display: "block",
                               padding: "12px",
@@ -199,17 +227,48 @@ const Navbar = () => {
                               fontWeight: "500",
                               transition: "background-color 0.2s",
                               backgroundColor: "#f8f9fa",
+                              cursor: "pointer",
                             }}
-                            onMouseOver={(e) => e.target.style.backgroundColor = "#eaeaea"}
-                            onMouseOut={(e) => e.target.style.backgroundColor = "#f8f9fa"}
+                            onMouseOver={(e) =>
+                              (e.target.style.backgroundColor = "#eaeaea")
+                            }
+                            onMouseOut={(e) =>
+                              (e.target.style.backgroundColor = "#f8f9fa")
+                            }
                           >
                             👤 Personal information
-                          </a>
+                          </div>
+                          <div
+                            onClick={() => {
+                              navigate("/information/notification");
+                              closeModal();
+                            }}
+                            style={{
+                              display: "block",
+                              padding: "12px",
+                              margin: "8px 0",
+                              borderRadius: "8px",
+                              color: "#333",
+                              textDecoration: "none",
+                              fontWeight: "500",
+                              transition: "background-color 0.2s",
+                              backgroundColor: "#f8f9fa",
+                              cursor: "pointer",
+                            }}
+                            onMouseOver={(e) =>
+                              (e.target.style.backgroundColor = "#eaeaea")
+                            }
+                            onMouseOut={(e) =>
+                              (e.target.style.backgroundColor = "#f8f9fa")
+                            }
+                          >
+                            🔔 Notifications
+                          </div>
                         </div>
                       </div>
 
-                      <button 
-                        className="btn-signout" 
+                      <button
+                        
                         onClick={handleLogout}
                         style={{
                           width: "100%",
@@ -219,22 +278,26 @@ const Navbar = () => {
                           border: "none",
                           borderRadius: "8px",
                           fontWeight: "500",
-                          marginTop:"10px",
+                          marginTop: "10px",
                           cursor: "pointer",
                           transition: "background-color 0.2s",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
                         }}
-                        onMouseOver={(e) => e.target.style.backgroundColor = "#f44336"}
-                        onMouseOut={(e) => e.target.style.backgroundColor = "#f44336"}
+                        onMouseOver={(e) =>
+                          (e.target.style.backgroundColor = "#d32f2f")
+                        }
+                        onMouseOut={(e) =>
+                          (e.target.style.backgroundColor = "#f44336")
+                        }
                       >
-                        <span tyle={{marginRight: "8px"}}>Logout</span>
-                        <span>→</span>
+                        Logout
+                        →
                       </button>
 
                       {user.role === "admin" && (
-                        <button 
+                        <button
                           style={{
                             width: "100%",
                             padding: "12px",
@@ -250,9 +313,13 @@ const Navbar = () => {
                             alignItems: "center",
                             justifyContent: "center",
                           }}
-                          onClick={() => navigate("/admin")}
-                          onMouseOver={(e) => e.target.style.backgroundColor = "#4338ca"}
-                          onMouseOut={(e) => e.target.style.backgroundColor = "#4f46e5"}
+                          onClick={() => navigateToPage("/admin")}
+                          onMouseOver={(e) =>
+                            (e.target.style.backgroundColor = "#4338ca")
+                          }
+                          onMouseOut={(e) =>
+                            (e.target.style.backgroundColor = "#4f46e5")
+                          }
                         >
                           Admin Dashboard
                         </button>
@@ -260,7 +327,6 @@ const Navbar = () => {
                     </div>
                   </div>
                 )}
-
               </div>
             )}
           </div>

@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Footer from "../components/footer";
 import "../css/Roombooking.css";
 import axios from "axios";
 import { useAuth } from "../components/AuthContext";
 import promptbit from "../assets/prompt-bid-by-srisuwan.png";
 
-// Remove Document and Page imports since we're not displaying PDFs inline anymore
-// import { Document, Page } from "react-pdf";
-
-// Configuration object for API endpoints - Fixed for Vite
+// Configuration object for API endpoints
 const API_CONFIG = {
   BASE_URL: import.meta.env.VITE_API_URL || "http://localhost:5001",
   get BOOKINGS_URL() { return `${this.BASE_URL}/api/bookings` },
@@ -18,164 +16,16 @@ const API_CONFIG = {
   get INVOICE_URL() { return `${this.BASE_URL}/rentalInvoices` }
 };
 
-// Modified NotificationCard Component to download PDFs instead of displaying them
-const NotificationCard = ({ notification }) => {
-  // Function to handle PDF download
-  const handleDownloadPDF = () => {
-    // Create a temporary anchor element
-    const link = document.createElement('a');
-    link.href = notification.imageUrl;
-    link.download = notification.invoice_filename || `invoice-${notification.room_number}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  return (
-    <div className="notification-card">
-      <div className="notification-header">
-        <h3 className="notification-title">{notification.room_number}</h3>
-      </div>
-      <div className="notification-body">
-        <p>{notification.message}</p>
-        {notification.isPdf ? (
-          <div className="pdf-download-container">
-            <h4>ใบเสร็จ PDF</h4>
-            <button 
-              onClick={handleDownloadPDF}
-              className="download-pdf-btn"
-            >
-              ดาวน์โหลด PDF
-            </button>
-          </div>
-        ) : (
-          <img
-            src={notification.imageUrl}
-            alt={notification.room_number}
-            className="notification-image"
-          />
-        )}
-      </div>
-    </div>
-  );
-};
-
-// Reservation Card Component (unchanged)
-const ReservationCard = ({ reservation, onPaymentClick, formatDate, calculateNextPaymentDate, getPaymentStatusBadge }) => (
-  <div className="reservation-card">
-    <div className="reservation-header">
-      <h3 className="room-number">{reservation.room_number}</h3>
-      <span className={getPaymentStatusBadge(reservation.payment_status)}>
-        {reservation.payment_status}
-      </span>
-    </div>
-    <div className="reservation-details">
-      <div className="detail-item">
-        <span className="detail-label">Booked On:</span>
-        <span className="detail-value">
-          {formatDate(reservation.created_at)}
-        </span>
-      </div>
-      <div className="detail-item payment-link">
-        <span className="detail-label">Next Payment:</span>
-        <button
-          className="next-payment-btn"
-          onClick={() => onPaymentClick(reservation)}
-        >
-          {formatDate(calculateNextPaymentDate(reservation.created_at))}
-        </button>
-      </div>
-    </div>
-  </div>
-);
-
-// Payment Modal Component (unchanged)
-const PaymentModal = ({ nextPaymentDate, formatDate, qrCode, isLoadingQR, onClose }) => (
-  <div className="modal-overlay">
-    <div className="modal-content-on-room-booking-page">
-      <div className="modal-header">
-        <h2>Payment Information</h2>
-        <button className="close-btn-on-room-booking" onClick={onClose}>×</button>
-      </div>
-      <div className="modal-body">
-        <p className="payment-date">
-          Next payment due: {formatDate(nextPaymentDate)}
-        </p>
-        <img 
-          src={promptbit} 
-          alt="prompt-bit" 
-          className="prompt-bit-image" 
-        />
-        <div className="qr-container">
-          {isLoadingQR ? (
-            <div className="loading-qr">
-              <p>Loading QR code...</p>
-            </div>
-          ) : qrCode ? (
-            <img
-              src={qrCode}
-              alt="Payment QR Code"
-              className="qr-image"
-              style={{
-                maxWidth: "250px",
-                height: "auto",
-                display: "block",
-                margin: "0 auto",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-                padding: "5px",
-              }}
-            />
-          ) : (
-            <p>Cannot generate QR code. Please try again.</p>
-          )}
-        </div>
-        <p className="payment-instructions">
-          Scan with your banking app to make payment
-        </p>
-      </div>
-      <div className="modal-footer">
-        <button className="close-modal-btn" onClick={onClose}>
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-);
-
-// Profile Edit Form Component (unchanged)
-const ProfileEditForm = ({ userData, onSave, onCancel, onChange }) => (
-  <div className="edit-fields">
-    <input
-      type="text"
-      name="firstname"
-      value={userData.firstname || ""}
-      onChange={onChange}
-      placeholder="First Name"
-      className="edit-input"
-    />
-    <input
-      type="text"
-      name="lastname"
-      value={userData.lastname || ""}
-      onChange={onChange}
-      placeholder="Last Name"
-      className="edit-input"
-    />
-    <div className="action-buttons-submit-on-room-booking">
-      <button className="cancel-btn" onClick={onCancel}>Cancel</button>
-      <button className="confirm-btn" onClick={onSave}>Save</button>
-    </div>
-  </div>
-);
-
 // Main Roombooking Component
 const Roombooking = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const { pageName } = useParams();
+  
   const [reservations, setReservations] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [activePage, setActivePage] = useState("allroomreservations");
+  const [activePage, setActivePage] = useState(pageName || "allroomreservations");
   const [userData, setUserData] = useState({
     firstname: user?.firstname || "",
     lastname: user?.lastname || "",
@@ -187,6 +37,14 @@ const Roombooking = () => {
   const [qrCode, setQrCode] = useState(null);
   const [isLoadingQR, setIsLoadingQR] = useState(false);
   const [error, setError] = useState(null);
+  const [currentItem, setCurrentItem] = useState(null);
+
+  // Update activePage when pageName changes
+  useEffect(() => {
+    if (pageName) {
+      setActivePage(pageName);
+    }
+  }, [pageName]);
 
   // Initialize user data when user changes
   useEffect(() => {
@@ -251,7 +109,7 @@ const Roombooking = () => {
       setError(null);
     } catch (error) {
       console.error("Error fetching notifications:", error);
-      
+      setError("Unable to load your notifications. Please try again later.");
     }
   };
 
@@ -278,7 +136,6 @@ const Roombooking = () => {
       setQrCode(
         `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=payment_reference_required`
       );
-    
     } finally {
       setIsLoadingQR(false);
     }
@@ -368,8 +225,18 @@ const Roombooking = () => {
   const handlePaymentClick = (reservation) => {
     const nextDate = calculateNextPaymentDate(reservation.created_at);
     setNextPaymentDate(nextDate);
+    setCurrentItem(reservation);
     generateQRCode(reservation._id, reservation.room_price || 5000);
     setShowModal(true);
+  };
+
+  // Handle uploading payment receipt
+  const handleUploadClick = () => {
+    if (currentItem) {
+      navigate("/upload", { state: { item: currentItem } });
+    } else {
+      setError("No reservation selected for payment upload.");
+    }
   };
 
   // Close payment modal
@@ -378,96 +245,245 @@ const Roombooking = () => {
     setQrCode(null);
   };
 
-  // Render reservations section
-  const renderReservations = useMemo(() => (
+  // Handle page navigation
+  const handlePageChange = (newPage) => {
+    navigate(`/information/${newPage}`);
+    setActivePage(newPage);
+  };
+
+  // NotificationCard Component
+  const NotificationCard = ({ notification }) => {
+    // Function to handle PDF download
+    const handleDownloadPDF = () => {
+      // Create a temporary anchor element
+      const link = document.createElement('a');
+      link.href = notification.imageUrl;
+      link.download = notification.invoice_filename || `invoice-${notification.room_number}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+    return (
+      <div className="notification-card">
+        <div className="notification-header">
+          <h3 className="notification-title">{notification.room_number}</h3>
+        </div>
+        <div className="notification-body">
+          <p>{notification.message}</p>
+          {notification.isPdf ? (
+            <div className="pdf-download-container">
+              <h4>ใบเสร็จ PDF</h4>
+              <button 
+                onClick={handleDownloadPDF}
+                className="download-pdf-btn"
+              >
+                ดาวน์โหลด PDF
+              </button>
+            </div>
+          ) : (
+            <img
+              src={notification.imageUrl}
+              alt={notification.room_number}
+              className="notification-image"
+            />
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  // Reservation Card Component
+  const ReservationCard = ({ reservation }) => (
+    <div className="reservation-card">
+      <div className="reservation-header">
+        <h3 className="room-number">{reservation.room_number}</h3>
+        <span className={getPaymentStatusBadge(reservation.payment_status)}>
+          {reservation.payment_status}
+        </span>
+      </div>
+      <div className="reservation-details">
+        <div className="detail-item">
+          <span className="detail-label">Booked On:</span>
+          <span className="detail-value">
+            {formatDate(reservation.created_at)}
+          </span>
+        </div>
+        <div className="detail-item payment-link">
+          <span className="detail-label">Next Payment:</span>
+          <button
+            className="next-payment-btn"
+            onClick={() => handlePaymentClick(reservation)}
+          >
+            {formatDate(calculateNextPaymentDate(reservation.created_at))}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Payment Modal Component
+  const PaymentModal = () => (
+    <div className="modal-overlay">
+      <div className="modal-content-on-room-booking-page">
+        <div className="modal-header">
+          <h2>Payment Information</h2>
+          <button className="close-btn-on-room-booking" onClick={handleCloseModal}>×</button>
+        </div>
+        <div className="modal-body">
+          <p className="payment-date">
+            Next payment due: {formatDate(nextPaymentDate)}
+          </p>
+          <img 
+            src={promptbit} 
+            alt="prompt-bit" 
+            className="prompt-bit-image" 
+          />
+          <div className="qr-container">
+            {isLoadingQR ? (
+              <div className="loading-qr">
+                <p>Loading QR code...</p>
+              </div>
+            ) : qrCode ? (
+              <img
+                src={qrCode}
+                alt="Payment QR Code"
+                className="qr-image"
+                style={{
+                  maxWidth: "250px",
+                  height: "auto",
+                  display: "block",
+                  margin: "0 auto",
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  padding: "5px",
+                }}
+              />
+            ) : (
+              <p>Cannot generate QR code. Please try again.</p>
+            )}
+          </div>
+          <p className="payment-instructions">
+            Scan with your banking app to make payment
+          </p>
+            
+          <div className='uploade-slip-payment-card'>
+              <p className='warning-text-uploade'>‼️ Don't forget to send your payment slip.</p>
+              <hr />
+              <div className='main-upload-and-warning'>
+                <p>If it is verified that the
+                  <span className='blue-text'> payment slip is not genuine </span>
+                  or 
+                  <span className='blue-text'> has been altered</span>
+                  , we will cancel the check-in immediately</p>
+                <button onClick={handleUploadClick} className="upload">Upload payment receipt</button>
+              </div>
+            </div>
+        </div>
+        <div className="modal-footer">
+          <button className="close-modal-btn" onClick={handleCloseModal}>
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Profile Edit Form Component
+  const ProfileEditForm = () => (
+    <div className="edit-fields">
+      <input
+        type="text"
+        name="firstname"
+        value={userData.firstname || ""}
+        onChange={handleInputChange}
+        placeholder="First Name"
+        className="edit-input"
+      />
+      <input
+        type="text"
+        name="lastname"
+        value={userData.lastname || ""}
+        onChange={handleInputChange}
+        placeholder="Last Name"
+        className="edit-input"
+      />
+      <div className="action-buttons-submit-on-room-booking">
+        <button className="cancel-btn" onClick={handleCancelEdit}>Cancel</button>
+        <button className="confirm-btn" onClick={handleSaveProfile}>Save</button>
+      </div>
+    </div>
+  );
+
+  // Content sections
+  const RoomReservations = () => (
     <section className="info-section">
       <h2 className="section-title">All Room Reservations</h2>
       {error && <div className="error-message">{error}</div>}
       <div className="reservation-list">
-        {reservations.length === 0 ? (
+        {reservations?.length === 0 ? (
           <div className="no-reservations">
             <p>No bookings found. Book a room to see your reservations here.</p>
           </div>
         ) : (
-          reservations.map((reservation) => (
+          reservations?.map((reservation) => (
             <ReservationCard
               key={reservation._id}
               reservation={reservation}
-              onPaymentClick={handlePaymentClick}
-              formatDate={formatDate}
-              calculateNextPaymentDate={calculateNextPaymentDate}
-              getPaymentStatusBadge={getPaymentStatusBadge}
             />
           ))
         )}
       </div>
     </section>
-  ), [reservations, error, formatDate, calculateNextPaymentDate, getPaymentStatusBadge]);
+  );
 
-  // Render user profile section
-  const renderProfile = useMemo(() => {
-    if (!user) {
-      return (
-        <div className="loading-container">
-          <p>Loading user information...</p>
-        </div>
-      );
-    }
-    
-    return (
-      <section className="info-section">
-        <h2 className="section-title">Personal Information</h2>
-        {error && <div className="error-message">{error}</div>}
-        <div className="profile-card">
-          <div className="profile-item">
-            <h3 className="profile-label">Username</h3>
-            <div className="username-main-card">
-              {isEditing ? (
-                <ProfileEditForm
-                  userData={userData}
-                  onSave={handleSaveProfile}
-                  onCancel={handleCancelEdit}
-                  onChange={handleInputChange}
-                />
-              ) : (
-                <>
-                  <p className="profile-value">
-                    {user.firstname} {user.lastname}
-                  </p>
-                  <div className="action-buttons-edit-on-room-booking">
-                    <button className="edit-btn" onClick={handleEditProfile}>
-                      Edit Profile
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-
-          <div className="profile-item">
-            <h3 className="profile-label">Email</h3>
-            <p className="profile-value">{user.email}</p>
-          </div>
-
-          <div className="profile-item">
-            <h3 className="profile-label">Phone Number</h3>
-            <p className="profile-value">{user.phoneNumber}</p>
+  const PersonalInformation = () => (
+    <section className="info-section">
+      <h2 className="section-title">Personal Information</h2>
+      {error && <div className="error-message">{error}</div>}
+      <div className="profile-card">
+        <div className="profile-item">
+          <h3 className="profile-label">Username</h3>
+          <div className="username-main-card">
+            {isEditing ? (
+              <ProfileEditForm />
+            ) : (
+              <>
+                <p className="profile-value">
+                  {user?.firstname} {user?.lastname}
+                </p>
+                <div className="action-buttons-edit-on-room-booking">
+                  <button className="edit-btn" onClick={handleEditProfile}>
+                    Edit Profile
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
-      </section>
-    );
-  }, [user, userData, isEditing, error]);
 
-  // Render notifications section
-  const renderNotifications = useMemo(() => (
+        <div className="profile-item">
+          <h3 className="profile-label">Email</h3>
+          <p className="profile-value">{user?.email}</p>
+        </div>
+
+        <div className="profile-item">
+          <h3 className="profile-label">Phone Number</h3>
+          <p className="profile-value">{user?.phoneNumber}</p>
+        </div>
+      </div>
+    </section>
+  );
+
+  const Notification = () => (
     <section className="info-section">
       <h2 className="section-title">Notifications</h2>
       {error && <div className="error-message">{error}</div>}
       <div className="notification-list">
-        {notifications.length === 0 ? (
+        {notifications?.length === 0 ? (
           <p>No new notifications.</p>
         ) : (
-          notifications.map((notification) => (
+          notifications?.map((notification) => (
             <NotificationCard 
               key={notification._id} 
               notification={notification} 
@@ -476,19 +492,19 @@ const Roombooking = () => {
         )}
       </div>
     </section>
-  ), [notifications, error]);
+  );
 
-  // Render active page content
+  // Render content based on active page
   const renderContent = () => {
     switch (activePage) {
       case "allroomreservations":
-        return renderReservations;
+        return <RoomReservations />;
       case "personalinformations":
-        return renderProfile;
+        return <PersonalInformation />;
       case "notification":
-        return renderNotifications;
+        return <Notification />;
       default:
-        return <p>Select a page from the sidebar</p>;
+        return <RoomReservations />;
     }
   };
 
@@ -501,19 +517,19 @@ const Roombooking = () => {
           </div>
           <ul className="sidebar-menu">
             <li
-              onClick={() => setActivePage("allroomreservations")}
+              onClick={() => handlePageChange("allroomreservations")}
               className={`sidebar-item ${activePage === "allroomreservations" ? "active" : ""}`}
             >
               All Room Reservations
             </li>
             <li
-              onClick={() => setActivePage("personalinformations")}
+              onClick={() => handlePageChange("personalinformations")}
               className={`sidebar-item ${activePage === "personalinformations" ? "active" : ""}`}
             >
               Personal Information
             </li>
             <li
-              onClick={() => setActivePage("notification")}
+              onClick={() => handlePageChange("notification")}
               className={`sidebar-item ${activePage === "notification" ? "active" : ""}`}
             >
               Notification
@@ -525,15 +541,7 @@ const Roombooking = () => {
       </div>
 
       {/* QR Code Payment Modal */}
-      {showModal && (
-        <PaymentModal
-          nextPaymentDate={nextPaymentDate}
-          formatDate={formatDate}
-          qrCode={qrCode}
-          isLoadingQR={isLoadingQR}
-          onClose={handleCloseModal}
-        />
-      )}
+      {showModal && <PaymentModal />}
 
       <Footer />
     </>
