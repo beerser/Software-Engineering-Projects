@@ -32,6 +32,11 @@ const Room = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleBookRoom = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("กรุณาเข้าสู่ระบบก่อนทำการจองห้อง");
+      return;
+    }
     setIsBooked(true);
     navigate("/payment", { state: { item } });
   };

@@ -70,32 +70,27 @@ function Home() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const token = localStorage.getItem('token');  
-        if (!token) {
-          throw new Error('No token found');
-        }
-
+        const token = localStorage.getItem('token');
+  
         const response = await fetch('http://localhost:5001/api/rooms', {
           method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`, 
-          },
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {},  // ✅ เงื่อนไขตรงนี้
         });
-
+  
         if (!response.ok) {
           throw new Error('Failed to fetch rooms');
         }
-
+  
         const data = await response.json();
-        setRooms(data); 
+        setRooms(data);
         console.log(data);
       } catch (error) {
         console.error('Error fetching rooms:', error);
       }
     };
-
+  
     fetchRooms();
-  }, []);  // Run once when component mounts
+  }, []);
 
   useEffect(() => {
     if (rooms.length > 0) {
