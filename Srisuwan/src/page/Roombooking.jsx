@@ -3,6 +3,8 @@ import Footer from "../components/footer";
 import "../css/Roombooking.css";
 import axios from "axios";
 import { useAuth } from "../components/AuthContext";
+import promptbit from "../assets/prompt-bid-by-srisuwan.png";
+
 // Remove Document and Page imports since we're not displaying PDFs inline anymore
 // import { Document, Page } from "react-pdf";
 
@@ -99,6 +101,11 @@ const PaymentModal = ({ nextPaymentDate, formatDate, qrCode, isLoadingQR, onClos
         <p className="payment-date">
           Next payment due: {formatDate(nextPaymentDate)}
         </p>
+        <img 
+          src={promptbit} 
+          alt="prompt-bit" 
+          className="prompt-bit-image" 
+        />
         <div className="qr-container">
           {isLoadingQR ? (
             <div className="loading-qr">

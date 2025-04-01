@@ -493,3 +493,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+.prompt-bit-image {
+  display: block;
+  margin: auto;
+  width: 150px;
+  margin-bottom: 25px;
+}
