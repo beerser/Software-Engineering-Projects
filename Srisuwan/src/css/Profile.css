@@ -11,7 +11,7 @@
   z-index: 1000;
 }
 
-.modal-content {
+.modal-content-show-qr-code {
   background-color: white;
   padding: 20px;
   border-radius: 10px;

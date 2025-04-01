@@ -12,7 +12,7 @@ const Profile = () => {
     <>
       {isModalOpen && (
         <div id="myModal" className="modal">
-          <div className="modal-content">
+          <div className="modal-content-show-qr-code">
             <span className="close" onClick={closeModal}>
               &times;
             </span>
