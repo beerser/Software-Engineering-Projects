@@ -226,10 +226,10 @@ const Navbar = () => {
                           alignItems: "center",
                           justifyContent: "center",
                         }}
-                        onMouseOver={(e) => e.target.style.backgroundColor = "#d32f2f"}
+                        onMouseOver={(e) => e.target.style.backgroundColor = "#f44336"}
                         onMouseOut={(e) => e.target.style.backgroundColor = "#f44336"}
                       >
-                        <span style={{marginRight: "8px"}}>Logout</span>
+                        <span tyle={{marginRight: "8px"}}>Logout</span>
                         <span>→</span>
                       </button>
 
