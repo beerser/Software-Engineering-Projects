@@ -33,6 +33,11 @@
     color: #43a047 !important;
     border-radius: 4px;
   }
+  .booked {
+    background-color: #ffebee !important;  /* Light red background */
+    color: #e53935 !important;  /* Red text color */
+    border-radius: 4px;
+  }
   
   .react-calendar__tile--now {
     background-color: #e3f2fd !important;

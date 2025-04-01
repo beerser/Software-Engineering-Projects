@@ -8,38 +8,35 @@ const RoomCalendar = ({ rooms }) => {
   const [bookedDates, setBookedDates] = useState([]);
 
   useEffect(() => {
-    // Only consider confirmed bookings
-    const confirmedBookings = rooms.filter(room => room.payment_status === "confirmed");
-    
-    // Create an array of all booked dates
-    // Assuming each booking has check_in and check_out dates
-    const dates = [];
-    
-    confirmedBookings.forEach(booking => {
-      // If your booking object includes actual booking dates, use those instead
-      if (booking.check_in && booking.check_out) {
-        // Convert date strings to Date objects
-        const checkIn = new Date(booking.check_in);
-        const checkOut = new Date(booking.check_out);
-        
-        // Add all dates between check-in and check-out
-        const currentDate = new Date(checkIn);
-        while (currentDate <= checkOut) {
-          dates.push(new Date(currentDate));
-          currentDate.setDate(currentDate.getDate() + 1);
+    // Fetch bookings from API
+    const fetchBookings = async () => {
+      const response = await fetch("http://localhost:5001/api/bookings");
+      const data = await response.json();
+
+      // Filter only confirmed bookings
+      const confirmedBookings = data.filter(room => room.payment_status === "confirmed");
+
+      // Create an array of all booked dates
+      const dates = confirmedBookings.map(booking => {
+        const createdAt = new Date(booking.created_at);
+        return new Date(createdAt.setHours(0, 0, 0, 0)); // Only keep the date part
+      });
+
+      // Set booked dates if they are different from the previous state
+      setBookedDates(prevDates => {
+        const newDates = dates;
+        if (newDates.length !== prevDates.length || !newDates.every((date, i) => date.getTime() === prevDates[i]?.getTime())) {
+          return newDates;
         }
-      } else {
-        // Fallback to using created_at if no check_in/check_out dates
-        const date = new Date(booking.created_at);
-        dates.push(new Date(date.setHours(0, 0, 0, 0)));
-      }
-    });
-  
-    setBookedDates(dates);
-  }, [rooms]);
+        return prevDates; // If no change, return previous dates
+      });
+    };
+
+    fetchBookings();
+  }, []); // Empty dependency array to run once on component mount
 
   const isBooked = (date) => {
-    return bookedDates.some(bookedDate => 
+    return bookedDates.some(bookedDate =>
       bookedDate.getDate() === date.getDate() &&
       bookedDate.getMonth() === date.getMonth() &&
       bookedDate.getFullYear() === date.getFullYear()
@@ -53,7 +50,7 @@ const RoomCalendar = ({ rooms }) => {
         onChange={setDate}
         value={date}
         tileClassName={({ date }) => isBooked(date) ? 'booked' : 'free'}
-        tileDisabled={({ date }) => isBooked(date)} // Optional: disable booked dates
+        tileDisabled={({ date }) => isBooked(date)} 
       />
       <div className="legend">
         <span><span className="dot booked-dot"></span> Booked</span>
