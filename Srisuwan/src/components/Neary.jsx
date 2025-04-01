@@ -26,6 +26,8 @@ const Neary = () => {
             Which educational institutions
             <span className="break-line">are nearby?</span>
           </h2>
+
+          <hr/>
         </div>
 
         <div className="thumbnail-indicator" style={{ left: `${selectedIndex * 120}px` }}></div>
