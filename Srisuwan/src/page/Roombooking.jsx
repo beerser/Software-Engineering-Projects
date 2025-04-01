@@ -271,7 +271,7 @@ const Roombooking = () => {
       setQrCode(
         `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=payment_reference_required`
       );
-      setError("Could not generate a secure payment code. Please contact support.");
+    
     } finally {
       setIsLoadingQR(false);
     }
