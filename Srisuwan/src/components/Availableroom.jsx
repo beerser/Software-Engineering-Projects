@@ -4,37 +4,59 @@ import "../css/Available.css";
 const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom }) => {
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="model-content-on-avaliable-admin-page">
         <h3>{isNewRoom ? "Add New Room" : "Edit Room"}</h3>
 
-        <div className="input-group">
+        <div className="input-group-on-avaliable-admin-page">
           <label>Room Number:</label>
           <input name="room_number" value={form.room_number} onChange={onChange} />
         </div>
 
-        <div className="input-group">
+        <div className="input-group-on-avaliable-admin-page">
           <label>Price:</label>
           <input name="price" type="text" inputMode="numeric" value={form.price} onChange={onChange} />
         </div>
 
-        <div className="input-group">
+        <div className="input-group-on-avaliable-admin-page">
           <label>Status:</label>
-          <div>
-            <input type="radio" id="modal-available" name="modal-status" checked={form.status === "available"} onChange={() => onStatusChange("available")} />
-            <label htmlFor="modal-available">Available</label>
+          <div className="select-status-display-flex">
+            <input 
+              className="circle-status-on-avaliable-admin-page"
+              type="radio" 
+              id="modal-available" 
+              name="modal-status" 
+              checked={form.status === "available"} 
+              onChange={() => onStatusChange("available")} 
+            />
+            <label 
+              htmlFor="modal-available"
+              className="status-text-on-avaliable-admin-page"
+                >Available
+            </label>
           </div>
-          <div>
-            <input type="radio" id="modal-nonavailable" name="modal-status" checked={form.status === "nonavailable"} onChange={() => onStatusChange("nonavailable")} />
-            <label htmlFor="modal-nonavailable">Not available</label>
+          <div className="select-status-display-flex">
+            <input 
+              className="circle-status-on-avaliable-admin-page"
+              type="radio" 
+              id="modal-nonavailable" 
+              name="modal-status" 
+              checked={form.status === "nonavailable"} 
+              onChange={() => onStatusChange("nonavailable")} 
+            />
+            <label 
+              className="status-text-on-avaliable-admin-page"
+              htmlFor="modal-nonavailable"
+                >Not available
+            </label>
           </div>
         </div>
 
-        <div className="input-group">
+        <div className="input-group-on-avaliable-admin-page">
           <label>Description:</label>
           <input name="description" value={form.description} onChange={onChange} />
         </div>
 
-        <div className="input-group">
+        <div className="input-group-on-avaliable-admin-page">
           <label>Room Images (Paste up to 5 URLs):</label>
           {[...Array(5)].map((_, index) => (
             <div key={index} className="image-input">
@@ -44,7 +66,7 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom
           ))}
         </div>
 
-        <div className="input-group">
+        <div className="input-group-on-avaliable-admin-page">
           <label>Service Fee:</label>
           <input name="servicefee" type="text" inputMode="numeric" value={form.servicefee} onChange={onChange} />
         </div>
@@ -141,7 +163,7 @@ const Availableroom = () => {
           </div>
         ))}
 
-        <div onClick={handleAddNew} className="add-room">
+        <div onClick={handleAddNew} className="new-room-on-avaliable-admin-page">
           <div>+</div>
           <div>New room</div>
         </div>
