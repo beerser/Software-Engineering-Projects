@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useParams, useNavigate } from "react-router-dom"; // Added missing import
 import Footer from "../components/footer";
 import "../css/Roombooking.css";
 import axios from "axios";
 import { useAuth } from "../components/AuthContext";
 import promptbit from "../assets/prompt-bid-by-srisuwan.png";
-
-// Remove Document and Page imports since we're not displaying PDFs inline anymore
-// import { Document, Page } from "react-pdf";
 
 // Configuration object for API endpoints - Fixed for Vite
 const API_CONFIG = {
@@ -30,6 +28,8 @@ const NotificationCard = ({ notification }) => {
     link.click();
     document.body.removeChild(link);
   };
+
+
 
   return (
     <div className="notification-card">
@@ -169,6 +169,101 @@ const ProfileEditForm = ({ userData, onSave, onCancel, onChange }) => (
   </div>
 );
 
+// Define missing components mentioned in renderContent
+const RoomReservations = ({ reservations, error, formatDate, calculateNextPaymentDate, getPaymentStatusBadge, handlePaymentClick }) => (
+  <section className="info-section">
+    <h2 className="section-title">All Room Reservations</h2>
+    {error && <div className="error-message">{error}</div>}
+    <div className="reservation-list">
+      {reservations?.length === 0 ? (
+        <div className="no-reservations">
+          <p>No bookings found. Book a room to see your reservations here.</p>
+        </div>
+      ) : (
+        reservations?.map((reservation) => (
+          <ReservationCard
+            key={reservation._id}
+            reservation={reservation}
+            onPaymentClick={handlePaymentClick}
+            formatDate={formatDate}
+            calculateNextPaymentDate={calculateNextPaymentDate}
+            getPaymentStatusBadge={getPaymentStatusBadge}
+          />
+        ))
+      )}
+    </div>
+  </section>
+);
+
+const PersonalInformation = ({ user, userData, isEditing, error, handleEditProfile, handleSaveProfile, handleCancelEdit, handleInputChange }) => (
+  <section className="info-section">
+    <h2 className="section-title">Personal Information</h2>
+    {error && <div className="error-message">{error}</div>}
+    <div className="profile-card">
+      <div className="profile-item">
+        <h3 className="profile-label">Username</h3>
+        <div className="username-main-card">
+          {isEditing ? (
+            <ProfileEditForm
+              userData={userData}
+              onSave={handleSaveProfile}
+              onCancel={handleCancelEdit}
+              onChange={handleInputChange}
+            />
+          ) : (
+            <>
+              <p className="profile-value">
+                {user?.firstname} {user?.lastname}
+              </p>
+              <div className="action-buttons-edit-on-room-booking">
+                <button className="edit-btn" onClick={handleEditProfile}>
+                  Edit Profile
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      <div className="profile-item">
+        <h3 className="profile-label">Email</h3>
+        <p className="profile-value">{user?.email}</p>
+      </div>
+
+      <div className="profile-item">
+        <h3 className="profile-label">Phone Number</h3>
+        <p className="profile-value">{user?.phoneNumber}</p>
+      </div>
+    </div>
+  </section>
+);
+
+const Notification = ({ notifications, error }) => (
+  <section className="info-section">
+    <h2 className="section-title">Notifications</h2>
+    {error && <div className="error-message">{error}</div>}
+    <div className="notification-list">
+      {notifications?.length === 0 ? (
+        <p>No new notifications.</p>
+      ) : (
+        notifications?.map((notification) => (
+          <NotificationCard 
+            key={notification._id} 
+            notification={notification} 
+          />
+        ))
+      )}
+    </div>
+  </section>
+);
+
+const DefaultPage = () => (
+  <section className="info-section">
+    <h2 className="section-title">Welcome to Your Dashboard</h2>
+    <p>Please select an option from the sidebar to view your information.</p>
+  </section>
+);
+
 // Main Roombooking Component
 const Roombooking = () => {
   const { user } = useAuth();
@@ -187,6 +282,7 @@ const Roombooking = () => {
   const [qrCode, setQrCode] = useState(null);
   const [isLoadingQR, setIsLoadingQR] = useState(false);
   const [error, setError] = useState(null);
+  const { pageName } = useParams();
 
   // Initialize user data when user changes
   useEffect(() => {
@@ -357,7 +453,7 @@ const Roombooking = () => {
       phoneNumber: user?.phoneNumber || "",
     });
   };
-
+  const navigate = useNavigate(); 
   // Handle form field changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -378,117 +474,51 @@ const Roombooking = () => {
     setQrCode(null);
   };
 
-  // Render reservations section
-  const renderReservations = useMemo(() => (
-    <section className="info-section">
-      <h2 className="section-title">All Room Reservations</h2>
-      {error && <div className="error-message">{error}</div>}
-      <div className="reservation-list">
-        {reservations.length === 0 ? (
-          <div className="no-reservations">
-            <p>No bookings found. Book a room to see your reservations here.</p>
-          </div>
-        ) : (
-          reservations.map((reservation) => (
-            <ReservationCard
-              key={reservation._id}
-              reservation={reservation}
-              onPaymentClick={handlePaymentClick}
-              formatDate={formatDate}
-              calculateNextPaymentDate={calculateNextPaymentDate}
-              getPaymentStatusBadge={getPaymentStatusBadge}
-            />
-          ))
-        )}
-      </div>
-    </section>
-  ), [reservations, error, formatDate, calculateNextPaymentDate, getPaymentStatusBadge]);
 
-  // Render user profile section
-  const renderProfile = useMemo(() => {
-    if (!user) {
-      return (
-        <div className="loading-container">
-          <p>Loading user information...</p>
-        </div>
-      );
-    }
-    
-    return (
-      <section className="info-section">
-        <h2 className="section-title">Personal Information</h2>
-        {error && <div className="error-message">{error}</div>}
-        <div className="profile-card">
-          <div className="profile-item">
-            <h3 className="profile-label">Username</h3>
-            <div className="username-main-card">
-              {isEditing ? (
-                <ProfileEditForm
-                  userData={userData}
-                  onSave={handleSaveProfile}
-                  onCancel={handleCancelEdit}
-                  onChange={handleInputChange}
-                />
-              ) : (
-                <>
-                  <p className="profile-value">
-                    {user.firstname} {user.lastname}
-                  </p>
-                  <div className="action-buttons-edit-on-room-booking">
-                    <button className="edit-btn" onClick={handleEditProfile}>
-                      Edit Profile
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
+  const handlePageChange = (pageName) => {
+    navigate(`/information/${pageName}`);
+  };
 
-          <div className="profile-item">
-            <h3 className="profile-label">Email</h3>
-            <p className="profile-value">{user.email}</p>
-          </div>
-
-          <div className="profile-item">
-            <h3 className="profile-label">Phone Number</h3>
-            <p className="profile-value">{user.phoneNumber}</p>
-          </div>
-        </div>
-      </section>
-    );
-  }, [user, userData, isEditing, error]);
-
-  // Render notifications section
-  const renderNotifications = useMemo(() => (
-    <section className="info-section">
-      <h2 className="section-title">Notifications</h2>
-      {error && <div className="error-message">{error}</div>}
-      <div className="notification-list">
-        {notifications.length === 0 ? (
-          <p>No new notifications.</p>
-        ) : (
-          notifications.map((notification) => (
-            <NotificationCard 
-              key={notification._id} 
-              notification={notification} 
-            />
-          ))
-        )}
-      </div>
-    </section>
-  ), [notifications, error]);
-
-  // Render active page content
+  // Render content based on active page
   const renderContent = () => {
-    switch (activePage) {
+    const currentPage = pageName || activePage;
+    
+    switch (currentPage) {
       case "allroomreservations":
-        return renderReservations;
+        return (
+          <RoomReservations 
+            reservations={reservations} 
+            error={error} 
+            formatDate={formatDate} 
+            calculateNextPaymentDate={calculateNextPaymentDate} 
+            getPaymentStatusBadge={getPaymentStatusBadge} 
+            handlePaymentClick={handlePaymentClick}
+          />
+        );
       case "personalinformations":
-        return renderProfile;
+        return (
+          <PersonalInformation 
+            user={user} 
+            userData={userData} 
+            isEditing={isEditing} 
+            error={error} 
+            handleEditProfile={handleEditProfile} 
+            handleSaveProfile={handleSaveProfile} 
+            handleCancelEdit={handleCancelEdit} 
+            handleInputChange={handleInputChange}
+          />
+        );
       case "notification":
-        return renderNotifications;
+        return <Notification notifications={notifications} error={error} />;
       default:
-        return <p>Select a page from the sidebar</p>;
+        return <RoomReservations 
+          reservations={reservations} 
+          error={error} 
+          formatDate={formatDate} 
+          calculateNextPaymentDate={calculateNextPaymentDate} 
+          getPaymentStatusBadge={getPaymentStatusBadge} 
+          handlePaymentClick={handlePaymentClick}
+        />;
     }
   };
 
@@ -500,25 +530,25 @@ const Roombooking = () => {
             <h2>My Account</h2>
           </div>
           <ul className="sidebar-menu">
-            <li
-              onClick={() => setActivePage("allroomreservations")}
-              className={`sidebar-item ${activePage === "allroomreservations" ? "active" : ""}`}
-            >
-              All Room Reservations
-            </li>
-            <li
-              onClick={() => setActivePage("personalinformations")}
-              className={`sidebar-item ${activePage === "personalinformations" ? "active" : ""}`}
-            >
-              Personal Information
-            </li>
-            <li
-              onClick={() => setActivePage("notification")}
-              className={`sidebar-item ${activePage === "notification" ? "active" : ""}`}
-            >
-              Notification
-            </li>
-          </ul>
+  <li
+    onClick={() => handlePageChange("allroomreservations")}
+    className={`sidebar-item ${pageName  === "allroomreservations" ? "active" : ""}`}
+  >
+    All Room Reservations
+  </li>
+  <li
+    onClick={() => handlePageChange("personalinformations")}
+    className={`sidebar-item ${pageName === "personalinformations" ? "active" : ""}`}
+  >
+    Personal Information
+  </li>
+  <li
+    onClick={() => handlePageChange("notification")}
+    className={`sidebar-item ${pageName  === "notification" ? "active" : ""}`}
+  >
+    Notification
+  </li>
+</ul>
         </aside>
 
         <main className="dashboard-content">{renderContent()}</main>

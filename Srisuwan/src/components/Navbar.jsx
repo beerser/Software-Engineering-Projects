@@ -27,6 +27,11 @@ const Navbar = () => {
     setIsModalOpen(false);
   };
 
+  const navigateToPage = (path) => {
+    navigate(path);
+    closeModal();
+  };
+
   if (isRegisterPage) return null; // Early return for the register page
 
   return (
@@ -168,44 +173,78 @@ const Navbar = () => {
                           marginBottom: "16px",
                         }}
                       >
-                        <div className="user-details">
-                          <a 
-                            href="/information" 
-                            style={{
-                              display: "block",
-                              padding: "12px",
-                              margin: "8px 0",
                               borderRadius: "8px",
-                              color: "#333",
-                              textDecoration: "none",
-                              fontWeight: "500",
-                              transition: "background-color 0.2s",
-                              backgroundColor: "#f8f9fa",
-                            }}
-                            onMouseOver={(e) => e.target.style.backgroundColor = "#eaeaea"}
-                            onMouseOut={(e) => e.target.style.backgroundColor = "#f8f9fa"}
-                          >
-                            🏨 All room reservations
-                          </a>
-                          <a 
-                            href="/information" 
-                            style={{
-                              display: "block",
-                              padding: "12px",
-                              margin: "8px 0",
-                              borderRadius: "8px",
-                              color: "#333",
-                              textDecoration: "none",
-                              fontWeight: "500",
-                              transition: "background-color 0.2s",
-                              backgroundColor: "#f8f9fa",
-                            }}
-                            onMouseOver={(e) => e.target.style.backgroundColor = "#eaeaea"}
-                            onMouseOut={(e) => e.target.style.backgroundColor = "#f8f9fa"}
-                          >
-                            👤 Personal information
-                          </a>
-                        </div>
+
+<div className="user-details">
+  <div 
+    onClick={() => {
+      navigate("/information/allroomreservations");
+      closeModal();
+    }}
+    style={{
+      display: "block",
+      padding: "12px",
+      margin: "8px 0",
+      borderRadius: "8px",
+      color: "#333",
+      textDecoration: "none",
+      fontWeight: "500",
+      transition: "background-color 0.2s",
+      backgroundColor: "#f8f9fa",
+      cursor: "pointer"
+    }}
+    onMouseOver={(e) => e.target.style.backgroundColor = "#eaeaea"}
+    onMouseOut={(e) => e.target.style.backgroundColor = "#f8f9fa"}
+  >
+    🏨 All room reservations
+  </div>
+  <div 
+    onClick={() => {
+      navigate("/information/personalinformations");
+      closeModal();
+    }}
+    style={{
+      display: "block",
+      padding: "12px",
+      margin: "8px 0",
+      borderRadius: "8px",
+      color: "#333",
+      textDecoration: "none",
+      fontWeight: "500",
+      transition: "background-color 0.2s",
+      backgroundColor: "#f8f9fa",
+      cursor: "pointer"
+    }}
+    onMouseOver={(e) => e.target.style.backgroundColor = "#eaeaea"}
+    onMouseOut={(e) => e.target.style.backgroundColor = "#f8f9fa"}
+  >
+    👤 Personal information
+  </div>
+  <div 
+    onClick={() => {
+      navigate("/information/notification");
+      closeModal();
+    }}
+    style={{
+      display: "block",
+      padding: "12px",
+      margin: "8px 0",
+      borderRadius: "8px",
+      color: "#333",
+      textDecoration: "none",
+      fontWeight: "500",
+      transition: "background-color 0.2s",
+      backgroundColor: "#f8f9fa",
+      cursor: "pointer"
+    }}
+    onMouseOver={(e) => e.target.style.backgroundColor = "#eaeaea"}
+    onMouseOut={(e) => e.target.style.backgroundColor = "#f8f9fa"}
+  >
+    🔔 Notifications
+  </div>
+</div>
+
+
                       </div>
 
                       <button 
@@ -229,7 +268,7 @@ const Navbar = () => {
                         onMouseOver={(e) => e.target.style.backgroundColor = "#f44336"}
                         onMouseOut={(e) => e.target.style.backgroundColor = "#f44336"}
                       >
-                        <span tyle={{marginRight: "8px"}}>Logout</span>
+                        <span style={{marginRight: "8px"}}>Logout</span>
                         <span>→</span>
                       </button>
 
@@ -250,7 +289,7 @@ const Navbar = () => {
                             alignItems: "center",
                             justifyContent: "center",
                           }}
-                          onClick={() => navigate("/admin")}
+                          onClick={() => navigateToPage("/admin")}
                           onMouseOver={(e) => e.target.style.backgroundColor = "#4338ca"}
                           onMouseOut={(e) => e.target.style.backgroundColor = "#4f46e5"}
                         >
