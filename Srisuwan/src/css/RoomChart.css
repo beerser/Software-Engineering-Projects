@@ -52,6 +52,7 @@
 }
 
 .stat-box.available {
+  background-color: #ebffef !important;
   border-top: 4px solid #2ecc71;
 }
 
@@ -60,7 +61,18 @@
 }
 
 .stat-box.total {
+  background-color: #ebfaff !important;
   border-top: 4px solid #3498db;
+}
+
+.booked {
+  background-color: #ffebee;
+  color: #e53935;
+}
+
+.booked-dot {
+  background-color: #ffebee;
+  border: 1px solid #e53935;
 }
 
 .stat-value {
