@@ -226,7 +226,7 @@ app.put("/api/admin/rooms", async (req, res) => {
           {
             status: room.status,
             description: room.description,
-            image_url: room.image_url,
+            image_urls: room.image_urls,
             price: room.price,
             room_number: room.room_number,
             servicefee: room.servicefee,
@@ -246,6 +246,25 @@ app.put("/api/admin/rooms", async (req, res) => {
   } catch (err) {
     console.error("Error updating rooms:", err);
     res.status(500).json({ error: "Failed to update rooms" });
+  }
+});
+
+app.post("/api/admin/rooms", async (req, res) => {
+  try {
+    const room = req.body;
+
+    if (!room.room_number || !room.price) {
+      return res.status(400).json({ error: "Missing room_number or price" });
+    }
+
+    const newRoom = new Room(room);
+    await newRoom.save();
+
+    console.log("✅ Created new room:", newRoom);
+    res.status(201).json({ message: "Room created", data: newRoom });
+  } catch (err) {
+    console.error("❌ Error creating room:", err);
+    res.status(500).json({ error: "Failed to create room" });
   }
 });
 

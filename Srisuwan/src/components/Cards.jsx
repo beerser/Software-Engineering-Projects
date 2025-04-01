@@ -9,7 +9,7 @@ const Cards = ({ obj, onPaymentClick }) => {
     const paymentDetails = {
       roomNumber: item.room_number, 
       price: item.price,
-      imageUrl: item.image_url,
+      image_urls: item.image_urls,  
       description: item.description,
       servicefee: item.servicefee,
       timestamp: new Date().toLocaleString(),
@@ -31,7 +31,7 @@ const Cards = ({ obj, onPaymentClick }) => {
             className="card"
           >
             <img
-              src={item.image_url} 
+              src={item.image_urls?.[0]}
               className="card-img-top"
               alt={item.room_number} 
             />

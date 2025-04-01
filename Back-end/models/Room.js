@@ -5,7 +5,7 @@ const roomSchema = new mongoose.Schema({
   price: Number,
   status: String,
   description: String,
-  image_url: String
+  image_urls: [String],
 });
 
 module.exports = mongoose.model('Room', roomSchema);

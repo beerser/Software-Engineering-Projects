@@ -4,6 +4,9 @@ const roomSchema = new mongoose.Schema({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   status: { type: String, default: 'available' },
+  description: { type: String, default: "" }, // ✅ เพิ่ม description
+  servicefee: { type: Number, default: 0 },    // ✅ เพิ่ม service fee
+  image_urls: [String],  
 });
 
 const userSchema = new mongoose.Schema({
