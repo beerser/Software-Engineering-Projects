@@ -151,7 +151,7 @@ const Dashboard = ({ setRooms }) => {
       case "edituser":
         return (
           <div>
-            <h2 className="text-header">Edit User</h2>
+            <h2 className="text-header">Send Invoice</h2>
             <Wtf />
           </div>
         );
@@ -217,7 +217,7 @@ const Dashboard = ({ setRooms }) => {
               alt="Edit Icon"
               style={{ width: "20px", marginRight: "10px" }}
             />
-            Edit User
+            Send Invoice
           </li>
 
           <li onClick={() => navigate("/")} style={{ cursor: "pointer" }}>

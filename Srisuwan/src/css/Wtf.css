@@ -1,173 +1,120 @@
-/* Wtf.css */
-
+/* สไตล์สำหรับ BookingInvoiceUpload component */
 .container-on-wtf-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 85vh;
-  padding: 20px;
-  background-color: #f7f9fc;
-  border-radius: 10px;
-  margin-left: 30px;
-  margin-right: 30px;
-  margin-bottom: 20px;
-  margin-top: 50px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: 'Kanit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .upload-card {
-  width: 100%;
-  max-width: 600px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-  padding: 30px;
-  transition: all 0.3s ease;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .title {
-  color: #2c3e50;
-  font-size: 1.8rem;
-  margin-bottom: 25px;
-  text-align: center;
+  font-size: 1.75rem;
   font-weight: 600;
-  border-bottom: 2px solid #f1f1f1;
-  padding-bottom: 15px;
+  margin-bottom: 1.5rem;
+  color: #333;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.title:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #4a6cf7, #6e8cff);
+  border-radius: 3px;
 }
 
 .form-container-on-wtf-page {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 100%;
+  gap: 1.5rem;
 }
 
 .form-group-on-wtf-page {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .form-group-on-wtf-page label {
   font-weight: 500;
-  color: #4a5568;
-  font-size: 1rem;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+/* สไตล์สำหรับ select */
+.select-wrapper {
+  position: relative;
 }
 
 .select-input {
-  padding: 12px 16px;
-  border: 1px solid #e2e8f0;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 1rem;
-  transition: all 0.2s;
-  background-color: white;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;
+  background-color: #f9fafb;
+  transition: all 0.3s ease;
 }
 
 .select-input:focus {
   outline: none;
-  border-color: #4299e1;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+  border-color: #4a6cf7;
+  box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.15);
 }
 
-.file-upload-group {
-  position: relative;
+.select-input:disabled {
+  background-color: #f1f1f1;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
-.file-input-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  padding: 15px;
-  border: 2px dashed #cbd5e0;
-  border-radius: 8px;
-  background-color: #f8fafc;
-  transition: all 0.2s;
-  color: #4a5568;
-}
-
-.file-input-label:hover {
-  border-color: #4299e1;
-  background-color: #ebf8ff;
-}
-
-.file-input-hidden {
-  opacity: 0;
+.select-arrow {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: #666;
+  pointer-events: none;
 }
 
-.upload-icon {
-  width: 24px;
-  height: 24px;
-  color: #4a5568;
-}
-
-.file-info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  margin-top: 8px;
-  background-color: #edf2f7;
-  border-radius: 6px;
-  font-size: 0.875rem;
-}
-
-.file-name {
-  font-weight: 500;
-  color: #2d3748;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 70%;
-}
-
-.file-size {
-  color: #718096;
-}
-
-.image-preview {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.image-preview img {
-  max-width: 100%;
-  max-height: 200px;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  object-fit: contain;
-}
-
+/* สไตล์สำหรับ booking info */
 .booking-info-card {
-  background-color: #f8fafc;
+  background-color: #f9fafb;
   border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 10px;
-  border-left: 4px solid #4299e1;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
 }
 
 .booking-info-card h3 {
   margin-top: 0;
-  margin-bottom: 10px;
   font-size: 1.1rem;
-  color: #2d3748;
-  font-weight: 600;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  color: #333;
+  display: flex;
+  align-items: center;
 }
 
 .booking-item {
-  padding: 10px 0;
-  border-bottom: 1px solid #edf2f7;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
 }
 
 .booking-item:last-child {
@@ -176,89 +123,322 @@
 
 .booking-detail {
   display: flex;
-  margin-bottom: 6px;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .detail-label {
-  min-width: 150px;
   font-weight: 500;
-  color: #4a5568;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 .detail-value {
-  color: #2d3748;
   font-weight: 500;
+  color: #333;
 }
 
 .status-confirmed {
-  color: #38a169;
-  font-weight: 600;
   display: flex;
   align-items: center;
+  gap: 5px;
+  font-weight: 500;
+  color: #16a34a;
+  font-size: 0.9rem;
 }
 
-.status-confirmed::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: #38a169;
-  border-radius: 50%;
-  margin-right: 6px;
+.status-icon {
+  width: 16px;
+  height: 16px;
 }
 
-.submit-btn {
+.status-pending {
   display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+  color: #f59e0b;
+  font-size: 0.9rem;
+}
+
+/* สไตล์สำหรับพื้นที่อัปโหลดไฟล์ */
+.file-upload-group {
+  margin-top: 1rem;
+}
+
+.file-input-label {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 14px 24px;
-  background-color: #4299e1;
-  color: white;
-  border: none;
+  border: 2px dashed #cbd5e1;
   border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
+  padding: 1.5rem 1rem;
   cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 10px;
+  transition: all 0.3s ease;
+  background-color: #f8fafc;
 }
 
-.submit-btn:hover:not(.disabled) {
-  background-color: #3182ce;
-  transform: translateY(-1px);
+.file-input-label:hover {
+  border-color: #4a6cf7;
+  background-color: rgba(74, 108, 247, 0.05);
 }
 
-.submit-btn.disabled {
-  background-color: #a0aec0;
+.file-input-label.disabled {
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
-.btn-icon {
+.upload-icon {
+  width: 40px;
+  height: 40px;
+  color: #4a6cf7;
+  margin-bottom: 0.5rem;
+}
+
+.file-hint {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.file-details {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.file-icon {
+  width: 24px;
+  height: 24px;
+  color: #4a6cf7;
+}
+
+.file-name {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  word-break: break-all;
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-size {
+  display: block;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+.cancel-image-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.cancel-image-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.cancel-image-btn svg {
   width: 18px;
   height: 18px;
 }
 
-.message-box {
+/* สไตล์สำหรับพรีวิวรูปภาพ */
+.image-preview {
+  position: relative;
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  max-height: 300px;
+  display: flex;
+  justify-content: center;
+  background-color: #f8fafc;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+}
+
+.preview-fullscreen-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 24px;
-  padding: 16px;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preview-fullscreen-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.preview-fullscreen-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.file-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
-  animation: fadeIn 0.3s ease-in-out;
+  margin-top: 1rem;
+}
+
+.file-placeholder svg {
+  width: 48px;
+  height: 48px;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+}
+
+.file-placeholder p {
+  color: #64748b;
+  margin: 0;
+}
+
+/* สไตล์สำหรับปุ่มส่ง */
+.submit-btn {
+  margin-top: 1rem;
+  background: linear-gradient(90deg, #4a6cf7, #6e8cff);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(90deg, #3a5ce6, #5d7dff);
+  box-shadow: 0 4px 12px rgba(74, 108, 247, 0.2);
+  transform: translateY(-1px);
+}
+
+.submit-btn.disabled {
+  background: #e0e0e0;
+  color: #9e9e9e;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* สไตล์สำหรับ Loading Spinner */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(74, 108, 247, 0.2);
+  border-top: 3px solid #4a6cf7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.spinner-small {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* สไตล์สำหรับกล่องข้อความ */
+.message-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .message-box.success {
-  background-color: #f0fff4;
-  border-left: 4px solid #38a169;
-  color: #2f855a;
+  background-color: #ecfdf5;
+  border: 1px solid #d1fae5;
 }
 
 .message-box.error {
-  background-color: #fff5f5;
-  border-left: 4px solid #e53e3e;
-  color: #c53030;
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
 }
 
 .message-icon {
@@ -267,66 +447,87 @@
   flex-shrink: 0;
 }
 
-.message-text {
-  font-size: 0.95rem;
+.message-box.success .message-icon {
+  color: #10b981;
 }
 
-/* Loading Spinner */
-.loading-spinner {
+.message-box.error .message-icon {
+  color: #ef4444;
+}
+
+.message-text {
+  color: #333;
+  flex-grow: 1;
+}
+
+.message-close {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.message-close:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+.message-close svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* สไตล์สำหรับสถานะว่าง */
+.empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 20px 0;
+  padding: 3rem 1rem;
+  text-align: center;
 }
 
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(66, 153, 225, 0.2);
-  border-radius: 50%;
-  border-top-color: #4299e1;
-  animation: spin 1s ease-in-out infinite;
+.empty-icon {
+  width: 48px;
+  height: 48px;
+  color: #94a3b8;
+  margin-bottom: 1rem;
 }
 
-.spinner-small {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: #ffffff;
-  animation: spin 1s ease-in-out infinite;
-  margin-right: 8px;
+.empty-state p {
+  color: #64748b;
+  font-size: 1rem;
+  margin: 0;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* การตอบสนองสำหรับอุปกรณ์มือถือ */
 @media (max-width: 768px) {
+  .container-on-wtf-page {
+    padding: 1rem;
+  }
+  
   .upload-card {
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
   }
   
-  .booking-detail {
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .booking-item {
     flex-direction: column;
+    gap: 0.5rem;
   }
   
-  .detail-label {
-    margin-bottom: 4px;
+  .file-name {
+    max-width: 200px;
   }
 }

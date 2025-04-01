@@ -51,7 +51,7 @@ function Home() {
       setLoading(true);
       const timer = setTimeout(() => {
         setLoading(false);
-      }, 100);
+      }, 200);
       return () => clearTimeout(timer);
     }
   }, [user]);
