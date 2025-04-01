@@ -1,6 +1,39 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../css/Available.css";
 
+
+
+const imageOptions = [
+  "https://i.ibb.co/8LqJjJgz/1-rooms-and-suites.jpg",
+  "https://i.ibb.co/GQz1CN35/2-rooms-and-suites.webp",
+  "https://i.ibb.co/Spt0pkp/Standard1609-2.webp",
+  "https://i.ibb.co/8gRSJk25/Superior1609-2.webp",
+  "https://i.ibb.co/JFpmdKvx/types-hotel-rooms.jpg"
+];
+
+
+const RoomImageSelector = () => {
+  const [selectedImage, setSelectedImage] = useState(imageOptions[0]); // รูปแรกเป็นค่าเริ่มต้น
+
+  return (
+    <div className="image-selector">
+      <label>Choose Room Image:</label>
+      <select value={selectedImage} onChange={(e) => setSelectedImage(e.target.value)}>
+        {imageOptions.map((url, index) => (
+          <option key={index} value={url}>
+            Image {index + 1}
+          </option>
+        ))}
+      </select>
+      <div className="image-preview">
+        <img src={selectedImage} alt="Selected Room" className="preview-image" />
+      </div>
+    </div>
+  );
+};
+
+
+
 const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom }) => {
   return (
     <div className="modal-overlay">
@@ -28,11 +61,7 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom
               checked={form.status === "available"} 
               onChange={() => onStatusChange("available")} 
             />
-            <label 
-              htmlFor="modal-available"
-              className="status-text-on-avaliable-admin-page"
-                >Available
-            </label>
+            <label htmlFor="modal-available" className="status-text-on-avaliable-admin-page">Available</label>
           </div>
           <div className="select-status-display-flex">
             <input 
@@ -43,11 +72,7 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom
               checked={form.status === "nonavailable"} 
               onChange={() => onStatusChange("nonavailable")} 
             />
-            <label 
-              className="status-text-on-avaliable-admin-page"
-              htmlFor="modal-nonavailable"
-                >Not available
-            </label>
+            <label htmlFor="modal-nonavailable" className="status-text-on-avaliable-admin-page">Not available</label>
           </div>
         </div>
 
@@ -56,12 +81,29 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom
           <input name="description" value={form.description} onChange={onChange} />
         </div>
 
+        {/* Section สำหรับเลือก 5 รูป */}
         <div className="input-group-on-avaliable-admin-page">
-          <label>Room Images (Paste up to 5 URLs):</label>
+          <label>Room Images (Select up to 5):</label>
           {[...Array(5)].map((_, index) => (
             <div key={index} className="image-input">
-              <input name={`image_urls_${index}`} placeholder={`Image URL ${index + 1}`} value={form[`image_urls_${index}`] || ""} onChange={(e) => onChange({ target: { name: `image_urls_${index}`, value: e.target.value } })} />
-              {form[`image_urls_${index}`] && <img src={form[`image_urls_${index}`]} alt={`Preview ${index + 1}`} className="preview-image" />}
+              <select 
+                name={`image_urls_${index}`} 
+                value={form[`image_urls_${index}`]} 
+                onChange={onChange}
+              >
+                {imageOptions.map((url, imgIndex) => (
+                  <option key={imgIndex} value={url}>
+                    Image {imgIndex + 1}
+                  </option>
+                ))}
+              </select>
+              {form[`image_urls_${index}`] && (
+                <img 
+                  src={form[`image_urls_${index}`]} 
+                  alt={`Preview ${index + 1}`} 
+                  className="preview-image" 
+                />
+              )}
             </div>
           ))}
         </div>

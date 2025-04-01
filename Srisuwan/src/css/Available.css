@@ -16,6 +16,31 @@
     align-items: center;
     z-index: 1000;
   }
+
+  .image-options-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .image-option {
+    width: 80px;
+    height: 60px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  
+  .image-option:hover {
+    border-color: #007bff;
+  }
+  
+  .image-option-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   
   .model-content-on-avaliable-admin-page {
     background-color: white;
@@ -105,4 +130,134 @@
 
   .status-text-on-avaliable-admin-page{
     margin-left: 10px;
+  }
+
+  .room-images-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .image-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .image-preview-container {
+    width: 100%;
+    height: 120px;
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  
+  .image-preview-container:hover {
+    border-color: #007bff;
+  }
+  
+  .image-preview-container.active {
+    border-color: #007bff;
+    border-style: solid;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+  
+  .preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .empty-image-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-size: 14px;
+  }
+  
+  .empty-image-slot span {
+    margin-top: 5px;
+  }
+  
+  .clear-image-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    align-self: flex-end;
+  }
+  
+  .clear-image-btn:hover {
+    background-color: #c82333;
+  }
+  
+  .image-options-panel {
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    background-color: #f8f9fa;
+  }
+  
+  .image-options-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .image-options-header h4 {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  .close-options-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  
+  .close-options-btn:hover {
+    background-color: #5a6268;
+  }
+  
+  .image-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  
+  .image-option {
+    height: 80px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .image-option:hover {
+    border-color: #007bff;
+    transform: scale(1.05);
+  }
+  
+  .image-option-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
