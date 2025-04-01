@@ -1,40 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../css/Available.css";
 
-
-
-const imageOptions = [
-  "https://i.ibb.co/8LqJjJgz/1-rooms-and-suites.jpg",
-  "https://i.ibb.co/GQz1CN35/2-rooms-and-suites.webp",
-  "https://i.ibb.co/Spt0pkp/Standard1609-2.webp",
-  "https://i.ibb.co/8gRSJk25/Superior1609-2.webp",
-  "https://i.ibb.co/JFpmdKvx/types-hotel-rooms.jpg"
-];
-
-
-const RoomImageSelector = () => {
-  const [selectedImage, setSelectedImage] = useState(imageOptions[0]); // รูปแรกเป็นค่าเริ่มต้น
-
-  return (
-    <div className="image-selector">
-      <label>Choose Room Image:</label>
-      <select value={selectedImage} onChange={(e) => setSelectedImage(e.target.value)}>
-        {imageOptions.map((url, index) => (
-          <option key={index} value={url}>
-            Image {index + 1}
-          </option>
-        ))}
-      </select>
-      <div className="image-preview">
-        <img src={selectedImage} alt="Selected Room" className="preview-image" />
-      </div>
-    </div>
-  );
-};
-
-
-
-const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom }) => {
+const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, onDelete, isNewRoom }) => {
   return (
     <div className="modal-overlay">
       <div className="model-content-on-avaliable-admin-page">
@@ -72,7 +39,7 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom
               checked={form.status === "nonavailable"} 
               onChange={() => onStatusChange("nonavailable")} 
             />
-            <label htmlFor="modal-nonavailable" className="status-text-on-avaliable-admin-page">Not available</label>
+            <label className="status-text-on-avaliable-admin-page" htmlFor="modal-nonavailable">Not available</label>
           </div>
         </div>
 
@@ -81,29 +48,12 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom
           <input name="description" value={form.description} onChange={onChange} />
         </div>
 
-        {/* Section สำหรับเลือก 5 รูป */}
         <div className="input-group-on-avaliable-admin-page">
-          <label>Room Images (Select up to 5):</label>
+          <label>Room Images (Paste up to 5 URLs):</label>
           {[...Array(5)].map((_, index) => (
             <div key={index} className="image-input">
-              <select 
-                name={`image_urls_${index}`} 
-                value={form[`image_urls_${index}`]} 
-                onChange={onChange}
-              >
-                {imageOptions.map((url, imgIndex) => (
-                  <option key={imgIndex} value={url}>
-                    Image {imgIndex + 1}
-                  </option>
-                ))}
-              </select>
-              {form[`image_urls_${index}`] && (
-                <img 
-                  src={form[`image_urls_${index}`]} 
-                  alt={`Preview ${index + 1}`} 
-                  className="preview-image" 
-                />
-              )}
+              <input name={`image_urls_${index}`} placeholder={`Image URL ${index + 1}`} value={form[`image_urls_${index}`] || ""} onChange={(e) => onChange({ target: { name: `image_urls_${index}`, value: e.target.value } })} />
+              {form[`image_urls_${index}`] && <img src={form[`image_urls_${index}`]} alt={`Preview ${index + 1}`} className="preview-image" />}
             </div>
           ))}
         </div>
@@ -114,8 +64,20 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom
         </div>
 
         <div className="modal-buttons">
-          <button onClick={onCancel} className="cancel-button">Cancel</button>
-          <button onClick={onSave} className="save-button">Save</button>
+          <div style={{ display: "flex", justifyContent: "space-between", width: "100%", alignItems: "center" }}>
+            {!isNewRoom && (
+              <button
+                onClick={onDelete}
+                style={{ backgroundColor: "#e74c3c", color: "white", padding: "8px 16px", border: "none", borderRadius: "5px", cursor: "pointer" }}
+              >
+                Delete Room
+              </button>
+            )}
+            <div style={{ marginLeft: "auto", display: "flex", gap: "10px" }}>
+              <button onClick={onCancel} className="cancel-button">Cancel</button>
+              <button onClick={onSave} className="save-button">Save</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -171,9 +133,28 @@ const Availableroom = () => {
     setForm((prev) => ({ ...prev, status }));
   }, []);
 
+  const handleDelete = async () => {
+    if (!form._id) return;
+    const confirmDelete = window.confirm("Are you sure you want to delete this room?");
+    if (!confirmDelete) return;
+
+    try {
+      const res = await fetch(`http://localhost:5001/api/admin/rooms/${form._id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setRooms((prev) => prev.filter((r) => r._id !== form._id));
+        setShowModal(false);
+      } else {
+        alert("Failed to delete room.");
+      }
+    } catch (err) {
+      console.error("Error deleting room:", err);
+    }
+  };
+
   const handleSave = async () => {
     try {
-      // ✅ เช็คห้าม room_number ซ้ำ กรณีเพิ่มใหม่
       if (isNewRoom) {
         const duplicate = rooms.find((r) => r.room_number === form.room_number);
         if (duplicate) {
@@ -181,10 +162,9 @@ const Availableroom = () => {
           return;
         }
       }
-  
+
       const image_urls = Array.from({ length: 5 }, (_, i) => form[`image_urls_${i}`]).filter(url => url?.trim() !== "");
-  
-      // ✅ เตรียมข้อมูลที่ต้องส่ง
+
       const payload = {
         room_number: form.room_number,
         price: Number(form.price),
@@ -193,9 +173,8 @@ const Availableroom = () => {
         servicefee: Number(form.servicefee),
         image_urls,
       };
-  
+
       if (isNewRoom) {
-        // ✅ POST สำหรับสร้างใหม่
         const res = await fetch("http://localhost:5001/api/admin/rooms", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -205,22 +184,17 @@ const Availableroom = () => {
         const newRoom = result.data || payload;
         setRooms((prev) => [...prev, newRoom]);
       } else {
-        // ✅ PUT สำหรับอัปเดต → ต้องแนบ _id
         const updatedPayload = { ...payload, _id: form._id };
-  
         const res = await fetch("http://localhost:5001/api/admin/rooms", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify([updatedPayload]), // ส่งเป็น array
+          body: JSON.stringify([updatedPayload]),
         });
         const result = await res.json();
         const updatedRoom = result.data?.[0] || updatedPayload;
-  
-        setRooms((prev) =>
-          prev.map((r) => (r._id === updatedRoom._id ? updatedRoom : r))
-        );
+        setRooms((prev) => prev.map((r) => (r._id === updatedRoom._id ? updatedRoom : r)));
       }
-  
+
       setShowModal(false);
     } catch (err) {
       console.error("Error saving room:", err);
@@ -244,7 +218,17 @@ const Availableroom = () => {
         </div>
       </div>
 
-      {showModal && <RoomModal form={form} onChange={handleChange} onStatusChange={handleStatusChange} onSave={handleSave} onCancel={() => setShowModal(false)} isNewRoom={isNewRoom} />}
+      {showModal && (
+        <RoomModal
+          form={form}
+          onChange={handleChange}
+          onStatusChange={handleStatusChange}
+          onSave={handleSave}
+          onCancel={() => setShowModal(false)}
+          onDelete={handleDelete}
+          isNewRoom={isNewRoom}
+        />
+      )}
     </>
   );
 };
