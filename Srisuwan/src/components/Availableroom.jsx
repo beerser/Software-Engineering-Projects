@@ -131,21 +131,54 @@ const Availableroom = () => {
 
   const handleSave = async () => {
     try {
-      const image_urls = Array.from({ length: 5 }, (_, i) => form[`image_urls_${i}`]).filter(url => url?.trim() !== "");
-      const payload = { room_number: form.room_number, price: Number(form.price), status: form.status, description: form.description, servicefee: Number(form.servicefee), image_urls };
-
+      // ✅ เช็คห้าม room_number ซ้ำ กรณีเพิ่มใหม่
       if (isNewRoom) {
-        const res = await fetch("http://localhost:5001/api/admin/rooms", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        const duplicate = rooms.find((r) => r.room_number === form.room_number);
+        if (duplicate) {
+          alert("Room number already exists. Please use a unique room number.");
+          return;
+        }
+      }
+  
+      const image_urls = Array.from({ length: 5 }, (_, i) => form[`image_urls_${i}`]).filter(url => url?.trim() !== "");
+  
+      // ✅ เตรียมข้อมูลที่ต้องส่ง
+      const payload = {
+        room_number: form.room_number,
+        price: Number(form.price),
+        status: form.status,
+        description: form.description,
+        servicefee: Number(form.servicefee),
+        image_urls,
+      };
+  
+      if (isNewRoom) {
+        // ✅ POST สำหรับสร้างใหม่
+        const res = await fetch("http://localhost:5001/api/admin/rooms", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
         const result = await res.json();
         const newRoom = result.data || payload;
         setRooms((prev) => [...prev, newRoom]);
       } else {
-        const res = await fetch("http://localhost:5001/api/admin/rooms", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify([payload]) });
+        // ✅ PUT สำหรับอัปเดต → ต้องแนบ _id
+        const updatedPayload = { ...payload, _id: form._id };
+  
+        const res = await fetch("http://localhost:5001/api/admin/rooms", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify([updatedPayload]), // ส่งเป็น array
+        });
         const result = await res.json();
-        const updatedRoom = result.data?.[0] || payload;
-        setRooms((prev) => prev.map((r) => (r._id === updatedRoom._id ? updatedRoom : r)));
+        const updatedRoom = result.data?.[0] || updatedPayload;
+  
+        setRooms((prev) =>
+          prev.map((r) => (r._id === updatedRoom._id ? updatedRoom : r))
+        );
       }
-
+  
       setShowModal(false);
     } catch (err) {
       console.error("Error saving room:", err);
