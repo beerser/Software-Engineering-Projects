@@ -6,6 +6,7 @@ import axios from "axios";
 import { useAuth } from "../components/AuthContext";
 import promptbit from "../assets/prompt-bid-by-srisuwan.png";
 
+
 // Configuration object for API endpoints - Fixed for Vite
 const API_CONFIG = {
   BASE_URL: import.meta.env.VITE_API_URL || "http://localhost:5001",
@@ -58,6 +59,11 @@ const NotificationCard = ({ notification }) => {
       </div>
     </div>
   );
+};
+
+
+const handleUploadClick = () => {
+  navigate("/upload", { state: { item: item } });
 };
 
 // Reservation Card Component (unchanged)
@@ -133,6 +139,19 @@ const PaymentModal = ({ nextPaymentDate, formatDate, qrCode, isLoadingQR, onClos
         <p className="payment-instructions">
           Scan with your banking app to make payment
         </p>
+          
+        <div className='uploade-slip-payment-card'>
+            <p className='warning-text-uploade'>‼️ Don’t forget to send your payment slip.</p>
+            <hr />
+            <div className='main-upload-and-warning'>
+              <p>If it is verified that the
+                <span className='blue-text'> payment slip is not genuine </span>
+                or 
+                <span className='blue-text'> has been altered</span>
+                , we will cancel the check-in immediately</p>
+              <button onClick={handleUploadClick} className="upload">Upload payment receipt</button>
+            </div>
+          </div>
       </div>
       <div className="modal-footer">
         <button className="close-modal-btn" onClick={onClose}>
@@ -257,12 +276,6 @@ const Notification = ({ notifications, error }) => (
   </section>
 );
 
-const DefaultPage = () => (
-  <section className="info-section">
-    <h2 className="section-title">Welcome to Your Dashboard</h2>
-    <p>Please select an option from the sidebar to view your information.</p>
-  </section>
-);
 
 // Main Roombooking Component
 const Roombooking = () => {
