@@ -106,16 +106,16 @@ const Room = () => {
 
         <div className="room-info-on-room-page">
           <div className="room-info-on-room-item">
-            <div>
-              รายเดือน: <span className="room-info-on-room-item-2">{item.price} บาท/เดือน</span>
-            </div>
+            <div className="text-info-main-on-room-page">
+            <div className="text-info-on-room-page">Monthly:</div> <span className="room-info-on-room-item-2">{item.price} Baht/Month</span>
+            </div >
             <hr />
-            <div>ค่าน้ำ:</div>
+            <div className="text-info-on-room-page">Water bill:</div>
             <hr />
-            <div>ค่าไฟ:</div>
+            <div className="text-info-on-room-page">Electricity bill:</div>
             <hr />
-            <div>
-              ค่าบริการ: <span className="room-info-on-room-item-2">{item.servicefee} บาท/เดือน</span>
+            <div className="text-info-main-on-room-page">
+            <div className="text-info-on-room-page">Service fee:</div> <span className="room-info-on-room-item-2">{item.servicefee} Baht/Month</span>
             </div>
           </div>
         </div>
