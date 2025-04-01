@@ -21,7 +21,7 @@ const Roombooking = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { pageName } = useParams();
-  
+  const [selectedRoomNumber, setSelectedRoomNumber] = useState("")
   const [reservations, setReservations] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -225,18 +225,45 @@ const Roombooking = () => {
   const handlePaymentClick = (reservation) => {
     const nextDate = calculateNextPaymentDate(reservation.created_at);
     setNextPaymentDate(nextDate);
+    // เก็บข้อมูลทั้งหมดของการจองห้องที่เลือก
     setCurrentItem(reservation);
+    setSelectedRoomNumber(reservation.room_number);
+    
     generateQRCode(reservation._id, reservation.room_price || 5000);
     setShowModal(true);
+    localStorage.setItem("selectedRoom", reservation.room_number);
+    console.log("Selected room number:", reservation.room_number);
   };
 
-  // Handle uploading payment receipt
+  // Handle uploading payment receipt - แก้ไขใหม่
   const handleUploadClick = () => {
-    if (currentItem) {
-      navigate("/upload", { state: { item: currentItem } });
-    } else {
-      setError("No reservation selected for payment upload.");
+    if (!currentItem) {
+      setError("กรุณาเลือกห้องก่อนอัปโหลดหลักฐานการชำระเงิน");
+      console.error("Missing booking data");
+      return;
     }
+  
+    const roomNumber = currentItem.room_number;
+
+    if (!roomNumber) {
+      setError("ไม่พบข้อมูลเลขห้อง กรุณาลองใหม่อีกครั้ง");
+      console.error("Room number is missing in currentItem:", currentItem);
+      return;
+    }
+    const itemNew = {
+      ...currentItem,
+      room_number: roomNumber,
+      booking_id: currentItem._id,
+      payment_date: formatDate(nextPaymentDate),
+      payment_amount: currentItem.room_price || 5000
+    };
+      
+    console.log("Sending data to upload page:", itemNew);
+    console.log("Room number being sent:", roomNumber);
+    
+      // ส่งข้อมูลทั้งหมดไปยังหน้า upload
+      navigate("/upload", { state: {   item: itemNew } });
+   
   };
 
   // Close payment modal

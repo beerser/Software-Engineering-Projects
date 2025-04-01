@@ -5,6 +5,7 @@ import '../css/Upload.css';
 
 const Upload = () => {
   const { state } = useLocation();
+
   const { user } = useAuth();
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
@@ -27,8 +28,11 @@ const Upload = () => {
     );
   }
 
-  const item = state.item;
+  console.log("state",state.item);
 
+  const item = state.item || {};
+  console.log("item",item);
+  
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -58,16 +62,18 @@ const Upload = () => {
       return;
     }
   
-    if (!item.roomNumber) {
+    if (!item.roomNumber && !item.room_number) {
       setMessage('ไม่พบข้อมูลห้อง โปรดเลือกห้องใหม่อีกครั้ง');
       setIsLoading(false);
       return;
     }
+
+    
   
     formData.append('slip', file);
     formData.append('user_firstname', user.firstname);
-    formData.append('user_lastname', user.lastname);
-    formData.append('room_number', item.roomNumber);
+    formData.append('user_lastname', user.lastname );
+    formData.append('room_number', item.roomNumber || item.room_number);
   
     try {
       const response = await fetch('http://localhost:5001/booking', {
@@ -94,7 +100,7 @@ const Upload = () => {
       
       <div className="booking-info">
         <h3>ข้อมูลการจอง</h3>
-        <p>ห้อง: <span>{item.roomNumber}</span></p>
+        <p>ห้อง:  <span>{item.room_number || item.roomNumber}</span></p>
         <p>ผู้จอง: <span>{user.firstname} {user.lastname}</span></p>
       </div>
 
