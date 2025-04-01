@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import bedlogo from "../assets/bed.svg";
 import fanlogo from "../assets/fan.svg";
 import bathroomlogo from "../assets/bathroom.svg";
@@ -7,8 +7,10 @@ import "../css/Room.css";
 import Footer from "../components/footer";
 
 const Room = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0); // ✅ บังคับให้ scroll ขึ้นบนสุดตอนเปิดหน้า
+  }, []);
   const [isBooked, setIsBooked] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,13 +27,17 @@ const Room = () => {
     );
   }
 
+
+  const thumbnails = item.image_urls || [];
+
+  const [previewImage, setPreviewImage] = useState(thumbnails[0]); // ภาพหลัก
+  const [selectedImage, setSelectedImage] = useState(null); 
+
   const handleBookRoom = () => {
     setIsBooked(true);
     navigate("/payment", { state: { item } });
   };
-
-  const thumbnails = [1, 2, 3, 4, 5].map((i) => item.imageUrl);
-
+  
   return (
     <>
       <div className="room-container">
@@ -47,9 +53,11 @@ const Room = () => {
         <div className="room-page">
           <div className="image-room-main">
             <img
-              src={item.imageUrl}
-              alt={`Room ${item.roomNumber}`}
+              src={previewImage}
+              alt={`Room ${item.room_number}`}
               className="room-image"
+              style={{ cursor: "pointer" }}
+              onClick={() => setSelectedImage(previewImage)}
             />
             <div className="thumbnail-container">
               {thumbnails.map((url, index) => (
@@ -58,7 +66,7 @@ const Room = () => {
                   src={url}
                   alt={`Thumbnail ${index}`}
                   className="thumbnail-image"
-                  onClick={() => setSelectedImage(url)}
+                  onClick={() => setPreviewImage(url)}
                   style={{ cursor: "pointer" }}
                 />
               ))}
@@ -114,31 +122,61 @@ const Room = () => {
       </div>
 
       {selectedImage && (
-        <div
-          className="modal-overlay"
-          onClick={() => setSelectedImage(null)}
-          style={{
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "50vw",
-            height: "50vh",
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
-            borderRadius: "8px",
-          }}
-        >
-          <img
-            src={selectedImage}
-            style={{ maxWidth: "100%", maxHeight: "100%", borderRadius: "5px" }}
-            alt="preview"
-          />
-        </div>
-      )}
+  <div
+    className="modal-overlay"
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "rgba(0, 0, 0, 0.8)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 1000,
+    }}
+  >
+    {/* ✅ ปุ่มกากบาทอยู่ขวาบนของหน้าจอ */}
+    <button
+      onClick={() => setSelectedImage(null)}
+      style={{
+        position: "fixed",        // เปลี่ยนจาก absolute → fixed
+        top: "20px",
+        right: "25px",
+        fontSize: "1.8rem",
+        background: "transparent",
+        border: "none",
+        borderRadius: "50%",
+        color: "#ffffff",
+        cursor: "pointer",
+        fontWeight: "bold",
+        padding: 0,
+        lineHeight: 1,
+        zIndex: 1001,
+      }}
+    >
+      ×
+    </button>
+
+    <div
+      style={{
+        display: "inline-block",
+      }}
+    >
+      <img
+        src={selectedImage}
+        alt="preview"
+        style={{
+          maxWidth: "90vw",
+          maxHeight: "90vh",
+          borderRadius: "10px",
+          boxShadow: "0 0 10px rgba(255,255,255,0.3)",
+        }}
+      />
+    </div>
+  </div>
+)}
 
       <Footer />
     </>

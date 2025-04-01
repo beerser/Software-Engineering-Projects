@@ -226,7 +226,7 @@ app.put("/api/admin/rooms", async (req, res) => {
           {
             status: room.status,
             description: room.description,
-            image_url: room.image_url,
+            image_urls: room.image_urls,
             price: room.price,
             room_number: room.room_number,
             servicefee: room.servicefee,

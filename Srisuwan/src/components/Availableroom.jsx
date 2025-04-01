@@ -86,6 +86,47 @@ const RoomModal = ({ form, onChange, onStatusChange, onSave, onCancel, isNewRoom
           />
         </div>
 
+        {/* ✅ Room Images (URL) */}
+<div style={{ marginBottom: "15px" }}>
+  <label>Room Images (Paste up to 5 URLs):</label>
+  {[...Array(5)].map((_, index) => (
+    <div key={index} style={{ marginBottom: "8px" }}>
+      <input
+        name={`image_urls_${index}`}
+        placeholder={`Image URL ${index + 1}`}
+        value={form[`image_urls_${index}`] || ""}
+        onChange={(e) =>
+          onChange({
+            target: {
+              name: `image_urls_${index}`,
+              value: e.target.value,
+            },
+          })
+        }
+        style={{
+          width: "100%",
+          padding: "8px",
+          borderRadius: "4px",
+          border: "1px solid #ddd",
+        }}
+      />
+      {form[`image_urls_${index}`] && (
+        <img
+          src={form[`image_urls_${index}`]}
+          alt={`Preview ${index + 1}`}
+          style={{
+            width: "100%",
+            height: "auto",
+            marginTop: "5px",
+            borderRadius: "6px",
+            border: "1px solid #eee",
+          }}
+        />
+      )}
+    </div>
+  ))}
+</div>
+
         <div style={{ marginBottom: "15px" }}>
           <label>Service Fee:</label>
           <input
@@ -134,7 +175,10 @@ const Availableroom = () => {
       price: String(room.price || ""),
       status: room.status || "available",
       description: room.description || "",
-      servicefee: String(room.servicefee || "")
+      servicefee: String(room.servicefee || ""),
+      ...Object.fromEntries(
+        (room.image_urls || []).map((url, index) => [`image_urls_${index}`, url])
+      )
     });
     setIsNewRoom(false);
     setShowModal(true);
@@ -146,7 +190,12 @@ const Availableroom = () => {
       price: "",
       status: "available",
       description: "",
-      servicefee: ""
+      servicefee: "",
+      image_urls_0: "",
+      image_urls_1: "",
+      image_urls_2: "",
+      image_urls_3: "",
+      image_urls_4: "",
     });
     setIsNewRoom(true);
     setShowModal(true);
@@ -163,11 +212,17 @@ const Availableroom = () => {
 
   const handleSave = async () => {
     try {
+      const image_urls = Array.from({ length: 5 }, (_, i) => form[`image_urls_${i}`])
+      .filter(url => url?.trim() !== "");
       const payload = {
-        ...form,
+        room_number: form.room_number,
         price: Number(form.price),
+        status: form.status,
+        description: form.description,
         servicefee: Number(form.servicefee),
+        image_urls, // ✅ ใช้ image_urls ที่เราสร้าง
       };
+  
 
       if (isNewRoom) {
         const res = await fetch("http://localhost:5001/api/admin/rooms", {
