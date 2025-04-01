@@ -7,33 +7,41 @@
 
 .card-container {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   justify-content: center; /* ชิดซ้าย */
   margin-top: 50px;
-  margin-bottom: 70px;
+  margin-bottom: 120px;
   flex-wrap: wrap; /* ทำให้การ์ดสามารถพับได้เมื่อหน้าจอเล็ก */
 }
 
-.card {
-  --bs-card-border-width: unset !important;
-
+.card-text-on-card-text-page {
+  padding: 20px;
   margin-top: 10px;
+  width: 20%;
+  justify-content: center;
   cursor: pointer;
   border-radius: 0.75rem;
   background: #ffffff;
   box-shadow: 0px 9px 16px 0px rgb(0 0 0 / 10%);
-  flex: 0 0 auto; /* ไม่ให้การ์ดขยายตามขนาดของ container */
+  transition: all 0.3s ease; /* เพิ่ม transition ให้การเปลี่ยนแปลงราบรื่น */
+}
+
+.card-text-on-card-text-page:hover {
+  box-shadow: 0px 12px 20px 0px rgba(0, 0, 0, 0.2); /* เพิ่มเงาเมื่อ hover */
+  transform: scale(1.05); /* ขยายขนาดเล็กน้อยเมื่อ hover */
 }
 
 .card__title {
-  font-size: 14px !important;
+  font-weight: bold;
+  font-size: 17px !important;
   color: #333;
   font-weight: 700;
   text-align: left;
 }
 
 .card__content {
-  font-size: 14px !important;
+  margin-top: 30px;
+  font-size: 17px !important;
   text-align: left;
   color: black;
 }

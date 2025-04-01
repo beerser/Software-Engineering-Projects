@@ -23,12 +23,13 @@
   }
   
   .main-image {
+    border-radius: 8px;
     flex: 1;
     max-width: 30%;
     display: flex;
     position: relative;
     overflow: hidden;
-    height: 300px; /* กำหนดความสูงให้คงที่ */
+    height: 400px; /* กำหนดความสูงให้คงที่ */
   }
   
   .main-image img {
@@ -58,7 +59,7 @@
   
   .institutions-title h2 {
     margin: 0;
-    font-size: 1.7rem;
+    font-size: 2.2rem;
     color: #333;
     font-weight: 700;
   }
@@ -92,8 +93,8 @@
   }
   
   .thumbnail-card {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);

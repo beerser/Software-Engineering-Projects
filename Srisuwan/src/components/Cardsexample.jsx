@@ -1,11 +1,14 @@
 import React from 'react';
 import "../css/Cardsexample.css";
+import dressingTable from "../assets/dressing-and-table.png";
+import srisuwanTextBorder from "../assets/bathroom-and-fan.png";
 
 const Cardsexample = () => {
   return (
     <div className="cardx-container"> 
       <div className="cardx">
         <div className="img">
+          <img src={dressingTable} alt="Dressing and Table" />
         </div>
         <div className="text">
           <p className="h3">Includes a dressing table and bed</p>
@@ -15,6 +18,7 @@ const Cardsexample = () => {
 
       <div className="cardx">
         <div className="img">
+          <img src={srisuwanTextBorder} alt="Srisuwan Text Border" />
         </div>
         <div className="text">
           <p className="h3">There is a bathroom and a fan in the room</p>

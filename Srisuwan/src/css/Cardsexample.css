@@ -4,11 +4,18 @@
   gap: 70px;
   justify-content: center;
   margin-top: 25px;
+
+  position: relative; /* กำหนดให้เป็น container สำหรับการควบคุมตำแหน่ง */
+  z-index: 0; /* กำหนดว่า cardx-container จะอยู่ข้างหน้า */
+  background-image: url('/src/assets/srisuwan-text-border.png'); /* ใส่รูปภาพเป็น background */
+  background-size: 110% auto; /* ขยายความกว้างของภาพให้เต็มที่ แต่ความสูงจะปรับให้พอดีอัตโนมัติ */  
+  background-position: center; /* จัดตำแหน่งรูปภาพให้อยู่ตรงกลางและข้างล่าง */
+  background-repeat: no-repeat; /* ป้องกันไม่ให้รูปภาพทำการวนซ้ำ */
 }
 
 .cardx {
-  width: 250px;
-  min-height: 150px;
+  width: 400px;
+  min-height: fit-content;
   background: white;
   border-radius: 20px;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1); /* เงาปกติ */
@@ -18,6 +25,9 @@
   align-items: center;
   overflow: hidden;
   margin-bottom: 10px;
+  
+  position: relative; /* กำหนดให้ cardx อยู่ข้างหน้าของ background */
+  z-index: 1; /* ทำให้ cardx อยู่ในลำดับชั้นที่สูงกว่ารูปภาพ */
 }
 
 .cardx:hover {
@@ -26,31 +36,36 @@
 }
 
 .img {
-  width: 100%;
-  height: 120px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background: linear-gradient(#e66465, #9198e5);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.img img {
+  width: 400px; /* หรือขนาดที่ต้องการ */
+  height: 250px;
+  object-fit: cover; /* ปรับให้รูปเต็มพื้นที่โดยไม่บีบ */
+}
+
 .text {
   width: 100%;
-  padding: 15px;
+  padding: 20px;
   text-align: center;
 }
 
-.h3 {
-  font-size: 15px !important;
+.cardx .h3 {
+  font-size: 17px !important;
   font-weight: bold !important;
   color: black;
 }
 
-.p {
-  font-size: 13px;
+.cardx .p {
+  margin-top: 30px;
+  font-size: 17px;
   color: #666;
+  text-align:start;
 }
 
 @media screen and (max-width: 1200px) {
