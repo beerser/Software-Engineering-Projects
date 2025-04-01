@@ -73,7 +73,7 @@ const Navbar = () => {
                     }}
                   >
                     <div
-                      className="modal-content"
+                      className="modal-content-on-navbar-page"
                       style={{
                         backgroundColor: "white",
                         margin: "0",

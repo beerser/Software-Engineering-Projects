@@ -90,10 +90,10 @@ const ReservationCard = ({ reservation, onPaymentClick, formatDate, calculateNex
 // Payment Modal Component (unchanged)
 const PaymentModal = ({ nextPaymentDate, formatDate, qrCode, isLoadingQR, onClose }) => (
   <div className="modal-overlay">
-    <div className="modal-content">
+    <div className="modal-content-on-room-booking-page">
       <div className="modal-header">
         <h2>Payment Information</h2>
-        <button className="close-btn" onClick={onClose}>×</button>
+        <button className="close-btn-on-room-booking" onClick={onClose}>×</button>
       </div>
       <div className="modal-body">
         <p className="payment-date">
