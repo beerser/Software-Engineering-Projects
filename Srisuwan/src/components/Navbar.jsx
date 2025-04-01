@@ -173,7 +173,6 @@ const Navbar = () => {
                           marginBottom: "16px",
                         }}
                       >
-                              borderRadius: "8px",
 
 <div className="user-details">
   <div 
