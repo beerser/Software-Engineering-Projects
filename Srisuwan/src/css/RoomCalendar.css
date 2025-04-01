@@ -28,12 +28,6 @@
     font-size: 13px;
   }
   
-  .booked {
-    background-color: #ffebee !important;
-    color: #e53935 !important;
-    border-radius: 4px;
-  }
-  
   .free {
     background-color: #e8f5e9 !important;
     color: #43a047 !important;
