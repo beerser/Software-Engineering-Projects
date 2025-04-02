@@ -293,14 +293,16 @@ const Roombooking = () => {
 
     return (
       <div className="notification-card">
-        <div className="notification-header">
+        {/* <div className="notification-header">
           <h3 className="notification-title">{notification.room_number}</h3>
-        </div>
+        </div> */}
+        <h3>Invoice</h3>
+        <hr></hr>
         <div className="notification-body">
           <p>{notification.message}</p>
           {notification.isPdf ? (
             <div className="pdf-download-container">
-              <h4>ใบเสร็จ PDF</h4>
+              <h4>Receipt PDF</h4>
               <button 
                 onClick={handleDownloadPDF}
                 className="download-pdf-btn"
