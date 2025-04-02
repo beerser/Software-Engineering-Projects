@@ -21,6 +21,11 @@
   text-align: left;
 }
 
+.description-on-room-page{
+  margin-top: 20px;
+  font-size:larger;
+}
+
 .Detailed{
   margin-top: 1%;
   margin-right: 0%;
@@ -182,9 +187,11 @@
 
 .text-info-main-on-room-page{
   display: flex;
+  font-weight: 200;
 }
 
 .text-info-on-room-page{
+  font-weight: 200;
   margin-right: 70px;
 }
 

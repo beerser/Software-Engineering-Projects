@@ -95,9 +95,10 @@ const Room = () => {
 
         <div className="Detailed">
           <p className="detail-text">
-            <strong>Detail</strong>
-            <br />
+            <h4>Detail</h4>
+            <div className="description-on-room-page">
             {item.description || "No description available"}
+            </div>
             <button className="confirm-button-on-room-page" onClick={handleBookRoom}>
               Book a room
             </button>
