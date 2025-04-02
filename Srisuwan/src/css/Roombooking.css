@@ -229,6 +229,10 @@
   color: #757575;
 }
 
+.no-reservations-on-room-booking-page .p{
+  margin-top: unset;
+}
+
 /* Profile styles */
 .profile-card {
   width: 853px;
