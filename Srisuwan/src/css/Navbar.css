@@ -39,6 +39,7 @@
     font-size: 1rem;
     height: 2.5rem;
     margin-right: 1rem;
+    margin-top: 10px;
     transform: translateX(-30px);  /* ขยับไปทางซ้าย */
     transition: transform 0.2s ease;
 }
