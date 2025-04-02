@@ -220,7 +220,7 @@
 }
 
 /* No reservations state */
-.no-reservations {
+.no-reservations-on-room-booking-page {
   grid-column: 1 / -1;
   padding: 2rem;
   text-align: center;

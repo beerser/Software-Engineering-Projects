@@ -449,7 +449,7 @@ const Roombooking = () => {
       {error && <div className="error-message">{error}</div>}
       <div className="reservation-list">
         {reservations?.length === 0 ? (
-          <div className="no-reservations">
+          <div className="no-reservations-on-room-booking-page">
             <p>No bookings found. Book a room to see your reservations here.</p>
           </div>
         ) : (
