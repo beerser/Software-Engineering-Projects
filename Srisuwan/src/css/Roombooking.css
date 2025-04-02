@@ -365,7 +365,7 @@
   background-color: white;
   border-radius: 10px;
   width: 90%;
-  max-width: 480px;
+  max-width: 1000px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   animation: modalFadeIn 0.3s ease;
