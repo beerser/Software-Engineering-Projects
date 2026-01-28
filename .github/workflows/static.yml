@@ -1,8 +1,8 @@
-name: Deploy Vite to GitHub Pages
+name: Deploy Vite React to GitHub Pages
 
 on:
   push:
-    branches: ["wtf2"]
+    branches: ["wtf2"]   # branch ที่คุณใช้
   workflow_dispatch:
 
 permissions:
@@ -17,11 +17,12 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -31,15 +32,15 @@ jobs:
           cd Srisuwan
           npm install
 
-      - name: Build
+      - name: Build project
         run: |
           cd Srisuwan
           npm run build
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: Srisuwan/dist   
+          path: Srisuwan/dist   # ⭐ จุดสำคัญที่สุด
 
   deploy:
     needs: build
@@ -47,6 +48,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
